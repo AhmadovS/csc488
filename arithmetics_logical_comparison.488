@@ -1,0 +1,76 @@
+% This program mainly tests for all arithmetic, logical and comparison operators
+
+% Author: Amir Hossein Heidari Zadi
+% CDF: heidariz
+
+
+% TODO:
+% Positive examples
+% - Multiple nested scopes
+
+% Negative examples
+% - Cannot mix statements and declarations
+
+% Questions
+
+
+{
+% Variable declarations
+var input1 : Integer          % Integer variable
+var input2 : Integer          % Boolean variable
+var input3[2] : Integer       % Integer array
+var input4[-5..-4] : Boolean  % Boolean array
+
+var a : Integer
+var b : Integer
+var c : Integer
+
+var P : Boolean
+var Q : Boolean
+var R : Boolean
+
+% Reads multiple inputs from stdin
+read input1, input2, input3[1], input3[2], input4[-5], input4[-4]
+
+write input1           % Writes Integer to stdout
+write - input2         % Evaluates unary minus and pri
+write input1 + input2  % Evaluates addition operations
+write input1 - input2  % Evaluates subtraction operation
+write input1 * input2  % Evaluates multiplication operations
+
+% Single-statement conditional if/then/else statement
+% Greater-than comparison
+if input2 > 0 then
+    write input1 / input2  % Evaluates division operation
+else
+    write "Error", "Input2 must be greater than zero"  % Multiple text output sequence
+
+
+
+%-------------------------------
+% Comparison tests
+%-------------------------------
+
+% Variable assignment
+a := -1
+b := 2
+c := 3 * b + a  % Complex integer assignment including variables
+
+P := true
+Q := false
+R := not P  % Complex boolean assignment including variables
+
+
+if a = a then write "Passed!"      % Equality comparison
+if a not = b then write "Passed!"  % Inequality comparison 
+if a < b then write "Passed!"      % Less than comparison
+if a <= a then write "Passed!"     % Less than or equal comparison (equal test)
+if a <= b then write "Passed!"     % Less than or equal comparison (less than test)
+if c > b then write "Passed!"      % Greater than comparison
+if c >= c then write "Passed!"     % Greater than or equal comparison (equal test)
+if c >= b then write "Passed!"     % Greater than or equal comparison (greater than test)
+
+
+
+
+}
