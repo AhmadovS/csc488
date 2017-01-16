@@ -1,20 +1,8 @@
 % This program mainly tests for all arithmetic, logical and comparison operators
-
-% Author: Amir Hossein Heidari Zadi
-% CDF: heidariz
-
-
-% TODO:
-% Positive examples
-% - Multiple nested scopes
-
-% Negative examples
-% - Cannot mix statements and declarations
-
-% Questions
-
+% Authors: Amir Hossein Heidari Zadi (heidariz), 
 
 {
+
 % Variable declarations
 var input1 : Integer          % Integer variable
 var input2 : Integer          % Boolean variable
@@ -30,10 +18,11 @@ var Q : Boolean
 var R : Boolean
 
 % Reads multiple inputs from stdin
+% TODO: can we read into a boolean variable?
 read input1, input2, input3[1], input3[2], input4[-5], input4[-4]
 
 write input1           % Writes Integer to stdout
-write - input2         % Evaluates unary minus and pri
+write - input2         % Evaluates unary
 write input1 + input2  % Evaluates addition operations
 write input1 - input2  % Evaluates subtraction operation
 write input1 * input2  % Evaluates multiplication operations
@@ -44,7 +33,6 @@ if input2 > 0 then
     write input1 / input2  % Evaluates division operation
 else
     write "Error", "Input2 must be greater than zero"  % Multiple text output sequence
-
 
 
 %-------------------------------
@@ -69,8 +57,5 @@ if a <= b then write "Passed!"     % Less than or equal comparison (less than te
 if c > b then write "Passed!"      % Greater than comparison
 if c >= c then write "Passed!"     % Greater than or equal comparison (equal test)
 if c >= b then write "Passed!"     % Greater than or equal comparison (greater than test)
-
-
-
 
 }
