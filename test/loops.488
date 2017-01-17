@@ -1,0 +1,68 @@
+% This program tests all forms of loops
+% Authors: Jathu Satkunarajah (satkun16)
+
+{
+	% -------------------------------------------------------------------------
+	% Basic increment from 0 to 5 with while
+	% -------------------------------------------------------------------------
+
+	write "while loop: 0 to 5"
+	I := 0
+	while I <= 5 do
+		write I
+		I := I + 1
+
+	% -------------------------------------------------------------------------
+	% Basic increment from 0 to 5 with repeat
+	% -------------------------------------------------------------------------
+
+	write "repeat loop: 0 to 5"
+	I := 0
+	repeat
+		write I
+		I := I + 1
+	until
+		I <= 5
+
+	% -------------------------------------------------------------------------
+	% While loop with exit
+	% -------------------------------------------------------------------------
+
+	write "while loop with exit at 3"
+	I := 0
+	while I <= 5 do
+		if I = 3 then
+			write "while loop exit"
+			exit
+		else
+			write I
+			I := I + 1
+
+	% -------------------------------------------------------------------------
+	% While loop with exit when
+	% -------------------------------------------------------------------------
+
+	write "while loop with exit when 3"
+	I := 0
+	while I <= 5 do
+		exit when I = 3
+
+		write I
+		I := I + 1
+
+	% -------------------------------------------------------------------------
+	% Nested while and repeat loop. Returns: 0,0,0,1,2,3,2,4,6
+	% -------------------------------------------------------------------------
+	X := 0
+	while X < 3 do
+		Y := 1
+		
+		repeat
+			write X*Y
+			Y := Y + 1
+		until
+			Y <= 3
+
+		X := X + 1
+
+}
