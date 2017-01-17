@@ -1,0 +1,136 @@
+% This program tests for basic functions and procedures with/without parameters
+% All functions and procedures in this file are non-recursive
+
+% Authors: Amir Hossein Heidari Zadi (heidariz)
+
+{
+
+%--------------------------------------
+% Procedure declrations
+%--------------------------------------
+
+% Procedure declaration without parameters
+procedure write_hello_world {
+    write "Hello, World!", newline
+    return
+}
+
+% Procedure declaration with one parameter
+procedure write_number (num : Integer) {
+    write "Input number:", num, newline
+    return
+}
+
+% Procedure declaration with multiple parameters
+% Variable declration and assignment inside scope of a procedure
+procedure sum3 (num1 : Integer, num2 : Integer, num3 : Integer) {
+    var sum : Integer
+    sum := num1 + num2 + num3
+    write "Sum:", sum, newline
+    return
+}
+
+
+procedure assert (result : Boolean) {
+    if result then
+        write "Passed!", newline
+    else
+        write "Failed!", newline
+    return
+}
+
+%--------------------------------------
+% Function declrations
+%--------------------------------------
+
+% Function without parameters
+function fib_23 : Integer {
+    % Returns 23'rd Fibonacci number
+    return with 28657 
+}
+
+% Function with one parameter
+% Return with simple compound expression
+function add2 (n : Integer) : Integer {
+   return with n + 2 
+}
+
+% Function with multiple parameters
+function sum4 (a : Integer, b : Integer, c : Integer, d : Integer) : Integer {
+    return with a + b + c + d
+} 
+
+% Complex non-recursvie function with:
+%   - Variable declaration
+%   - Multiple if statements
+%   - While loop with variable declaration in its loop
+function fib (n : Integer) : Integer {
+    var F_n : Integer
+    var F_n_1 : Integer
+    
+    if n < 0 then {
+        write "n should be greater than zero!", newline
+        return with -1 
+    }
+
+    if n = 0 then
+        return with 0
+
+    if n = 1 then
+        return with 1
+
+    F_n_1 := 0
+    F_n := 1
+
+    while  n >= 2 do {
+        % temp stores current F_n, so it can assigned to F_n_1
+        % after updating F_n
+        var temp : Integer
+        temp := F_n
+        F_n := F_n + F_n_1
+        F_n_1 := temp
+
+        n := n - 1
+    } 
+     
+    return with F_n 
+}
+
+
+%--------------------------------------
+% Calling the functions and procedures
+%--------------------------------------
+
+write_hello_world
+
+write_number(488)
+
+assert(true)
+
+assert(false)
+
+write "All assert statement from here should print 'Passed!", newline
+
+% Tests the functions decalred above
+% This is also a test for creating a boolean expression
+% from a function call and passing it to a procedure
+
+assert( sum3(1, 2, 4) = 7 )
+
+assert( fib_23 = 28657 )
+
+assert( add2(8) = 10 )
+
+assert( sum4(1,2,3,4) = 10 )
+
+assert( fib(-2) = -1 )
+
+assert( fib(0) = 0 )
+
+assert( fib(1) = 1 )
+
+assert( fib(2) = 1 )
+
+assert( fib(15) = 610 )
+
+}
