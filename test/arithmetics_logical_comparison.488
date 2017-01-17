@@ -91,7 +91,14 @@ else
 }
 
 % Single-statement conditional if/then/else statement
-% arithmetic, logical and comparison in single expression
+% logical expression used
+if P or not R then 
+	write R
+else
+	write "False", "Both P is False"
+
+% Single-statement conditional if/then/else statement
+% arithmetic, logical and comparison operators in single expression
 if input1 * input2 <= input2 * 3 and input1 > 0 then
 	write input1 * input2
 else
