@@ -1,6 +1,5 @@
 % This is the  program using arrays including all forms of array declaration, positive and negative bounds
-% Author: Samud Ahmadov
-% CDF: ahmadovs
+% Author: Samud Ahmadov (ahmadovs), Yang Song (songyan9)
 
 {
 	% Array declarations
@@ -8,10 +7,13 @@
 	var arr1[4] : Boolean       % Boolean array with size 4
 	var arr2[1..10] : Integer   % Integer array with size 10
 	var arr3[-5..2] : Integer   % Integer array with size 7
+	var arr4[0:0] : Integer		% Integer array with size 1
 
+	arr1[3] := True				% Assign True to 3rd index
 	arr2[1] := 2				% Assign 2 first index 
 	arr2[4] := 10				% Assign 10 to 4th index
-	arr3[-5] := True			% Assign True to -5th index
+	arr3[-5] := 4				% Assign 4 to -5th index
+	arr4[0] := 1				% Assign 1 to arr4's only index
 
 	write arr2[1]				% print first index of array
 
