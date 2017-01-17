@@ -88,7 +88,6 @@ if input2 > 0 then
     write input1 / input2  % Evaluates division operation
 else
     write "Error", "Input2 must be greater than zero"  % Multiple text output sequence
-}
 
 % Single-statement conditional if/then/else statement
 % logical expression used
@@ -123,5 +122,4 @@ write (input2 - 2 not= -1 and input1 >= 3 ? "True" : "False") % more complex inp
 write (input2 - 3 = 1 or input1 > 3 ? 3 + 2 <= input1 : 3 + 2 > input1) % complex conditional expression with logical output 
 
 
-
-
+}
