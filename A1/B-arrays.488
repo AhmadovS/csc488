@@ -9,7 +9,7 @@
 	var arr3[-5..2] : Integer   % Integer array with size 7
 	var arr4[0:0] : Integer		% Integer array with size 1
 
-	arr1[3] := True				% Assign True to 3rd index
+	arr1[3] := true				% Assign True to 3rd index
 	arr2[1] := 2				% Assign 2 first index 
 	arr2[4] := 10				% Assign 10 to 4th index
 	arr3[-5] := 4				% Assign 4 to -5th index
