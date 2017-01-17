@@ -1,5 +1,5 @@
 % This program mainly tests for all arithmetic, logical and comparison operators
-% Authors: Amir Hossein Heidari Zadi (heidariz), 
+% Authors: Amir Hossein Heidari Zadi (heidariz), Ross Bevacqua (bevacqu2)
 
 {
 
@@ -27,13 +27,32 @@ write input1 + input2  % Evaluates addition operations
 write input1 - input2  % Evaluates subtraction operation
 write input1 * input2  % Evaluates multiplication operations
 
-% Single-statement conditional if/then/else statement
-% Greater-than comparison
-if input2 > 0 then
-    write input1 / input2  % Evaluates division operation
-else
-    write "Error", "Input2 must be greater than zero"  % Multiple text output sequence
+%-------------------------------
+% Logical tests
+%-------------------------------
 
+P := true
+Q := false
+R := not P  % Complex boolean assignment including variables
+
+% test logical OR operator 
+
+write true or false % simple, no variable
+write P or P % (both True)
+write P or Q	% (one False and another True)
+write not P or P % (more complex logical expression)
+
+% test logical AND operator
+
+write true and true % simple, no variable
+write P and P % (both True) (true)
+write Q and P % (one False and the other True) (false)
+write R and not Q and P % (more complex logical expression) (false)
+
+% test logical NOT operator
+write not false % (simple, no variable) (true)
+write not Q % (variable is False) (true)
+write not P and Q or not Q and R % (complex expression) (false)
 
 %-------------------------------
 % Comparison tests
@@ -58,4 +77,44 @@ if c > b then write "Passed!"      % Greater than comparison
 if c >= c then write "Passed!"     % Greater than or equal comparison (equal test)
 if c >= b then write "Passed!"     % Greater than or equal comparison (greater than test)
 
+
+%-------------------------------
+% Conditional tests (using arithmetic, logic, and comparisons)
+%-------------------------------
+
+% Single-statement conditional if/then/else statement
+% Greater-than comparison
+if input2 > 0 then
+    write input1 / input2  % Evaluates division operation
+else
+    write "Error", "Input2 must be greater than zero"  % Multiple text output sequence
 }
+
+% Single-statement conditional if/then/else statement
+% arithmetic, logical and comparison in single expression
+if input1 * input2 <= input2 * 3 and input1 > 0 then
+	write input1 * input2
+else
+	write "Conditional test 2 is False"
+
+% Multiple-statement conditional if/then/else statement
+% Less-than comparison, also contains newline
+
+if input1 < 2 or input2 > 5 then {
+	write "Conditional Test 3 is True", newline
+	write "Second statement in scope Executed"
+} else {
+	write "Conditional Test 3 is False", newline
+	write "Second statement in scope Executed"
+}
+
+% Conditional Expressions
+
+write (input1 > 5 ? "True" : "False") % simple text output expression
+write (input1 > 5 ? 4 / 2 : 2 + 2)  % simple arithmetic output expression
+write (input2 - 2 not= -1 and input1 >= 3 ? "True" : "False") % more complex input expression
+write (input2 - 3 = 1 or input1 > 3 ? 3 + 2 <= input1 : 3 + 2 > input1) % complex conditional expression with logical output 
+
+
+
+
