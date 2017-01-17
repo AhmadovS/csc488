@@ -9,6 +9,9 @@
 % Procedure declrations
 %--------------------------------------
 
+% An empty procedure
+procedure empty_procedure { }
+
 % Procedure declaration without parameters
 procedure write_hello_world {
     write "Hello, World!", newline
@@ -30,8 +33,9 @@ procedure sum3 (num1 : Integer, num2 : Integer, num3 : Integer) {
     return
 }
 
-
+% Simple function with boolean argument
 procedure assert (result : Boolean) {
+    % Prints pass or fail if result is true or false.
     if result then
         write "Passed!", newline
     else
@@ -101,17 +105,22 @@ function fib (n : Integer) : Integer {
 % Calling the functions and procedures
 %--------------------------------------
 
+% Calls empty procedure
+empty_procedure
+
+% Calls procedure without arguments
 write_hello_world
 
+% Calls procedure with one Integer argument
 write_number(488)
 
+% Calls procedure with one Boolean argument
 assert(true)
-
 assert(false)
 
 write "All assert statement from here should print 'Passed!", newline
 
-% Tests the functions decalred above
+% Tests the functions declared above
 % This is also a test for creating a boolean expression
 % from a function call and passing it to a procedure
 
