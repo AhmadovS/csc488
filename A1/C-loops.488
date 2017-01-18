@@ -4,6 +4,7 @@
 {
 	% Variable declarations
 	var I : Integer
+	var J : Integer
 
 	% -------------------------------------------------------------------------
 	% Basic increment from 0 to 5 with while
@@ -24,8 +25,7 @@
 	repeat
 		write I
 		I := I + 1
-	until
-		I <= 5
+	until I <= 5
 
 	% -------------------------------------------------------------------------
 	% While loop with exit
@@ -33,7 +33,7 @@
 
 	write "while loop with exit at 3"
 	I := 0
-	while I <= 5 do
+	while I <= 5 do {
 		if I = 3 then {
 			write "while loop exit"
 			exit
@@ -41,6 +41,7 @@
 			write I
 			I := I + 1
 		}
+	}
 		
 	% -------------------------------------------------------------------------
 	% Nested while loops with integer exit
@@ -85,24 +86,23 @@
 			
 			write I
 			I := I + 1
-		}
-		until
-			I <= 5
+		} until I <= 5
 	}
 
 	% -------------------------------------------------------------------------
 	% Nested while and repeat loop. Returns: 0,0,0,1,2,3,2,4,6
 	% -------------------------------------------------------------------------
-	X := 0
-	while X < 3 do {
-		Y := 1
-		
-		repeat
-			write X*Y
-			Y := Y + 1
-		until
-			Y <= 3
 
-		X := X + 1
+	write "nested while and repeat loop"
+	I := 0
+	while X < 3 do {
+		J := 1
+		
+		repeat {
+			write I*J
+			J := J + 1
+		} until  J <= 3
+
+		I := I + 1
 	}
 }
