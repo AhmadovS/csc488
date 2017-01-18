@@ -2,12 +2,14 @@
 % Author: Samud Ahmadov (ahmadovs), Yang Song (songyan9)
 
 {
+
 	% Array declarations
 
 	var arr1[4] : Boolean       % Boolean array with size 4
 	var arr2[1..10] : Integer   % Integer array with size 10
 	var arr3[-5..2] : Integer   % Integer array with size 7
 	var arr4[0:0] : Integer		% Integer array with size 1
+	var i : Integer             % Indexing integer
 
 	arr1[3] := true				% Assign True to 3rd index
 	arr2[1] := 2				% Assign 2 first index 
@@ -19,5 +21,20 @@
 
 	write arr2[1] + arr2[4]     % print sum of first and 4th index
 
-	if arr3[-5] then write arr2[1]*arr2[4] % if statement
+	% If statement with variable expression
+	if arr3[-5] then write arr2[1]*arr2[4]
+
+	% Array initialization with while loop
+	i := 1
+	while i <= 10 do {
+		arr2[i] := i * 2
+	}
+
+	% Array indexing using arithmetic expression
+	if arr2[2*2] = 8 then write "Passed!", newline
+
+	% Array indexing using ternary if expression
+	if (arr2[(true ? 3 : 4)] = 6) then write "Passed!", newline
+
+
 }
