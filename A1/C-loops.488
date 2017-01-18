@@ -1,7 +1,10 @@
 % This program tests all forms of loops
-% Authors: Jathu Satkunarajah (satkun16)
+% Authors: Jathu Satkunarajah (satkun16), Yang Song (songyan9)
 
 {
+	% Variable declarations
+	var I : Integer
+
 	% -------------------------------------------------------------------------
 	% Basic increment from 0 to 5 with while
 	% -------------------------------------------------------------------------
@@ -31,30 +34,67 @@
 	write "while loop with exit at 3"
 	I := 0
 	while I <= 5 do
-		if I = 3 then
+		if I = 3 then {
 			write "while loop exit"
 			exit
-		else
+		} else {
 			write I
 			I := I + 1
+		}
+		
+	% -------------------------------------------------------------------------
+	% Nested while loops with integer exit
+	% -------------------------------------------------------------------------
+
+	write "nested loop with exit at 3"
+	I := 0
+	while true do {	
+		while I <= 5 do {
+			if I = 3 then {
+				write "while loop exit"
+				exit 2
+			} else {
+				write I
+				I := I + 1
+			}
+		}
+	}
 
 	% -------------------------------------------------------------------------
-	% While loop with exit when
+	% While loop with exit when condition is true
 	% -------------------------------------------------------------------------
 
 	write "while loop with exit when 3"
 	I := 0
-	while I <= 5 do
+	while I <= 5 do {
 		exit when I = 3
 
 		write I
 		I := I + 1
+	}
+	
+	% -------------------------------------------------------------------------
+	% Repeat loop nested in a while loop, with integer exit when condition is true
+	% -------------------------------------------------------------------------
+	
+	write "nested while loops with exit at 3"
+	I := 0
+	while true do {	
+		repeat {
+			exit 2 when I = 3
+			
+			write I
+			I := I + 1
+		}
+		until
+			I <= 5
+	}
 
 	% -------------------------------------------------------------------------
 	% Nested while and repeat loop. Returns: 0,0,0,1,2,3,2,4,6
 	% -------------------------------------------------------------------------
 	X := 0
-	while X < 3 do
+	while X < 3 do {
 		Y := 1
 		
 		repeat
@@ -64,5 +104,5 @@
 			Y <= 3
 
 		X := X + 1
-
+	}
 }
