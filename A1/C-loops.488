@@ -2,6 +2,9 @@
 % Authors: Jathu Satkunarajah (satkun16), Yang Song (songyan9)
 
 {
+	% Variable declarations
+	var I : Integer
+
 	% -------------------------------------------------------------------------
 	% Basic increment from 0 to 5 with while
 	% -------------------------------------------------------------------------
@@ -43,7 +46,7 @@
 	% Nested while loops with integer exit
 	% -------------------------------------------------------------------------
 
-	write "nested while loops with exit at 3"
+	write "nested loop with exit at 3"
 	I := 0
 	while true do {	
 		while I <= 5 do {
