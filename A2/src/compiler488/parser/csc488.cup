@@ -145,7 +145,7 @@ start with program;
  */
 
 // TODO: check for dangling else statement
-// TODO: do while and repeat use statement or expression
+// TODO: do while and repeat behave like if-then statements
 
 program	::= scope;
 
@@ -203,9 +203,9 @@ variablenames ::= variablenames COMMA variable
                  | variable_sublist;
 
 variable_sublist ::= variablename
-            | variablename L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
-            | variablename L_SQUARE bound DOT DOT bound R_SQUARE
-            ;
+                    | variablename L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
+                    | variablename L_SQUARE bound DOT DOT bound R_SQUARE
+                    ;
 
 bound ::= INTCONST
          | MINUS INTCONST  // TODO: should this be INTCONST?!?!?!
@@ -216,9 +216,9 @@ outputs ::= outputs COMMA output
            ;
 
 output ::= expression
-         | TEXTCONST
-         | NEWLINE
-         ;
+          | TEXTCONST
+          | NEWLINE
+          ;
 
 
 input ::= input COMMA variable
@@ -243,6 +243,7 @@ variable ::= variablename
             | arrayname L_SQUARE expression R_SQUARE
             ;
 
+// TODO: these are all conflicts, how to handle?
 variablename ::= IDENT;
 arrayname ::= IDENT;
 functionname ::= IDENT;
