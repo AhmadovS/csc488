@@ -1,0 +1,296 @@
+// Package and import specifications section.
+
+package compiler488.parser;
+
+import java_cup.runtime.*;		// Must always import this.
+
+/* User code components 1: action code components.
+ * Code to be used inside the actions triggered when productions are matched.
+ * If any common code is needed for more than one action , put it here.
+ */
+// action code {:
+// your code goes here
+//:};
+
+/* User code components 2: parser code components. 
+ * Modifications to the default generated parser
+ */
+parser code {:
+
+	String lastError;
+	
+    /* Override the report_error method so it will display the line and
+     * column of where the error occurred in the input as well as the
+     * reason for the error which is passed into the method in the
+     * String 'message'.
+     */
+    public void report_error(String message, Object info)
+	{
+        String st =  "Error";
+   
+        if (info instanceof java_cup.runtime.Symbol)
+	    {
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+
+            /* s.left is supposed to hold the line number of the error.
+             * s.right is supposed to hold the column number.
+             */
+   
+            if (s.left >= 0)				// Check line number.
+            {
+                st += " in line " + (s.left + 1);
+                if (s.right >= 0)			// Check column number.
+                    st += ", column " + (s.right + 1);
+            }
+	    }
+	    st += ": " + message;
+        System.err.println (st);
+        lastError = st;
+	}
+   
+    // Override the report_fatal_error method to use the report_error method.
+    public void report_fatal_error (String message, Object info) throws Exception
+	{
+        report_error (message, info);
+        throw new Exception (lastError);
+	}
+   
+   // version string for printing version in Main
+   public static final String version =
+     "Winter 2017" ;
+
+:};
+
+/* User code components 3: initialization code.
+ * If you want some code to be executed before the parser asks for the first
+ * token, add it here.
+ */
+init with {:
+:};
+
+/* User code components 4: scanner specification code.
+ * If you need to override the way the parser asks the scanner for the
+ * next token, put your preferred method here.  Uncomment the line following
+ * this comment, replace the line after that with your code, and uncomment
+ * the line after that.
+ */
+// scan with {:
+// your code goes here
+// :};
+
+/* Symbol lists section.
+ * The names of terminals and non-terminals are not allowed to be CUP
+ * reserved words.  These include "code", "action", "parser", "terminal",
+ * "non", "nonterminal", "init", "scan", "with", "start", "precedence",
+ * "left", "right", "nonassoc", "import", and "package".
+ */
+
+// DEFINITIONS for CSC488S Source Language  Winter  2016/2017 
+
+// Terminals returned by the scanner with no value attached.  
+terminal	AND,	OR,	NOT,	TRUE,	FALSE	;
+terminal 	BOOLEAN,INTEGER,FUNCTION,PROCEDURE	;
+terminal	DO,	ELSE,	EXIT,   IF	;
+terminal	READ, 	REPEAT,	RETURN,	NEWLINE,THEN,	UNTIL	;
+terminal	VAR,	WHEN,	WHILE,	WITHX,	WRITE 	;
+
+// Special-character terminals, no value attached
+terminal	L_PAREN	,R_PAREN,L_SQUARE, R_SQUARE, L_CURLEY, R_CURLEY	;
+terminal	EQUAL,	GREATER,LESS,	COMMA,  DOT, QUESTION, COLON	;
+terminal	PLUS,	MINUS,	TIMES,  DIVIDE	;
+
+// Terminals returned by the scanner with a value.
+terminal String  IDENT	;
+terminal Integer INTCONST	;
+terminal String  TEXTCONST	;
+
+// Non-terminals that have no value.
+// nonterminal xxx
+
+nonterminal	program 	;
+nonterminal scope, statement, statements, simple_stmt, selection_stmt, loop_stmt ;
+nonterminal declarations, declaration;
+nonterminal variable, bound;
+nonterminal variablenames, variablename, variable_sublist;
+nonterminal arrayname, functionname, parametername, procedurename;
+nonterminal outputs, output, input, type;
+nonterminal arguments, parameters, parameter;
+nonterminal expression, expcore, exp1, exp2, exp3, exp4, exp5;
+
+// Non-terminals that have a value.
+// nonterminal type  nameList ;
+
+// PLEASE NOTE: your grammar can not use the 'precedence'
+// feature of java-cup. The lines below should remain
+// commented out.
+//
+//precedence right PLUS, MINUS;
+//precedence right TIMES, DIVIDE;		// Higher precedence.
+
+// The grammar section.
+
+// This specifies the initial symbol of the grammar.
+start with program;
+
+/* Notice that sometimes the action must be inside the production rule,
+ * not after it.  This is a subtle yet significant difference from YACC.
+ * This is because the CUP parser is looking ahead one token.  It ALWAYS
+ * reads one more token before it will act on the production.
+ */
+
+
+/*  YOUR CLEVERLY CRAFTED cup GRAMMAR FOR THE CSC488S SOURCE LANGUAGE
+ *
+ *  GOES HERE
+ */
+
+// TODO: check for dangling else statement
+// TODO: do while and repeat behave like if-then statements
+
+program	::= scope;
+
+scope ::= L_CURLEY declarations statements R_CURLEY
+         | L_CURLEY statements R_CURLEY
+         | L_CURLEY R_CURLEY
+         ;
+
+statements ::= statements statement
+              | statement
+              ;
+
+statement ::= simple_stmt
+              | selection_stmt
+              | loop_stmt
+              ;
+
+/* A simple statement is either a single statement
+ * or statement(s) wrapped in a scope.
+ */
+simple_stmt ::= variable COLON EQUAL expression
+               | EXIT
+               | EXIT INTCONST  // TODO: is this supposed to be INTCONST or nonterm of type int?
+               | EXIT WHEN expression
+               | EXIT INTCONST WHEN expression // TODO: is this supposed to be intconst?
+
+               | RETURN WITHX expression
+               | RETURN
+               | WRITE outputs
+               | READ input
+               | procedurename
+               | procedurename L_PAREN arguments R_PAREN
+               | scope
+               ;
+
+selection_stmt ::= IF expression THEN simple_stmt
+                  | IF expression THEN simple_stmt ELSE simple_stmt
+                  ;
+
+loop_stmt ::= WHILE expression DO scope
+             | REPEAT scope UNTIL expression
+             ;
+
+declarations ::= declarations declaration
+                | declaration
+                ;
+
+declaration ::= VAR variablenames COLON type
+               | FUNCTION functionname COLON type scope
+               | PROCEDURE procedurename scope
+               | PROCEDURE procedurename L_PAREN parameters R_PAREN scope
+               ;
+
+variablenames ::= variablenames COMMA variable
+                 | variable_sublist;
+
+variable_sublist ::= variablename
+                    | variablename L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
+                    | variablename L_SQUARE bound DOT DOT bound R_SQUARE
+                    ;
+
+bound ::= INTCONST
+         | MINUS INTCONST  // TODO: should this be INTCONST?!?!?!
+         ;
+
+outputs ::= outputs COMMA output
+           | output
+           ;
+
+output ::= expression
+          | TEXTCONST
+          | NEWLINE
+          ;
+
+
+input ::= input COMMA variable
+         | variable
+         ;
+
+type ::= INTEGER
+        | BOOLEAN
+        ;
+
+arguments ::= arguments COMMA expression
+             | expression
+             ;
+
+parameters ::= parameters COLON parameter
+              | parameter
+              ;
+
+parameter ::= parametername COLON type;
+
+variable ::= variablename
+            | arrayname L_SQUARE expression R_SQUARE
+            ;
+
+// TODO: these are all conflicts, how to handle?
+variablename ::= IDENT;
+arrayname ::= IDENT;
+functionname ::= IDENT;
+parametername ::= IDENT;
+procedurename ::= IDENT;
+
+/* Expressions
+   Each integer affix to nonterminals 'exp' represents the precedence order,
+   with 'expcore' nonterminal containing rules with hightest precedence,
+   and 'expression' nonterminal having lowest precedence.
+ */
+expression ::= expression OR exp5 | exp5;
+
+exp5 ::= exp5 AND exp4 | exp4;
+
+exp4 ::= exp4 NOT exp3 | exp3;
+
+exp3 ::= exp2 EQUAL exp2
+        | exp2 NOT EQUAL exp2
+        | exp2 LESS exp2
+        | exp2 LESS EQUAL exp2
+        | exp2 GREATER exp2
+        | exp2 GREATER EQUAL exp2
+        ;
+
+exp2 ::= exp2 PLUS exp1
+        | exp2 MINUS exp1
+        | exp1
+        ;
+
+exp1 ::= exp1 TIMES expcore
+        | exp1 DIVIDE expcore
+        | expcore
+        ;
+
+expcore ::= INTCONST
+           | MINUS expcore
+           | NOT expcore
+           | TRUE
+           | FALSE
+           | variable
+           | functionname
+           | functionname L_PAREN arguments R_PAREN
+           | parametername
+
+           | L_PAREN expression R_PAREN
+           | L_PAREN expression QUESTION expression COLON expression R_PAREN
+           ;
+
+

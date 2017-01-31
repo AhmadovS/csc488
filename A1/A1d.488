@@ -114,6 +114,9 @@ write_hello_world
 % Calls procedure with one Integer argument
 write_number(488)
 
+% Calls procedure with argument nested in parenthesis
+write_number(((488)))
+
 % Calls procedure with one Boolean argument
 assert(true)
 assert(false)
