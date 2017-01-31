@@ -23,16 +23,15 @@ public class Compiler488 {
 	
 	static public void main(String argv[]) {
 		/* Start the parser */
-		System.out.println("Hello, World!");
-//		try {
-//			System.out.println("Start parsing");
-//			testParser (new File (argv[0]));
-//			System.out.println("End parsing");
-//		} catch (Exception e) {
-//			/* do cleanup here -- possibly rethrow e */
-//			System.out.println("Exception during Parsing");
-//			e.printStackTrace();
-//		}
+		try {
+			System.out.println("Start parsing");
+			testParser (new File (argv[0]));
+			System.out.println("End parsing");
+		} catch (Exception e) {
+			/* do cleanup here -- possibly rethrow e */
+			System.out.println("Exception during Parsing");
+			e.printStackTrace();
+		}
 	}
 	
 	static public void testParser (File file) throws Exception {
