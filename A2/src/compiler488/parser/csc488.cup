@@ -108,14 +108,14 @@ terminal String  TEXTCONST	;
 // nonterminal xxx
 
 nonterminal	program 	;
-nonterminal scope, statement, simple_stmt, selection_stmt, loop_stmt ;
-nonterminal declaration, expression;
+nonterminal scope, statement, statements, simple_stmt, selection_stmt, loop_stmt ;
+nonterminal declarations, declaration;
 nonterminal variable, bound;
-nonterminal variablenames, variablename;
+nonterminal variablenames, variablename, variable_sublist;
 nonterminal arrayname, functionname, parametername, procedurename;
-nonterminal output, input, type;
-nonterminal arguments, parameters;
-nonterminal l1exp, l2exp, l3exp, l4exp, l5exp, l6exp;
+nonterminal outputs, output, input, type;
+nonterminal arguments, parameters, parameter;
+nonterminal expression, expcore, exp1, exp2, exp3, exp4, exp5;
 
 // Non-terminals that have a value.
 // nonterminal type  nameList ;
@@ -149,15 +149,18 @@ start with program;
 
 program	::= scope;
 
-scope ::= L_CURLEY declaration statement R_CURLEY
-         | L_CURLEY statement R_CURLEY
+scope ::= L_CURLEY declarations statements R_CURLEY
+         | L_CURLEY statements R_CURLEY
          | L_CURLEY R_CURLEY
          ;
+
+statements ::= statements statement
+              | statement
+              ;
 
 statement ::= simple_stmt
               | selection_stmt
               | loop_stmt
-              | statement statement
               ;
 
 /* A simple statement is either a single statement
@@ -171,7 +174,7 @@ simple_stmt ::= variable COLON EQUAL expression
 
                | RETURN WITHX expression
                | RETURN
-               | WRITE output
+               | WRITE outputs
                | READ input
                | procedurename
                | procedurename L_PAREN arguments R_PAREN
@@ -186,44 +189,55 @@ loop_stmt ::= WHILE expression DO scope
              | REPEAT scope UNTIL expression
              ;
 
+declarations ::= declarations declaration
+                | declaration
+                ;
+
 declaration ::= VAR variablenames COLON type
                | FUNCTION functionname COLON type scope
                | PROCEDURE procedurename scope
                | PROCEDURE procedurename L_PAREN parameters R_PAREN scope
-               | declaration declaration
                ;
 
-variablenames ::= variablename
-                 | variablename L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
-                 | variablename L_SQUARE bound DOT DOT bound R_SQUARE
-                 | variablenames COMMA variablenames
-                 ;
+variablenames ::= variablenames COMMA variable
+                 | variable_sublist;
+
+variable_sublist ::= variablename
+            | variablename L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
+            | variablename L_SQUARE bound DOT DOT bound R_SQUARE
+            ;
 
 bound ::= INTCONST
          | MINUS INTCONST  // TODO: should this be INTCONST?!?!?!
          ;
 
+outputs ::= outputs COMMA output
+           | output
+           ;
+
 output ::= expression
          | TEXTCONST
          | NEWLINE
-         | output COMMA output
          ;
 
-input ::= variable
-         | input COMMA input
+
+input ::= input COMMA variable
+         | variable
          ;
 
 type ::= INTEGER
         | BOOLEAN
         ;
 
-arguments ::= expression
-             | arguments COMMA arguments
+arguments ::= arguments COMMA expression
+             | expression
              ;
 
-parameters ::= parametername COLON type
-              | parameters COLON parameters
+parameters ::= parameters COLON parameter
+              | parameter
               ;
+
+parameter ::= parametername COLON type;
 
 variable ::= variablename
             | arrayname L_SQUARE expression R_SQUARE
@@ -235,6 +249,11 @@ functionname ::= IDENT;
 parametername ::= IDENT;
 procedurename ::= IDENT;
 
+/* Expressions
+   Each integer affix to nonterminals 'exp' represents the precedence order,
+   with 'expcore' nonterminal containing rules with hightest precedence,
+   and 'expression' nonterminal having lowest precedence.
+ */
 expression ::= expression OR exp5 | exp5;
 
 exp5 ::= exp5 AND exp4 | exp4;
