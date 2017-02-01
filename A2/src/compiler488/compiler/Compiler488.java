@@ -1,4 +1,4 @@
-package compiler488.compiler ;
+package compiler488;
 
  /**
  * This Compiler488 is an extremely simple scanner/parser driver
