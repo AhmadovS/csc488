@@ -111,8 +111,8 @@ nonterminal	program 	;
 nonterminal scope, statement, statements, simple_stmt, selection_stmt, loop_stmt ;
 nonterminal declarations, declaration;
 nonterminal variable, bound;
-nonterminal variablenames, variablename, variable_sublist;
-nonterminal arrayname, functionname, parametername, procedurename;
+nonterminal variablenames,  variable_sublist;
+nonterminal procedureCall;
 nonterminal outputs, output, input, type;
 nonterminal arguments, parameters, parameter;
 nonterminal expression, expcore, exp1, exp2, exp3, exp4, exp5;
@@ -179,18 +179,21 @@ simple_stmt ::= variable COLON EQUAL expression
                | RETURN
                | WRITE outputs
                | READ input
-               | procedurename
-               | procedurename L_PAREN arguments R_PAREN
+               | procedureCall
                | scope
                ;
 
-selection_stmt ::= IF expression THEN simple_stmt
-                  | IF expression THEN simple_stmt ELSE simple_stmt
+procedureCall ::= IDENT 
+                  | IDENT L_PAREN arguments R_PAREN
+                  ;
+                  
+selection_stmt ::= IF expression THEN statement
+                  | IF expression THEN statement ELSE statement
                   ;
 
 // TODO: should we allow single statement loops or only use scopes?
-loop_stmt ::= WHILE expression DO scope
-             | REPEAT scope UNTIL expression
+loop_stmt ::= WHILE expression DO statement
+             | REPEAT statement UNTIL expression
              ;
 
 declarations ::= declarations declaration
@@ -198,17 +201,18 @@ declarations ::= declarations declaration
                 ;
 
 declaration ::= VAR variablenames COLON type
-               | FUNCTION functionname COLON type scope
-               | PROCEDURE procedurename scope
-               | PROCEDURE procedurename L_PAREN parameters R_PAREN scope
+               | FUNCTION IDENT COLON type scope
+               | FUNCTION IDENT L_PAREN parameters R_PAREN COLON type scope
+               | PROCEDURE IDENT scope
+               | PROCEDURE IDENT L_PAREN parameters R_PAREN scope
                ;
 
-variablenames ::= variablenames COMMA variable
+variablenames ::= variablenames COMMA variable_sublist
                  | variable_sublist;
 
-variable_sublist ::= variablename
-                    | variablename L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
-                    | variablename L_SQUARE bound DOT DOT bound R_SQUARE
+variable_sublist ::= IDENT
+                    | IDENT L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
+                    | IDENT L_SQUARE bound DOT DOT bound R_SQUARE
                     ;
 
 bound ::= INTCONST
@@ -239,23 +243,23 @@ arguments ::= arguments COMMA expression
              | expression
              ;
 
-parameters ::= parameters COLON parameter
+parameters ::= parameters COMMA parameter
               | parameter
               ;
 
-parameter ::= parametername COLON type;
+parameter ::= IDENT COLON type;
 
-variable ::= variablename
-            | arrayname L_SQUARE expression R_SQUARE
+variable ::= IDENT
+            | IDENT L_SQUARE expression R_SQUARE
             ;
 
 // TODO: these are all conflicts, how to handle?
 // Commented out for now, need to be dealt with later
-variablename ::= IDENT;
+//variablename ::= IDENT;
 //arrayname ::= IDENT;
 //functionname ::= IDENT;
 //parametername ::= IDENT;
-//procedurename ::= IDENT;
+
 
 /* Expressions
    Each integer affix to nonterminals 'exp' represents the precedence order,
@@ -268,14 +272,12 @@ expression ::= expression OR exp5 | exp5;
 
 exp5 ::= exp5 AND exp4 | exp4;
 
-exp4 ::= exp4 NOT exp3 | exp3;
+exp4 ::=  NOT exp4 | exp3;
 
 // Since (=, not =, <, <=, >, >=) do no associate,
 // following rules are not made recursive.
-
 exp3 ::= exp2 EQUAL exp2
-// TODO: how to avoid conflict with exp4 NOT exp3 ?
-//        | exp2 NOT EQUAL exp3
+        | exp2 NOT EQUAL exp2
         | exp2 LESS exp2
         | exp2 LESS EQUAL exp2
         | exp2 GREATER exp2
@@ -294,15 +296,12 @@ exp1 ::= exp1 TIMES expcore
         ;
 
 // expcore expressions have the highest priority
-expcore ::= INTCONST
+expcore ::=  variable
            | MINUS expcore
-           | NOT expcore
            | TRUE
            | FALSE
-           | variable
-           | functionname
-           | functionname L_PAREN arguments R_PAREN
-           | parametername
+           | INTCONST
+           | IDENT L_PAREN arguments R_PAREN
 
            | L_PAREN expression R_PAREN
            | L_PAREN expression QUESTION expression COLON expression R_PAREN

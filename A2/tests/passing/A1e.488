@@ -1,0 +1,129 @@
+% This program tests for basic functions and procedures with/without parameters
+% Functions and procedures in this file are meant to be recursive.
+
+% Authors: Amir Hossein Heidari Zadi (heidariz)
+
+{
+
+% Global variable
+var global_n : Integer
+
+%---------------------------------------------
+% Function and procedure declarations
+%---------------------------------------------
+
+% Simple recursive procedure with one argument
+procedure count (n : Integer) {
+    % This procedure prints n and calls itself with n - 1
+    % until n becomes zero.
+    if n > 0 then {
+        write n, newline
+        count(n - 1)
+    }
+    return
+}
+
+% Simple recursive function with one argument
+function sum (n : Integer) : Integer {
+    % Returns sum of integers from 0 to n.
+    if n > 0 then {
+        return with n + sum(n - 1)
+    } else
+        return with 0
+}
+
+% Simple recursive procedure with no arguments
+procedure proc_global_n {
+    if global_n > 0 then {
+        write global_n
+        global_n := global_n - 1
+        proc_global_n
+    }
+    return
+}
+
+% Simple recursive function with no arguments
+% This function technically calls another recursive
+% function, not itself
+function func_global : Integer {
+    return with sum(10)
+}
+
+% Procedure calling a recursive function
+% This procedure does not have a return statement
+procedure print_sum (n : Integer) {
+    % Prints output of calling sum function
+    write sum(n)
+}
+
+% Recursive function with two recursive calls
+function fib(n : Integer) : Integer {
+    % Calculates n-th Fibonacci number
+    if (n <= 2) then
+        return with 1
+    else
+        return with fib(n - 1) + fib(n - 2)
+}
+
+% Simple procedure copied from functions_procedures.488 file
+procedure assert (result : Boolean) {
+    if result then
+        write "Passed!", newline
+    else
+        write "Failed!", newline
+    return
+}
+
+% No-argument procedure with a nested recursive procedure
+procedure nested_procedure {
+    procedure multiples7(n : Integer) {
+        % Prints first n multiples of 7 (in reverse)
+        if n > 0 then {
+            write n * 7, newline
+            multiples7(n - 1)
+        } else {
+            write "Finished!", newline
+        }
+    }
+
+    % Calls nested procedure
+    multiples7(3)
+}
+
+% No-argument function with a nested recursive function
+function nested_factorial : Integer {
+    function factorial(n : Integer) : Integer {
+        if n <= 0 then 
+            return with 1
+        else
+            return with n * factorial(n - 1)
+    }
+
+    % Calls nested function
+    return with factorial(5)
+}
+
+%--------------------------------------
+% Calling the functions and procedures
+%--------------------------------------
+
+% Functions and procedures with one argument
+count(3)
+assert(sum(5) = 15)
+
+% Functioins and procedures with no arguments
+global_n := 5  % Initializing global_n before use by proc_global_n
+proc_global_n
+assert(func_global = 45)
+
+% Procedure calling a recursive function
+print_sum(10)
+
+% Recursive function with two recursive calls
+assert(fib(11) = 89)
+
+% No-argument nested procedure/function
+nested_procedure
+assert(nested_factorial = 120)
+
+}
