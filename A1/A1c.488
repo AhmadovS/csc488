@@ -22,10 +22,10 @@
 
 	write "repeat loop: 0 to 5"
 	I := 0
-	repeat
+	repeat {
 		write I
 		I := I + 1
-	until I <= 5
+    } until I <= 5
 
 	% -------------------------------------------------------------------------
 	% While loop with exit

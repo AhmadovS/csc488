@@ -155,10 +155,12 @@ scope ::= L_CURLEY declarations statements R_CURLEY
          | L_CURLEY R_CURLEY
          ;
 
+// Left-associative statements
 statements ::= statements statement
               | statement
               ;
 
+// Note that a scope can also be a simple_stmt
 statement ::= simple_stmt
               | selection_stmt
               | loop_stmt
@@ -186,6 +188,7 @@ selection_stmt ::= IF expression THEN simple_stmt
                   | IF expression THEN simple_stmt ELSE simple_stmt
                   ;
 
+// TODO: should we allow single statement loops or only use scopes?
 loop_stmt ::= WHILE expression DO scope
              | REPEAT scope UNTIL expression
              ;
@@ -212,6 +215,7 @@ bound ::= INTCONST
          | MINUS INTCONST  // TODO: should this be INTCONST?!?!?!
          ;
 
+// output is made left associative
 outputs ::= outputs COMMA output
            | output
            ;
@@ -222,6 +226,7 @@ output ::= expression
           ;
 
 
+// input is made left-associative
 input ::= input COMMA variable
          | variable
          ;
@@ -255,6 +260,8 @@ procedurename ::= IDENT;
    Each integer affix to nonterminals 'exp' represents the precedence order,
    with 'expcore' nonterminal containing rules with hightest precedence,
    and 'expression' nonterminal having lowest precedence.
+
+   All operations that are associative are made left-associative.
  */
 expression ::= expression OR exp5 | exp5;
 
@@ -262,13 +269,15 @@ exp5 ::= exp5 AND exp4 | exp4;
 
 exp4 ::= exp4 NOT exp3 | exp3;
 
+// Since (=, not =, <, <=, >, >=) do no associate,
+// following rules are not made recursive.
 exp3 ::= exp2 EQUAL exp1
         | exp2 NOT EQUAL exp1
         | exp2 LESS exp1
         | exp2 LESS EQUAL exp1
         | exp2 GREATER exp1
         | exp2 GREATER EQUAL exp1
-		;
+		    ;
 
 exp2 ::= exp2 PLUS exp1
         | exp2 MINUS exp1
@@ -280,6 +289,7 @@ exp1 ::= exp1 TIMES expcore
         | expcore
         ;
 
+// expcore expressions have the highest priority
 expcore ::= INTCONST
            | MINUS expcore
            | NOT expcore
