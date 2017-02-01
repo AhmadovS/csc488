@@ -276,10 +276,8 @@ exp4 ::=  NOT exp4 | exp3;
 
 // Since (=, not =, <, <=, >, >=) do no associate,
 // following rules are not made recursive.
-
 exp3 ::= exp2 EQUAL exp2
-// TODO: how to avoid conflict with exp4 NOT exp3 ?
-//        | exp2 NOT EQUAL exp3
+        | exp2 NOT EQUAL exp2
         | exp2 LESS exp2
         | exp2 LESS EQUAL exp2
         | exp2 GREATER exp2
