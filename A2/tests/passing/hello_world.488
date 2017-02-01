@@ -3,5 +3,5 @@
 % CDF: heidariz
 
 {
-write "Hello, World!"
+	write "Hello, World!"
 }

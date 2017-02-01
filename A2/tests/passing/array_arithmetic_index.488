@@ -1,0 +1,11 @@
+{
+	var arr[10]: Integer
+	var i: Integer
+
+	i := 1
+	while i <= 10 do {
+		arr[i] := i * 2
+	}
+
+	write arr[2 * 2]
+}
