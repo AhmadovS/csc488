@@ -1,0 +1,7 @@
+% Test programs
+% Author: Amir Hossein Heidari Zadi
+% CDF: heidariz
+
+{
+	write "Hello, World!"
+}
