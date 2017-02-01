@@ -1,0 +1,7 @@
+{
+	var n: Integer
+	n := 416
+
+	var arr[10] : Boolean
+	arr[3] := true
+}
