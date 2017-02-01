@@ -126,6 +126,8 @@ nonterminal expression, expcore, exp1, exp2, exp3, exp4, exp5;
 //
 //precedence right PLUS, MINUS;
 //precedence right TIMES, DIVIDE;		// Higher precedence.
+precedence nonassoc ELSE;
+precedence nonassoc IF;
 
 // The grammar section.
 
@@ -144,7 +146,6 @@ start with program;
  *  GOES HERE
  */
 
-// TODO: check for dangling else statement
 // TODO: do while and repeat behave like if-then statements
 
 program	::= scope;
@@ -261,12 +262,13 @@ exp5 ::= exp5 AND exp4 | exp4;
 
 exp4 ::= exp4 NOT exp3 | exp3;
 
-exp3 ::= exp2 EQUAL exp2
-        | exp2 NOT EQUAL exp2
-        | exp2 LESS exp2
-        | exp2 LESS EQUAL exp2
-        | exp2 GREATER exp2
-        | exp2 GREATER EQUAL exp2
+exp3 ::= exp3 EQUAL exp2
+        | exp3 NOT EQUAL exp2
+        | exp3 LESS exp2
+        | exp3 LESS EQUAL exp2
+        | exp3 GREATER exp2
+        | exp3 GREATER EQUAL exp2
+		| exp2
         ;
 
 exp2 ::= exp2 PLUS exp1
