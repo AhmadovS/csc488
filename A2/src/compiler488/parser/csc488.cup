@@ -262,13 +262,12 @@ exp5 ::= exp5 AND exp4 | exp4;
 
 exp4 ::= exp4 NOT exp3 | exp3;
 
-exp3 ::= exp2 EQUAL exp2
-        | exp2 NOT EQUAL exp2
-        | exp2 LESS exp2
-        | exp2 LESS EQUAL exp2
-        | exp2 GREATER exp2
-        | exp2 GREATER EQUAL exp2
-		| exp2
+exp3 ::= exp2 EQUAL exp1
+        | exp2 NOT EQUAL exp1
+        | exp2 LESS exp1
+        | exp2 LESS EQUAL exp1
+        | exp2 GREATER exp1
+        | exp2 GREATER EQUAL exp1
 		;
 
 exp2 ::= exp2 PLUS exp1
