@@ -91,7 +91,7 @@ procedure nested_procedure {
 }
 
 % No-argument function with a nested recursive function
-function nested_factorial {
+function nested_factorial : Integer {
     function factorial(n : Integer) : Integer {
         if n <= 0 then 
             return with 1

@@ -116,9 +116,9 @@ if input1 < 2 or input2 > 5 then {
 
 % Conditional Expressions
 
-write (input1 > 5 ? "True" : "False") % simple text output expression
+write (input1 > 5 ? 1 : 0) % simple text output expression
 write (input1 > 5 ? 4 / 2 : 2 + 2)  % simple arithmetic output expression
-write (input2 - 2 not= -1 and input1 >= 3 ? "True" : "False") % more complex input expression
+write (input2 - 2 not= -1 and input1 >= 3 ? 1 : 0) % more complex input expression
 write (input2 - 3 = 1 or input1 > 3 ? 3 + 2 <= input1 : 3 + 2 > input1) % complex conditional expression with logical output 
 
 

@@ -8,7 +8,7 @@
 	var arr1[4] : Boolean       % Boolean array with size 4
 	var arr2[1..10] : Integer   % Integer array with size 10
 	var arr3[-5..2] : Integer   % Integer array with size 7
-	var arr4[0:0] : Integer		% Integer array with size 1
+	var arr4[0..0] : Integer		% Integer array with size 1
 	var i : Integer             % Indexing integer
 
 	arr1[3] := true				% Assign True to 3rd index
