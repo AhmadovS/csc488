@@ -1,0 +1,18 @@
+{
+	var i:Integer
+	var j:Integer
+	var k:Integer
+
+	i := 1
+	j := 2
+	k := 3
+
+	if i < j then {
+		write "I Parse", newline
+	}
+
+	% Syntax error should occur at line 15
+	if i<=j<=k then {
+		write "I Should Fail", newline
+	}
+}
