@@ -1,0 +1,20 @@
+# Assignment 2
+
+The files that were submitted for Assignment 2 include:
+a) This README.A2 file
+b) A design document (text file) that describes our csc488.cup file
+c) A tests directory containing the various test cases that were used to test our compiler 
+   These tests can be found in the tests/passing and tests/failing directories
+
+Contributions:
+Samud Ahmadov - 
+
+Jathurshanan Satkunarajah - 
+
+Rosario Bevacqua - 
+
+Amir Hossein Heidari Zadi -  
+
+Yang Song - Worked on the dangling else problem, and worked with other team members
+	    to resolve various issues (e.g non-associative operators, erroneous rules)
+	    with the cup grammar
