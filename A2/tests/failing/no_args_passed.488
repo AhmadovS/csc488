@@ -1,0 +1,9 @@
+{
+	% Procedure declaration with one parameter
+	procedure write_number (num : Integer) {
+	    write "Input number:", num, newline
+	    return
+	}
+
+	write_number()
+}
