@@ -115,7 +115,7 @@ nonterminal variablenames, variablename, variable_sublist;
 nonterminal arrayname, functionname, parametername, procedurename;
 nonterminal outputs, output, input, type;
 nonterminal arguments, parameters, parameter;
-nonterminal expression, expcore, exp1, exp2, exp3, exp5;
+nonterminal expression, expcore, exp1, exp2, exp3, exp4, exp5;
 
 // Non-terminals that have a value.
 // nonterminal type  nameList ;
@@ -266,14 +266,16 @@ variablename ::= IDENT;
  */
 expression ::= expression OR exp5 | exp5;
 
-exp5 ::= exp5 AND exp3 | exp3;
+exp5 ::= exp5 AND exp4 | exp4;
+
+exp4 ::= exp4 NOT exp3 | exp3;
 
 // Since (=, not =, <, <=, >, >=) do no associate,
 // following rules are not made recursive.
 
 exp3 ::= exp2 EQUAL exp2
 // TODO: how to avoid conflict with exp4 NOT exp3 ?
-        | exp2 NOT EQUAL exp3
+//        | exp2 NOT EQUAL exp3
         | exp2 LESS exp2
         | exp2 LESS EQUAL exp2
         | exp2 GREATER exp2
