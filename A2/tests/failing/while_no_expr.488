@@ -1,0 +1,10 @@
+% Author: Jathu Satkunarajah (satkun16)
+
+{
+	var n: Integer
+	n := 10
+
+	while do {
+		n := n - 1
+	}
+}

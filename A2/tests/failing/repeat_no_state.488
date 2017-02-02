@@ -1,0 +1,10 @@
+% Author: Jathu Satkunarajah (satkun16)
+
+{
+	var n: Integer
+	n := 10
+
+	% This should fail as no statement implies an infinite loop
+	repeat {
+    } until n >= 0
+}

@@ -1,0 +1,9 @@
+% Author: Jathu Satkunarajah (satkun16)
+
+{
+	function sum (n : Integer) : Integer {
+		% Do stuff but don't return anything, although it expects it. Should fail
+		write "Hello World"
+		return 10
+	}
+}
