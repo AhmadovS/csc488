@@ -1,20 +1,26 @@
 # Assignment 2
 
-The files that were submitted for Assignment 2 include:
-a) This README.A2 file
-b) A design document (text file) that describes our csc488.cup file
-c) A tests directory containing the various test cases that were used to test our compiler 
-   These tests can be found in the tests/passing and tests/failing directories
+-------------------------------------------------------------------------------
+	Grammar Design
+-------------------------------------------------------------------------------
 
-Contributions:
-Samud Ahmadov - Worked on writing grammar and resolving conflicts
+-------------------------------------------------------------------------------
+	Tests
+-------------------------------------------------------------------------------
 
-Jathu Satkunarajah (satkun16) - Tests & docs
 
-Rosario Bevacqua - Fail Tests
+-------------------------------------------------------------------------------
+	Contributions
+-------------------------------------------------------------------------------
 
-Amir Hossein Heidari Zadi -  
+	Samud Ahmadov: Worked on writing grammar and resolving conflicts
 
-Yang Song - Worked on the dangling else problem, and worked with other team members
-	    to resolve various issues (e.g non-associative operators, erroneous rules)
-	    with the cup grammar
+	Jathu Satkunarajah (satkun16): Tests (name indicated on test cases) & docs
+
+	Rosario Bevacqua: Fail Tests
+
+	Amir Hossein Heidari Zadi:
+
+	Yang Song: Worked on the dangling else problem, and worked with other team 
+	members to resolve various issues (e.g non-associative operators, erroneous 
+	rules) with the cup grammar
