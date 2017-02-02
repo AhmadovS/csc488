@@ -1,3 +1,5 @@
+% Author: Jathu Satkunarajah (satkun16)
+
 {
 	% Procedure declaration with one parameter
 	procedure write_number (num : Integer) {

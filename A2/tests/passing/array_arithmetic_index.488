@@ -1,3 +1,5 @@
+% Author: Jathu Satkunarajah (satkun16)
+
 {
 	var arr[10]: Integer
 	var i: Integer
