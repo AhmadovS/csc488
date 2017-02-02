@@ -3,6 +3,19 @@
 -------------------------------------------------------------------------------
 	Grammar Design
 -------------------------------------------------------------------------------
+Below is a list of challenges faced when designing the grammar:
+
+* Making sure that associativity is well-defined in rules that might create ambiguity.
+  this involves arithmetic rules as well as simple rules such as `statement ::= statement statement`
+  Our main method for solving this problem was to make all such rules left-recursive and hence 
+  made language accepted by the parser left-associative by default.
+  
+* Making sure that precedence of operators is well-defined, such that any combinations of these rules
+  would not create any ambiguities.
+  Our main method for solving this problem was to create a nonterminal for each precedence level,
+  and make sure the rules with highest precedence operators are applied first (e.g. see `expcore, exp1` nonterminal)
+  and then the other lower precedence operators.
+  
 
 -------------------------------------------------------------------------------
 	Tests - Jathu Satkunarajah (satkun16)
@@ -22,7 +35,7 @@
 
 	Rosario Bevacqua: Fail Tests
 
-	Amir Hossein Heidari Zadi:
+	Amir Hossein Heidari Zadi: Worked on writing the grammar and resolving conflicts from ambiguities.
 
 	Yang Song: Worked on the dangling else problem, and worked with other team 
 	members to resolve various issues (e.g non-associative operators, erroneous 
