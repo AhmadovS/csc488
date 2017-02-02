@@ -171,9 +171,9 @@ statement ::= simple_stmt
  */
 simple_stmt ::= variable COLON EQUAL expression
                | EXIT
-               | EXIT INTCONST  // TODO: is this supposed to be INTCONST or nonterm of type int?
+               | EXIT INTCONST
                | EXIT WHEN expression
-               | EXIT INTCONST WHEN expression // TODO: is this supposed to be intconst?
+               | EXIT INTCONST WHEN expression
 
                | RETURN WITHX expression
                | RETURN
@@ -191,7 +191,6 @@ selection_stmt ::= IF expression THEN statement
                   | IF expression THEN statement ELSE statement
                   ;
 
-// TODO: should we allow single statement loops or only use scopes?
 loop_stmt ::= WHILE expression DO statement
              | REPEAT statement UNTIL expression
              ;
@@ -211,12 +210,12 @@ variablenames ::= variablenames COMMA variable_sublist
                  | variable_sublist;
 
 variable_sublist ::= IDENT
-                    | IDENT L_SQUARE INTCONST R_SQUARE // TODO: should this be INSCONST?
+                    | IDENT L_SQUARE INTCONST R_SQUARE
                     | IDENT L_SQUARE bound DOT DOT bound R_SQUARE
                     ;
 
 bound ::= INTCONST
-         | MINUS INTCONST  // TODO: should this be INTCONST?!?!?!
+         | MINUS INTCONST
          ;
 
 // output is made left associative

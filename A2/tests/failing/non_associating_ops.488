@@ -15,4 +15,7 @@
 	if i<=j<=k then {
 		write "I Should Fail", newline
 	}
+
+	if i + 1 = j = k - 1 then
+		write "I should fail too", newline
 }

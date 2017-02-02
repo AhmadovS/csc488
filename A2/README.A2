@@ -35,7 +35,7 @@ Below is a list of challenges faced when designing the grammar:
 
 	Rosario Bevacqua: Fail Tests
 
-	Amir Hossein Heidari Zadi: Worked on writing the grammar and resolving conflicts from ambiguities.
+	Amir Hossein Heidari Zadi: Worked on writing the grammar, test code and resolving conflicts from ambiguities.
 
 	Yang Song: Worked on the dangling else problem, and worked with other team 
 	members to resolve various issues (e.g non-associative operators, erroneous 
