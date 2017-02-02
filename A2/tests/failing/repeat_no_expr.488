@@ -1,0 +1,11 @@
+% Author: Jathu Satkunarajah (satkun16)
+
+{
+	var n: Integer
+	n := 10
+
+	repeat {
+		write n
+		n := n - 1
+    } until
+}
