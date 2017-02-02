@@ -5,7 +5,7 @@
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
-	Tests - Jathu
+	Tests - Jathu Satkunarajah (satkun16)
 -------------------------------------------------------------------------------
 	
 	Some of the most obvious tests for failing was to test if the compiler would fail when an incorrect syntax is provided. This was tested for: variables, if, loops, functions and procedures. Variable declaration order is important to any program, so it is strictly tested. For certain statements like loops, leaving out expressions/conditionals will fail. However, leaving out a body/statement for the loop should also fail as not having a body would mean, the loop will repeat forever as there is no termination (which is handled by the body). Other simple tests include mismatching variable types (such as Integer and Boolean). We also test for incorrect arguments, both type and amount.
