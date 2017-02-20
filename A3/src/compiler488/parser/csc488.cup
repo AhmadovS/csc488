@@ -3,6 +3,11 @@
 package compiler488.parser;
 
 import java_cup.runtime.*;		// Must always import this.
+import compiler488.ast.*;		// import all the AST classes (might be a bit overkill)
+import compiler488.ast.decl.*;
+import compiler488.ast.expn.*;
+import compiler488.ast.stmt.*;
+import compiler488.ast.type.*;
 
 /* User code components 1: action code components.
  * Code to be used inside the actions triggered when productions are matched.
@@ -145,14 +150,40 @@ start with program;
  * reads one more token before it will act on the production.
  */
 
-program		::=	scope	;				// the main program
+program		::=	scope:s	
+				{: 
+				Scope scope = (Scope) s;
+				Program program = new Program();
+				program.setDeclarations(scope.getDeclarations());
+				program.setStatements(scope.getStatements());
+				RESULT = program;
+				:}
+				;								// the main program
 
-scope		::=	L_CURLEY  declarations statements  R_CURLEY  	// scope with declarations and statements
-		|	L_CURLEY statements  R_CURLEY 		// scope with statments only
+scope		::=	L_CURLEY  declarations:d statements:s  R_CURLEY  	// scope with declarations and statements
+			{: 
+			System.out.println("Found " + s);
+			Scope scope = new Scope();
+			ASTList<Stmt> statement_list = new ASTList<Stmt>((Stmt)s);
+			scope.setStatements(statement_list);
+			ASTList<Declaration> declaration_list = new ASTList<Declaration>((Declaration)d);
+			scope.setDeclarations(declaration_list);
+			RESULT = scope;
+			:}
+		|	L_CURLEY statements:s  R_CURLEY 		// scope with statments only
+			{: 
+			Scope scope = new Scope();
+			ASTList<Stmt> statement_list = new ASTList<Stmt>((Stmt)s);
+			scope.setStatements(statement_list);
+			RESULT = scope;
+			:}
 		|	L_CURLEY  R_CURLEY			// empty scope
 		;
 
-statements	::=	statement						// sequence of statements
+statements	::=	statement:s						// sequence of statements
+			{: 
+			RESULT = s;
+			:}
 		|	statements statement
 		;
 
@@ -160,7 +191,10 @@ declarations	::=	declaration						// sequence of declarations
 		|	declarations declaration
 		;
 
-statement	::=	matchedStatement
+statement	::=	matchedStatement:m
+			{: 
+			RESULT = m;
+			:}
 		|	unmatchedStatement
 		;
 
@@ -174,7 +208,13 @@ matchedStatement::=	variable COLON EQUAL expression				// assignment statement
 		|	EXIT INTCONST WHEN expression
 		|	RETURN WITHX  expression 
 		|	RETURN 							// return statements
-		|	WRITE outputs						// input/output statments
+		|	WRITE outputs:o						// input/output statments
+			{: 
+			ASTList<Printable> lst = new ASTList<Printable>((Printable)o);
+			WriteStmt stmt = new WriteStmt();
+			stmt.setOutputs(lst);
+			RESULT = stmt; 
+			:}
 		|	READ  inputs
 		|	procedureCall						// procedure call
 		|	scope							// embedded scope
@@ -212,12 +252,20 @@ type		::=	INTEGER			// integer type
 		|	BOOLEAN			// boolean type
 		;
 
-outputs		::=	output			// list of output expressions
+outputs		::=	output:o			// list of output expressions
+			{:
+				RESULT = o;
+			:}
 		|	outputs COMMA output
 		;
 
 output		::=	expression		// integer expression
-		|	TEXTCONST		// text constant
+		|	TEXTCONST:t		// text constant
+			{: 
+				TextConstExpn str = new TextConstExpn();
+				str.setValue(t);
+				RESULT = str;
+			:}
 		|	NEWLINE			// newline constant
 		;
 
