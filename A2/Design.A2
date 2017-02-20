@@ -1,0 +1,17 @@
+Below is a list of challenges faced when designing the grammar:
+
+* Making sure that associativity is well-defined in rules that might create ambiguity.
+  this involves arithmetic rules as well as simple rules such as `statement ::= statement statement`
+
+  The grammar contains a number of such recursive rules, however just writing `A ::= A A` is ambiguous since it can result in more than one possible parse. This was observed with `statement, declaration, output, input, arguments, parameters, expression` non-terminals.
+
+  All such rules have been made left-recrusive and hence left-associative in the grammar file.
+
+  
+* Making sure that precedence of operators is well-defined, such that any combinations of these rules would not create any ambiguities.
+  Our main method for solving this problem was to create a nonterminal for each precedence level, and make sure the rules with highest precedence operators are applied first (e.g. see `expcore, exp1` nonterminal) and then the other lower precedence operators.
+
+  One important problem to consider when defining the precedence rules, is that the reference grammar allows for recursive expression i.e. `expression ::= ( expression )`. However, to define the precedence rules, we defined these rules as `expcore ::= ( expression )` with `expcore` having the hightes precedence level. However, to keep the recursive nature of expressions, we made the `expression` nonterminal the lowest precedence nonterminal, and have the other nonterminals in between (i.e. `exp1, exp2, ..., exp5`) contain rules such as `exp(i+1) ::= exp(i)` for each i. This allowed us to "raise" an `expcore` (or anything with higher precedence than `expression`) all the way to `exp5` and then `expression` if non of the intermediate operators were used.
+  This way we were able to define the precedence operators while keeping the recursive nature of expressions.
+
+* One major problem with the grammar right now is that identifiers are all treated equally, and no check is done to make sure, only declared variables, functions and procedures can be called.

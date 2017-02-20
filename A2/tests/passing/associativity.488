@@ -1,0 +1,41 @@
+% Author: Amir Hossein Heidari Zadi
+
+% Tests for more complex associatvity and precedence rules
+
+{
+
+    var a : Integer
+    var b : Integer
+    var c : Integer
+
+    var P : Boolean
+    var Q : Boolean
+    var R : Boolean
+
+    a := 1
+    b := 2
+
+    P := true
+    Q := false
+    R := false
+
+    % Unary minus, no paranthesis
+    if - a + 3 + 2 * 4 not = 10 then
+        write "something is wrong", newline
+    else
+        write "passed!", newline
+
+
+    % Complex arithmetic operations
+    c := ((-a) + 2 * 3 / 4) * - b
+
+    write "value of c", c, newline
+
+    % Complex boolean operations
+    R := (P and Q or R) or (P or Q or not false and P)
+    if R then
+        write "turns out R is true"
+    else
+        write "turns out R is false"
+
+}
