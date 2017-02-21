@@ -164,27 +164,32 @@ scope		::=	L_CURLEY  declarations:d statements:s  R_CURLEY  	// scope with decla
 			{: 
 			System.out.println("Found " + s);
 			Scope scope = new Scope();
-			ASTList<Stmt> statement_list = new ASTList<Stmt>((Stmt)s);
-			scope.setStatements(statement_list);
-			ASTList<Declaration> declaration_list = new ASTList<Declaration>((Declaration)d);
-			scope.setDeclarations(declaration_list);
+			scope.setStatements((ASTList<Stmt>)s);
+			scope.setDeclarations((ASTList<Declaration>)d);
 			RESULT = scope;
 			:}
 		|	L_CURLEY statements:s  R_CURLEY 		// scope with statments only
 			{: 
 			Scope scope = new Scope();
-			ASTList<Stmt> statement_list = new ASTList<Stmt>((Stmt)s);
-			scope.setStatements(statement_list);
+			scope.setStatements((ASTList<Stmt>)s);
 			RESULT = scope;
 			:}
 		|	L_CURLEY  R_CURLEY			// empty scope
+			{: 
+			Scope scope = new Scope();
+			RESULT = scope;
+			:}
 		;
 
 statements	::=	statement:s						// sequence of statements
 			{: 
-			RESULT = s;
+			ASTList<Stmt> statement_list = new ASTList<Stmt>((Stmt)s);
+			RESULT = statement_list;
 			:}
-		|	statements statement
+		|	statements:ss statement:s
+			{: 
+			RESULT = ((ASTList<Stmt>)ss).addLast((Stmt)s);
+			:}
 		;
 
 declarations	::=	declaration						// sequence of declarations
@@ -198,7 +203,13 @@ statement	::=	matchedStatement:m
 		|	unmatchedStatement
 		;
 
-matchedStatement::=	variable COLON EQUAL expression				// assignment statement
+matchedStatement::=	variable:v COLON EQUAL expression:e				// assignment statement
+			{: 
+			AssignStmt lst = new AssignStmt();
+			lst.setLval((Expn)v);
+			lst.setRval((Expn)e);
+			RESULT = lst; 
+			:}
 		|	IF expression THEN matchedStatement ELSE matchedStatement // if statements
 		|	WHILE expression DO statement				// while statement
 		|	REPEAT statement  UNTIL expression			// repeat statement
@@ -326,13 +337,40 @@ primary		::=	constant				// integer or boolean constant
 		|	L_PAREN  expression QUESTION expression COLON expression R_PAREN
 		;
 
-constant	::=	INTCONST	// integer constant
+constant	::=	INTCONST:i	// integer constant
+			{:
+				IntConstExpn expn = new IntConstExpn();
+				expn.setValue(i);
+				RESULT = expn;
+			:}
 		|	TRUE		// constant true
+			{:
+				BoolConstExpn expn = new BoolConstExpn();
+				expn.setValue(true);
+				RESULT = expn;
+			:}
 		|	FALSE		// constant false
+			{:
+				BoolConstExpn expn = new BoolConstExpn();
+				expn.setValue(false);
+				RESULT = expn;
+			:}
 		;
 
-variable	::=	IDENT					// scalar variable or function call
-		|	IDENT L_SQUARE expression R_SQUARE	// element of an array
+variable	::=	IDENT:i					// scalar variable or function call
+			{:
+				IdentExpn expn = new IdentExpn();
+				expn.setIdent(i);
+				RESULT = expn;
+			:}
+		|	IDENT:i L_SQUARE expression:e R_SQUARE	// element of an array
+			{:
+				SubsExpn expn = new SubsExpn();
+				expn.setOpSymbol("Subs");
+				expn.setOperand((Expn)e);
+				expn.setVariable((String)i);
+				RESULT = expn;
+			:}
 		;
 
 
