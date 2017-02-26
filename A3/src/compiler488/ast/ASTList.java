@@ -46,7 +46,10 @@ public class ASTList<E> extends AST {
 		ll.addLast(ast);
 		return this;
 	}
-
+	
+	public ListIterator getIterator(){
+		return ll.listIterator();
+	}
 	/**
 	 * Ask each element of the list to print itself using
 	 * <b>printOn(out,depth)</b>.  This should only be used when the

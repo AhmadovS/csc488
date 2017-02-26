@@ -1,9 +1,12 @@
 package compiler488.ast.stmt;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
+import compiler488.ast.type.BooleanType;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Represents an if-then or an if-then-else construct.
@@ -60,5 +63,20 @@ public class IfStmt extends Stmt {
 
 	public void setWhenTrue(Stmt whenTrue) {
 		this.whenTrue = whenTrue;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		
+		if (!(this.getCondition().type instanceof BooleanType)){
+			errors.add("The expression of IF statement must be boolean");
+		}
+		
+		this.getWhenTrue().checkSemantics(symbols, errors);
+		
+		if (this.getWhenFalse() != null){
+			this.getWhenFalse().checkSemantics(symbols, errors);
+		}
+		
 	}
 }

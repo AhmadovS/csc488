@@ -1,7 +1,10 @@
 package compiler488.ast.stmt;
 
+import java.util.ArrayList;
+
 import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Represents calling a procedure.
@@ -34,5 +37,11 @@ public class ProcedureCallStmt extends Stmt {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		// TODO Auto-generated method stub
+		
 	}
 }

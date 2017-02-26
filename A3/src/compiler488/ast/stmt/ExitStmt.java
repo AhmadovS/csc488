@@ -1,6 +1,10 @@
 package compiler488.ast.stmt;
 
+import java.util.ArrayList;
+
 import compiler488.ast.expn.*;
+import compiler488.ast.type.BooleanType;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Represents the command to exit from a loop.
@@ -41,6 +45,20 @@ public class ExitStmt extends Stmt {
 
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		// TODO S50 (check inside of loop), S53
+		
+		if(this.expn != null){
+			this.expn.checkSemantics(symbols, errors);
+			
+			if(!(this.expn.getType() instanceof BooleanType)){
+				errors.add("Expression of exit must be boolean");
+			}
+		}
+		
 	}
 
 }

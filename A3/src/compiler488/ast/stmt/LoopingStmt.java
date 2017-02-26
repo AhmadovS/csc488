@@ -1,6 +1,10 @@
 package compiler488.ast.stmt;
 
+import java.util.ArrayList;
+
 import compiler488.ast.expn.Expn;
+import compiler488.ast.type.BooleanType;
+import compiler488.symbol.SymbolTable;
 
 
 /**
@@ -26,5 +30,22 @@ public abstract class LoopingStmt extends Stmt
 	public void setBody(Stmt body) {
 		this.body = body;
 	}
-
+	
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		
+		if(this.getExpn() != null){
+		
+			this.getExpn().checkSemantics(symbols, errors);
+			
+			if (!(this.getExpn().getType() instanceof BooleanType)){
+				errors.add("The expression of loops must be boolean");
+			}
+		}
+		if (this.getBody() != null){
+			this.getBody().checkSemantics(symbols, errors);
+		}
+		
+		
+	}
 }

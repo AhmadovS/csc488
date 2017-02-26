@@ -1,10 +1,12 @@
 package compiler488.ast.stmt;
 
 import java.io.PrintStream;
+import java.util.*;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.decl.Declaration;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Represents the declarations and instructions of a scope construct.
@@ -55,6 +57,23 @@ public class Scope extends Stmt {
 
 	public void setStatements(ASTList<Stmt> statements) {
 		this.statements = statements;
+	}
+	
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+		symbols.startScope();
+		
+		ListIterator stmts = this.getStatements().getIterator();
+		ListIterator decls = this.getDeclarations().getIterator();
+		
+		while(stmts.hasNext()){
+			((Stmt) stmts.next()).checkSemantics(symbols,  errors);
+		}
+		
+		while(decls.hasNext()){
+			((Declaration) decls.next()).checkSemantics(symbols,  errors);
+		}
+		
+		symbols.exitScope();
 	}
 
 }

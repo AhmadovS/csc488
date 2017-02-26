@@ -1,9 +1,11 @@
 package compiler488.ast.stmt;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
+import compiler488.symbol.SymbolTable;
 
 /**
  * The command to return from a function or procedure.
@@ -35,5 +37,11 @@ public class ReturnStmt extends Stmt {
 
 	public void setValue(Expn value) {
 		this.value = value;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		// TODO Auto-generated method stub
+		
 	}
 }

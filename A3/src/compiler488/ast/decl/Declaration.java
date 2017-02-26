@@ -1,7 +1,10 @@
 package compiler488.ast.decl;
 
+import java.util.ArrayList;
+
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
+import compiler488.symbol.SymbolTable;
 
 /**
  * The common features of declarations.
@@ -27,5 +30,9 @@ public class Declaration extends Indentable {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+	
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+		
 	}
 }

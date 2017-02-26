@@ -1,6 +1,9 @@
 package compiler488.ast.stmt;
 
+import java.util.ArrayList;
+
 import compiler488.ast.expn.Expn;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Holds the assignment of an expression to a variable.
@@ -32,5 +35,17 @@ public class AssignStmt extends Stmt {
 
 	public void setRval(Expn rval) {
 		this.rval = rval;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		
+		this.getLval().checkSemantics(symbols, errors);
+		
+		this.getRval().checkSemantics(symbols, errors);
+		
+		if(!lval.getType().equals(rval.getType())){
+			errors.add("The type left and right hand of assignments do not match");
+		}
 	}
 }

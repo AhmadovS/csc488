@@ -1,7 +1,10 @@
 package compiler488.ast.stmt;
 
+import java.util.ArrayList;
+
 import compiler488.ast.ASTList;
 import compiler488.ast.Readable;
+import compiler488.symbol.SymbolTable;
 
 /**
  * The command to read data into one or more variables.
@@ -26,5 +29,11 @@ public class ReadStmt extends Stmt {
 
 	public void setInputs(ASTList<Readable> inputs) {
 		this.inputs = inputs;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		// TODO Auto-generated method stub
+		
 	}
 }
