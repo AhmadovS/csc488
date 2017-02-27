@@ -56,6 +56,16 @@ public class SymbolTable {
 	public void exitScope(){
 		symbolTable.pop();
 	}
+	
+	// TODO: getsymbol from table
+	public Symbol getSymbol(String name){
+		return null;
+	}
+	
+	// TODO addSymbol to table
+	public void addSymbol(Symbol sm){
+		
+	}
 
 	/**  Initialize - called once by semantic analysis  
 	 *                at the start of  compilation     

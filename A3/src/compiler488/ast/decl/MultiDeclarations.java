@@ -1,9 +1,12 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Holds the declaration of multiple elements.
@@ -46,5 +49,21 @@ public class MultiDeclarations extends Declaration {
 
 	public void setElements(ASTList<DeclarationPart> elements) {
 		this.elements = elements;
+	}
+	
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+		
+		ListIterator li = this.getElements().getIterator();
+		
+		while(li.hasNext()){
+			DeclarationPart decl =  (DeclarationPart) li.next(); 
+			decl.checkSemantics(symbols,errors);
+			
+			if(symbols.getSymbol(decl.getName()) != null){
+				errors.add("Variable has already been declared");
+			}
+			// TODO add multiple decls to symbol table
+		}
+		
 	}
 }

@@ -1,5 +1,10 @@
 package compiler488.ast.expn;
 
+import java.util.ArrayList;
+
+import compiler488.ast.type.BooleanType;
+import compiler488.symbol.SymbolTable;
+
 /**
  * Boolean literal constants.
  */
@@ -19,5 +24,9 @@ public class BoolConstExpn extends ConstExpn
 
 	public void setValue(boolean value) {
 		this.value = value;
+	}
+	
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+		this.setType(new BooleanType());
 	}
 }
