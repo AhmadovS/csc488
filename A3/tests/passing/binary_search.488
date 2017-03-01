@@ -1,0 +1,38 @@
+% Very simple binary search test
+% Author: Jathu Satkunarajah (satkun16)
+
+{
+	var arr[10] : Integer
+	var i: Integer
+	var j: Integer
+	var m: Integer
+	var want: Integer
+
+	% Initial variable assignment
+	i := 1
+	j := 10
+	m := 0
+	want := 8
+
+	% Assign some values
+	while i <= 10 do {
+		arr[i] := i * 2
+		i := i + 1
+	}
+
+	% Reset pointers and find wanted number
+	i := 1
+	while not i = j do {
+		m := (i+j)/2
+		if arr[m] = want then {
+			write "Found at: ", m, newline
+			exit
+		} else {
+			if want <= arr[m] then {
+				j := m
+			} else {
+				i := m
+			}
+		}
+	}
+}
