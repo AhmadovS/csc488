@@ -7,8 +7,8 @@ import compiler488.ast.OPSYMBOL;
  */
 public class UnaryMinusExpn extends UnaryExpn {
 
-	public UnaryMinusExpn(Expn operand, String opSymbol) {
-		super(operand, OPSYMBOL.MINUS);
+	public UnaryMinusExpn(Expn operand) {
+		super(OPSYMBOL.MINUS, operand);
 	}
 
 }

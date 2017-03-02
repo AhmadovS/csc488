@@ -14,7 +14,7 @@ public class SubsExpn extends UnaryExpn implements Readable {
 	private String variable; // name of the array variable
 	
     public SubsExpn(Expn operand, String variable) {
-    	super(operand, OPSYMBOL.SUB);
+    	super(OPSYMBOL.SUB, operand);
     	this.variable = variable;
     }
 

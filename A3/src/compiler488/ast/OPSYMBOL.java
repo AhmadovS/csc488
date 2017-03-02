@@ -3,7 +3,7 @@ package compiler488.ast;
 public interface OPSYMBOL {
 	String PLUS = "+";
 	String MINUS = "-";
-	String MULTIPLY = "*";
+	String TIMES = "*";
 	String DIVIDE = "/";
 	String OR = "OR";
 	String AND = "AND";

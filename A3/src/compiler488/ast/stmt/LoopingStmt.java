@@ -14,7 +14,7 @@ public abstract class LoopingStmt extends Stmt {
     protected Stmt body;	  // body of ther loop
     protected Expn expn;          // Loop condition
     
-    public LoopingStmt(Stmt body, Expn expn) {
+    public LoopingStmt(Expn expn, Stmt body) {
     	this.body = body;
     	this.expn = expn;
     }

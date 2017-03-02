@@ -22,8 +22,13 @@ public class RoutineDecl extends Declaration {
 	 */
 	private RoutineBody routineBody;
 	
-	public RoutineDecl(String name, RoutineBody routineBody, Type type) {
+	public RoutineDecl(String name, Type type, RoutineBody routineBody) {
 		super(name, type);
+		this.routineBody = routineBody;
+	}
+	
+	public RoutineDecl(String name, RoutineBody routineBody) {
+		super(name, null);
 		this.routineBody = routineBody;
 	}
 

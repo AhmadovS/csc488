@@ -14,12 +14,21 @@ public class ArrayDeclPart extends DeclarationPart {
     private Integer lb, ub, lb2,up2;
     private String name;
     private boolean is2d; //TODO: do we really have 2-dim array
-    private Type type;
+    private Type type = null;
         
 	/* The number of objects the array holds. */
 	private Integer size;
 	
-	public ArrayDeclPart(String name,Type type, int lb, int up){
+	public ArrayDeclPart(String name, int lb, int up){
+		super(name);
+		
+		this.lb = lb;
+		this.ub = up;
+		this.is2d = false;
+	}
+	
+	
+	public ArrayDeclPart(String name, Type type, int lb, int up){
 		super(name);
 		
 		this.lb = lb;

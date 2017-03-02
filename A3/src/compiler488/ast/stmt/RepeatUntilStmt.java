@@ -10,8 +10,8 @@ import compiler488.ast.expn.Expn;
  */
 public class RepeatUntilStmt extends LoopingStmt {
 	
-	public RepeatUntilStmt(Stmt body, Expn expn) {
-		super(body, expn);
+	public RepeatUntilStmt(Expn expn, Stmt body) {
+		super(expn, body);
 	}
 
 	/**

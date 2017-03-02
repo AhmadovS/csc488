@@ -25,6 +25,10 @@ public class IfStmt extends Stmt {
 		this.whenTrue = whenTrue;
 		this.whenFalse = whenFalse;
 	}
+	
+	public IfStmt(Expn condition, Stmt whenTrue) {
+		this.whenTrue = whenTrue;
+	}
 
 	/**
 	 * Print a description of the <b>if-then-else</b> construct. If the
