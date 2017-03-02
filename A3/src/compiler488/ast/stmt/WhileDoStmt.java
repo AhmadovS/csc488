@@ -3,11 +3,17 @@ package compiler488.ast.stmt;
 import java.io.PrintStream;
 
 import compiler488.ast.Indentable;
+import compiler488.ast.expn.Expn;
 
 /**
  * Represents a loop in which the exit condition is evaluated before each pass.
  */
 public class WhileDoStmt extends LoopingStmt {
+
+	public WhileDoStmt(Stmt body, Expn expn) {
+		super(body, expn);
+	}
+
 	/**
 	 * Print a description of the <b>while-do</b> construct.
 	 * 

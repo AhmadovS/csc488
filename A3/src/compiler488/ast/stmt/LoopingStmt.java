@@ -47,6 +47,7 @@ public abstract class LoopingStmt extends Stmt
 				errors.add("The expression of loops must be boolean");
 			}
 		}
+
 		if (this.getBody() != null){
 			this.getBody().checkSemantics(symbols, errors);
 		}

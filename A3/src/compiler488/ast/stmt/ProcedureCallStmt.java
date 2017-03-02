@@ -50,9 +50,7 @@ public class ProcedureCallStmt extends Stmt {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		
-		
-		
+
 		if(symbols.getSymbol(this.name) == null){
 			errors.add("Procedure has not been declared");
 		}else if(!(symbols.getSymbol(this.name) instanceof RoutineSymbol)){

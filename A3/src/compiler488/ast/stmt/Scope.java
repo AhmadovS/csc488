@@ -60,7 +60,7 @@ public class Scope extends Stmt {
 	}
 	
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
-    
+
         ListIterator stmts = this.getStatements().getIterator();
         ListIterator decls = this.getDeclarations().getIterator();
 
