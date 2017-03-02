@@ -3,11 +3,17 @@ package compiler488.ast.stmt;
 import java.io.PrintStream;
 
 import compiler488.ast.Indentable;
+import compiler488.ast.expn.Expn;
 
 /**
  * Represents a loop in which the exit condition is evaluated after each pass.
  */
 public class RepeatUntilStmt extends LoopingStmt {
+	
+	public RepeatUntilStmt(Stmt body, Expn expn) {
+		super(body, expn);
+	}
+
 	/**
 	 * Print a description of the <b>repeat-until</b> construct.
 	 * 
