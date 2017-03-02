@@ -62,16 +62,16 @@ public class Scope extends Stmt {
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 		symbols.startScope();
 		
-		ListIterator stmts = this.getStatements().getIterator();
-		ListIterator decls = this.getDeclarations().getIterator();
-		
-		while(stmts.hasNext()){
-			((Stmt) stmts.next()).checkSemantics(symbols,  errors);
-		}
-		
-		while(decls.hasNext()){
-			((Declaration) decls.next()).checkSemantics(symbols,  errors);
-		}
+            ListIterator stmts = this.getStatements().getIterator();
+            ListIterator decls = this.getDeclarations().getIterator();
+
+            while(stmts.hasNext()){
+                ((Stmt) stmts.next()).checkSemantics(symbols,  errors);
+            }
+
+            while(decls.hasNext()){
+                ((Declaration) decls.next()).checkSemantics(symbols,  errors);
+            }
 		
 		symbols.exitScope();
 	}

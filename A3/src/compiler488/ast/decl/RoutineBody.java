@@ -2,10 +2,12 @@ package compiler488.ast.decl;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.stmt.Scope;
+import compiler488.symbol.ParamsSymbol;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -54,7 +56,20 @@ public class RoutineBody extends Indentable {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-	    // TODO: need to add the parameters to the symbol table declared in body scope
+
+		// Adds parameters to the scope
+		ListIterator<ScalarDecl> li = this.parameters.getIterator();
+		while (li.hasNext()) {
+			ScalarDecl param = li.next();
+			symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()));
+		}
+
+		// S04, S08 - Starts function and procedure scope
+		symbols.startScope();
+
+			this.body.checkSemantics(symbols, errors);
+
+		symbols.exitScope();
 
 	}
 }

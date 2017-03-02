@@ -23,15 +23,24 @@ public class RoutineSymbol extends Symbol{
 	public ASTList<Type> getParams(){
 		return this.params;
 	}
+
+	public int getParamCount() {
+		return this.paramCount;
+	}
 	
 	public void setParams(ASTList<Type> params){
 		this.params = params;
 		this.paramCount = params.size();
 	}
-	
+
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -40,15 +49,9 @@ public class RoutineSymbol extends Symbol{
 	}
 
 	@Override
-	public void setName(String name) {
-		this.name = name;
-		
-	}
-
-	@Override
 	public void setType(Type type) {
 		this.type = type;
-		
+
 	}
-	
+
 }

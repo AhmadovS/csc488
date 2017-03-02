@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
+import compiler488.ast.type.Type;
 import compiler488.symbol.ParamsSymbol;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.Symbol;
@@ -62,19 +63,20 @@ public class RoutineDecl extends Declaration {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-	    // S11 - Declare function with no parameters and specified type.
-		// S11, S17, S14,
 
-		// Iterates through the parameters of the body and
-		ASTList<Symbol> paramsSyms = new ASTList<>();
+		// Iterates through the parameters of the body and gets their type
+		ASTList<Type> paramsTypes = new ASTList<>();
 		ListIterator li = this.getRoutineBody().getParameters().getIterator();
 		while (li.hasNext()) {
 		    Declaration param = (Declaration) li.next();
-		    paramsSyms.addLast(new ParamsSymbol(param.getName(), param.getType()));
+		    paramsTypes.addLast(param.getType());
 		}
-		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsSyms);
+		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsTypes);
 
-		// Adding routine symbol to symbol table
+		// S11, S12, S17, S18 - Adding routine symbol to symbol table
 		symbols.addSymbol(sym);
+
+        // Calls semantics check on the body
+        this.routineBody.checkSemantics(symbols, errors);
 	}
 }
