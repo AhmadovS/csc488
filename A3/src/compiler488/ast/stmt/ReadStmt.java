@@ -13,8 +13,8 @@ public class ReadStmt extends Stmt {
 	
 	private ASTList<Readable> inputs; // A list of locations to put the values read.
 
-	public ReadStmt () {
-		inputs = new ASTList<Readable> ();
+	public ReadStmt(ASTList<Readable> inputs) {
+		this.inputs = inputs;
 	}
 	
 	/** Returns a string describing the <b>read</b> statement. */

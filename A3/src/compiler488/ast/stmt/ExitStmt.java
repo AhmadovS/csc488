@@ -13,8 +13,13 @@ import compiler488.symbol.SymbolTable;
 public class ExitStmt extends Stmt {
 
 	// condition for 'exit when'
-        private Expn expn = null;
+    private Expn expn = null;
 	private Integer level = -1 ;
+	
+	public ExitStmt(Expn expn, Integer level) {
+		this.expn = expn;
+		this.level = level;
+	}
 
 	/** Returns the string <b>"exit"</b> or <b>"exit when e"</b>" 
             or  <b>"exit"</b> level  or  <b>"exit"</b> level  when e 

@@ -12,8 +12,13 @@ import compiler488.symbol.SymbolTable;
  */
 public abstract class LoopingStmt extends Stmt
 {
-    protected Stmt body ;	  // body of ther loop
+    protected Stmt body;	  // body of ther loop
     protected Expn expn;          // Loop condition
+    
+    public LoopingStmt(Stmt body, Expn expn) {
+    	this.body = body;
+    	this.expn = expn;
+    }
 
 	public Expn getExpn() {
 		return expn;

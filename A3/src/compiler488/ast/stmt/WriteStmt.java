@@ -12,8 +12,8 @@ import compiler488.symbol.SymbolTable;
 public class WriteStmt extends Stmt {
 	private ASTList<Printable> outputs; // The objects to be printed.
 
-	public WriteStmt () {
-		outputs = new ASTList<Printable> ();
+	public WriteStmt(ASTList<Printable> outputs) {
+		this.outputs = outputs;
 	}
 	
 	/** Returns a description of the <b>write</b> statement. */

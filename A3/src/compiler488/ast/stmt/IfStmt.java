@@ -20,6 +20,11 @@ public class IfStmt extends Stmt {
 
 	// Represents the statement to execute when the condition is false.
 	private Stmt whenFalse = null;
+	
+	public IfStmt(Expn condition, Stmt whenTrue, Stmt whenFalse) {
+		this.whenTrue = whenTrue;
+		this.whenFalse = whenFalse;
+	}
 
 	/**
 	 * Print a description of the <b>if-then-else</b> construct. If the

@@ -14,6 +14,11 @@ public class AssignStmt extends Stmt {
 	 * assigned.
 	 */
 	private Expn lval, rval;
+	
+	public AssignStmt(Expn lval, Expn rval) {
+		this.lval = lval;
+		this.rval = rval;
+	}
 
 	/** Returns a string that describes the assignment statement. */
 	@Override
