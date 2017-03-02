@@ -18,9 +18,13 @@ public class ScalarDecl extends Declaration {
 	public String toString() {
 		return  name + " : " + type ;
 	}
-	
+
+	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
-		
+
+	    //TODO: does this check need to happen here,
+		// should SymbolTable.addSymbol already have taken care of this?
+
 		if(symbols.getSymbol(this.getName()) != null){
 			errors.add("Scalar variable has been already declared");
 		}

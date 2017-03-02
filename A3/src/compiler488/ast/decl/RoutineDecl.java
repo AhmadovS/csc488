@@ -64,6 +64,9 @@ public class RoutineDecl extends Declaration {
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 
+		// TODO: check if the symbol table already contains declaration
+        // should this be the job of SymbolTable.addSymbol()?
+
 		// Iterates through the parameters of the body and gets their type
 		ASTList<Type> paramsTypes = new ASTList<>();
 		ListIterator li = this.getRoutineBody().getParameters().getIterator();
