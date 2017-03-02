@@ -5,8 +5,8 @@ package compiler488.ast.expn;
  * The common features of binary expressions.
  */
 public class BinaryExpn extends Expn {
-    Expn left, right;	/* Left and right operands of the binary operator. */
-    String opSymbol;	/* Name of the operator. */
+    private Expn left, right;	/* Left and right operands of the binary operator. */
+    private String opSymbol;	/* Name of the operator. */
     
     public BinaryExpn(String opSymbol, Expn left, Expn right) {
     	this.opSymbol = opSymbol;
