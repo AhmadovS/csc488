@@ -19,7 +19,6 @@ public class BoolExpn extends BinaryExpn {
 
 		// S30 - checks left expression is boolean
 		this.getLeft().checkSemantics(symbols, errors);
-
 		if(!(this.getLeft().getType() instanceof BooleanType)){
 			errors.add("Left side of boolean operation must be boolean");
 		}
