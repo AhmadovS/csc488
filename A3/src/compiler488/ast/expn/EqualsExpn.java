@@ -11,8 +11,11 @@ import compiler488.symbol.SymbolTable;
  */
 public class EqualsExpn extends BinaryExpn {
 
+	public EqualsExpn(String opSymbol, Expn left, Expn right) {
+    	super(opSymbol, left, right);
+    }
 	
-public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 		
 		this.getLeft().checkSemantics(symbols, errors);
 		this.getRight().checkSemantics(symbols, errors);

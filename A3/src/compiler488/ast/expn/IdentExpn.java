@@ -5,15 +5,20 @@ import compiler488.ast.Readable;
 /**
  *  References to a scalar variable.
  */
-public class IdentExpn extends Expn implements Readable
-    {
+public class IdentExpn extends Expn implements Readable {
     private String ident;  	// name of the identifier
+    
+    public IdentExpn(String ident) {
+    	this.ident = ident;
+    }
 
     /**
      * Returns the name of the variable or function.
      */
     @Override
-	public String toString () { return ident; }
+	public String toString () { 
+    	return ident;
+    }
 
 	public String getIdent() {
 		return ident;

@@ -714,9 +714,7 @@ constant	::=	INTCONST:i	// integer constant
 
 variable	::=	IDENT:i					// scalar variable or function call
 			{:
-				IdentExpn expn = new IdentExpn();
-				expn.setIdent(i);
-				RESULT = expn;
+				RESULT = new IdentExpn(i);
 			:}
 		|	IDENT:i L_SQUARE expression:e R_SQUARE	// element of an array
 			{:

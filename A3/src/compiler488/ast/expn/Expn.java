@@ -14,9 +14,7 @@ public class Expn extends AST implements Printable {
 	
 	public Type type;
 	
-	
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		
 		
 	}
 	

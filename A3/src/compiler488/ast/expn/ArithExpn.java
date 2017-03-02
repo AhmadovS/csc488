@@ -10,7 +10,10 @@ import compiler488.symbol.SymbolTable;
  * expressions.
  */
 public class ArithExpn extends BinaryExpn {
-
+	
+	public ArithExpn(String opSymbol, Expn left, Expn right) {
+    	super(opSymbol, left, right);
+    }
 	
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 		
