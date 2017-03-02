@@ -20,7 +20,8 @@ public class ArrayDeclPart extends DeclarationPart {
 	private Integer size;
 	
 	public ArrayDeclPart(String name,Type type, int lb, int up){
-		this.name = name;
+		super(name);
+		
 		this.lb = lb;
 		this.ub = up;
 		this.is2d = false;
@@ -28,7 +29,8 @@ public class ArrayDeclPart extends DeclarationPart {
 	}
 	
 	public ArrayDeclPart(String name, Type type, int lb, int up, int lb2, int up2){
-		this.name = name;
+		super(name);
+		
 		this.lb = lb;
 		this.ub = up;
 		this.lb2 = lb2;
@@ -58,11 +60,11 @@ public class ArrayDeclPart extends DeclarationPart {
 	}
 
     public void setLowerBoundary(Integer lb) {
-                                           this.lb = lb;
-                                                        }
+    	this.lb = lb;
+    }
 
     public void setUpperBoundary(Integer ub) {
-                                           this.ub = ub;
+    	this.ub = ub;
 	}
 
 	public void setSize(Integer size) {
