@@ -21,6 +21,11 @@ public class MultiDeclarations extends Declaration {
 		this.elements = elements;
 	}
 	
+	public MultiDeclarations(Type type, ASTList<DeclarationPart> elements) {
+		super("", type);
+		this.elements = elements;
+	}
+	
 	/**
 	 * Returns a string that describes the array.
 	 */

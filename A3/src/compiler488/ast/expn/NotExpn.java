@@ -7,8 +7,8 @@ import compiler488.ast.OPSYMBOL;
  */
 public class NotExpn extends UnaryExpn {
 
-    public NotExpn(Expn operand) {
-    	super(operand, OPSYMBOL.NOT);
+    public NotExpn(String opSymbol, Expn operand) {
+    	super(opSymbol, operand);
     }
 	
 }

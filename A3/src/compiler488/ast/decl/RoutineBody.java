@@ -19,6 +19,16 @@ public class RoutineBody extends Indentable {
 	private ASTList<ScalarDecl> parameters; // The formal parameters of the routine.
 
 	private Scope body; // Execute this scope when routine is called.
+	
+	public RoutineBody(ASTList<ScalarDecl> parameters, Scope body) {
+		this.body = body;
+		this.parameters = parameters;
+	}
+	
+	public RoutineBody(Scope body) {
+		this.body = body;
+		this.parameters = new ASTList<ScalarDecl>();
+	}
 
 	/**
 	 * Print a description of the formal parameters and the scope for this
