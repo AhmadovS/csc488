@@ -3,9 +3,12 @@ package compiler488.ast.expn;
 /**
  * Represents a literal integer constant.
  */
-public class IntConstExpn extends ConstExpn
-    {
+public class IntConstExpn extends ConstExpn {
     private Integer value;	// The value of this literal.
+    
+    public IntConstExpn(Integer value) {
+    	this.value = value;
+    }
 
     /** Returns a string representing the value of the literal. */
     @Override

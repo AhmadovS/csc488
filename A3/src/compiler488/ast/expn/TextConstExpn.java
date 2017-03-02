@@ -7,6 +7,10 @@ import compiler488.ast.Printable;
  */
 public class TextConstExpn extends ConstExpn implements Printable {
 	private String value; // The value of this literal.
+	
+	public TextConstExpn(String value) {
+		this.value = value;
+	}
 
 	/** Returns a description of the literal text constant. */
 	@Override
