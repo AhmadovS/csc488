@@ -20,6 +20,7 @@ public abstract class DeclarationPart extends AST {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public abstract void checkSemantics(SymbolTable symbols, ArrayList<String> errors);
 
 }

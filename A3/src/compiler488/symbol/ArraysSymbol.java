@@ -8,7 +8,8 @@ public class ArraysSymbol extends VariablesSymbol{
 	int upperBound1;
 	int lowerBound2;
 	int upperBound2;
-	
+
+	// TODO: do we actually have 2-dim arrays?
 	boolean twoDim = false;
 	
 	public ArraysSymbol(String name, Type type, int lb1, int up1) {

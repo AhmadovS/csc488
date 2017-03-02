@@ -3,25 +3,30 @@ package compiler488.symbol;
 import compiler488.ast.ASTList;
 import compiler488.ast.type.Type;
 
+import java.util.ListIterator;
 
-public class FunctionsSymbol extends Symbol{
+
+public class RoutineSymbol extends Symbol{
 	
 	private String name;
 	private Type type;
-	private ASTList<Symbol> params;
+	private ASTList<Type> params;
+	private int paramCount;
 	
-	public FunctionsSymbol(String name, Type type, ASTList<Symbol> params){
+	public RoutineSymbol(String name, Type type, ASTList<Type> params){
 		this.name = name;
 		this.type = type;
 		this.params = params;
+		this.paramCount = params.size();
 	}
 	
-	public ASTList<Symbol> getParams(){
+	public ASTList<Type> getParams(){
 		return this.params;
 	}
 	
-	public void setParams(ASTList<Symbol>  params){
+	public void setParams(ASTList<Type> params){
 		this.params = params;
+		this.paramCount = params.size();
 	}
 	
 	@Override

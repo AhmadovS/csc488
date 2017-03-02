@@ -1,16 +1,19 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.stmt.Scope;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Represents the parameters and instructions associated with a
  * function or procedure.
  */
 public class RoutineBody extends Indentable {
+
 	private ASTList<ScalarDecl> parameters; // The formal parameters of the routine.
 
 	private Scope body; // Execute this scope when routine is called.
@@ -47,5 +50,11 @@ public class RoutineBody extends Indentable {
 
 	public void setParameters(ASTList<ScalarDecl> parameters) {
 		this.parameters = parameters;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	    // TODO: need to add the parameters to the symbol table declared in body scope
+
 	}
 }

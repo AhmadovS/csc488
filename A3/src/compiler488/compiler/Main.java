@@ -385,8 +385,8 @@ public class Main {
    */
   public static void main(String argv[]) 
     {
-	Object parserResult  ;	// the result of parsing and AST building
-        Program  programAST  = null ;
+        Object parserResult  ;	// the result of parsing and AST building
+        Program  programAST = null ;
 
 	/* process user options and arguments */
 	try{
@@ -461,7 +461,7 @@ public class Main {
 	       }
 
 	try{
-	   // INSERT CODE HERE TO DO SEMANTIC ANALYSIS
+	   // TODO: INSERT CODE HERE TO DO SEMANTIC ANALYSIS
            // e.g.
 	   // programAST.doSemantics() ;
 	   // or

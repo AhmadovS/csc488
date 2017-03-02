@@ -1,6 +1,9 @@
 package compiler488.ast;
 
+import compiler488.symbol.SymbolTable;
+
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -50,6 +53,12 @@ public class ASTList<E> extends AST {
 	public ListIterator getIterator(){
 		return ll.listIterator();
 	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+
+	}
+
 	/**
 	 * Ask each element of the list to print itself using
 	 * <b>printOn(out,depth)</b>.  This should only be used when the
