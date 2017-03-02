@@ -15,7 +15,6 @@ public class BoolExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 		
 		this.getLeft().checkSemantics(symbols, errors);

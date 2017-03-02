@@ -8,10 +8,14 @@ import compiler488.symbol.*;
 /** Represents a conditional expression (i.e., x>0?3:4). */
 public class ConditionalExpn extends Expn {
 	private Expn condition; // Evaluate this to decide which value to yield.
-
 	private Expn trueValue; // The value is this when the condition is true.
-
 	private Expn falseValue; // Otherwise, the value is this.
+	
+	public ConditionalExpn(Expn condition, Expn trueValue, Expn falseValue) {
+		this.condition = condition;
+		this.trueValue = trueValue;
+		this.falseValue = falseValue;
+	}
 
 	/** Returns a string that describes the conditional expression. */
 	@Override

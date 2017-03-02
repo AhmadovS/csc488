@@ -13,4 +13,6 @@ public interface OPSYMBOL {
 	String LESS_THAN_EQUALS = "<=";
 	String GREATER_THAN = ">";
 	String GREATER_THAN_EQUALS = ">=";
+	String NOT = "NOT";
+	String SUB = "Subscript";
 }

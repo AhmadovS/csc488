@@ -1,5 +1,6 @@
 package compiler488.ast.expn;
 
+import compiler488.ast.OPSYMBOL;
 import compiler488.ast.Readable;
 
 /**
@@ -9,8 +10,13 @@ import compiler488.ast.Readable;
  * operand must be an integer expression
  */
 public class SubsExpn extends UnaryExpn implements Readable {
-
+	
 	private String variable; // name of the array variable
+	
+    public SubsExpn(Expn operand, String variable) {
+    	super(operand, OPSYMBOL.SUB);
+    	this.variable = variable;
+    }
 
 	/** Returns a string that represents the array subscript. */
 	@Override
