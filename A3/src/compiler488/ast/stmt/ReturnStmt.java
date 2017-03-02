@@ -45,7 +45,8 @@ public class ReturnStmt extends Stmt {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		// TODO Auto-generated method stub
-		
+
+
+
 	}
 }

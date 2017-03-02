@@ -12,6 +12,7 @@ import compiler488.symbol.SymbolTable;
  * Represents the declarations and instructions of a scope construct.
  */
 public class Scope extends Stmt {
+
 	private ASTList<Declaration> declarations; // The declarations at the top.
 	private ASTList<Stmt> statements; // The statements to execute.
 
@@ -59,20 +60,18 @@ public class Scope extends Stmt {
 	}
 	
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
-		symbols.startScope();
-		
-            ListIterator stmts = this.getStatements().getIterator();
-            ListIterator decls = this.getDeclarations().getIterator();
+    
+        ListIterator stmts = this.getStatements().getIterator();
+        ListIterator decls = this.getDeclarations().getIterator();
 
-            while(stmts.hasNext()){
-                ((Stmt) stmts.next()).checkSemantics(symbols,  errors);
-            }
+        while(stmts.hasNext()){
+            ((Stmt) stmts.next()).checkSemantics(symbols,  errors);
+        }
 
-            while(decls.hasNext()){
-                ((Declaration) decls.next()).checkSemantics(symbols,  errors);
-            }
-		
-		symbols.exitScope();
+        while(decls.hasNext()){
+            ((Declaration) decls.next()).checkSemantics(symbols,  errors);
+        }
+
 	}
 
 }
