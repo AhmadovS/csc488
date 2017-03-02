@@ -29,7 +29,7 @@ public class ArithExpn extends BinaryExpn {
 			errors.add("Right side of arithmetic operation must be integer");
 		}
 
-		// S12 - sets result type to integer
+		// S21 - sets result type to integer
 		this.setType(new IntegerType());
 	}
 }
