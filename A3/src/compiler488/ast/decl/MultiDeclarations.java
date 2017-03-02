@@ -42,7 +42,6 @@ public class MultiDeclarations extends Declaration {
 		Indentable.printIndentOn (out, depth, this + " ");
 	}
 
-
 	public ASTList<DeclarationPart> getElements() {
 		return elements;
 	}
@@ -50,19 +49,21 @@ public class MultiDeclarations extends Declaration {
 	public void setElements(ASTList<DeclarationPart> elements) {
 		this.elements = elements;
 	}
-	
+
+	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
-		
+
 		ListIterator li = this.getElements().getIterator();
 		
 		while(li.hasNext()){
 			DeclarationPart decl =  (DeclarationPart) li.next(); 
-			decl.checkSemantics(symbols,errors);
-			
+			decl.checkSemantics(symbols, errors);
+
+			// TODO: each implementation of DeclarationPart already checks for this
 			if(symbols.getSymbol(decl.getName()) != null){
 				errors.add("Variable has already been declared");
 			}
-			// TODO add multiple decls to symbol table
+			// TODO add multiple decls to symbol table (is this needed?)
 		}
 		
 	}

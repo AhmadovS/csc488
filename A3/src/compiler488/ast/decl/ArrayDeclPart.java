@@ -13,7 +13,7 @@ public class ArrayDeclPart extends DeclarationPart {
 	/* The lower and upper boundaries of the array. */
     private Integer lb, ub, lb2,up2;
     private String name;
-    private boolean is2d;
+    private boolean is2d; //TODO: do we really have 2-dim array
     private Type type;
         
 	/* The number of objects the array holds. */
@@ -49,7 +49,6 @@ public class ArrayDeclPart extends DeclarationPart {
 		return size;
 	}
 
-
 	public Integer getLowerBoundary() {
 		return lb;
 	}
@@ -58,26 +57,30 @@ public class ArrayDeclPart extends DeclarationPart {
 		return ub;
 	}
 
-        public void setLowerBoundary(Integer lb) {
-		this.lb = lb;
-	}
+    public void setLowerBoundary(Integer lb) {
+                                           this.lb = lb;
+                                                        }
 
-        public void setUpperBoundary(Integer ub) {
-		this.ub = ub;
+    public void setUpperBoundary(Integer ub) {
+                                           this.ub = ub;
 	}
 
 	public void setSize(Integer size) {
 		this.size = size;
 	}
-	
+
+	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 		if(symbols.getSymbol(this.name) != null){
 			errors.add("Variable has been already declared");
 		}
-		
+
+		// S46 Check that lower bound is <= upper bound
 		if(this.lb>this.ub || (this.is2d && (this.lb2>this.up2))){
 			errors.add("The lower bound must be smaller than upper bound");
 		}
+
+		// S19 and S48 Declaring the array by adding it to the symbol table
 		if(!this.is2d){
 			ArraysSymbol array = new ArraysSymbol(this.name,this.type, this.lb, this.ub);
 			symbols.addSymbol(array);

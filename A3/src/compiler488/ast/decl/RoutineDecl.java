@@ -1,8 +1,16 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
+import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
+import compiler488.ast.type.Type;
+import compiler488.symbol.ParamsSymbol;
+import compiler488.symbol.RoutineSymbol;
+import compiler488.symbol.Symbol;
+import compiler488.symbol.SymbolTable;
 
 /**
  * Represents the declaration of a function or procedure.
@@ -51,5 +59,24 @@ public class RoutineDecl extends Declaration {
 
 	public void setRoutineBody(RoutineBody routineBody) {
 		this.routineBody = routineBody;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+
+		// Iterates through the parameters of the body and gets their type
+		ASTList<Type> paramsTypes = new ASTList<>();
+		ListIterator li = this.getRoutineBody().getParameters().getIterator();
+		while (li.hasNext()) {
+		    Declaration param = (Declaration) li.next();
+		    paramsTypes.addLast(param.getType());
+		}
+		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsTypes);
+
+		// S11, S12, S17, S18 - Adding routine symbol to symbol table
+		symbols.addSymbol(sym);
+
+        // Calls semantics check on the body
+        this.routineBody.checkSemantics(symbols, errors);
 	}
 }

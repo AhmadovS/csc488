@@ -1,5 +1,6 @@
 package compiler488.ast;
 
+import compiler488.symbol.SymbolTable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * a convenient place to add common behaviour.
  * @author  Dave Wortman, Marsha Chechik, Danny House
  */
-public class AST {
+public abstract class AST {
 
 	public final static String version = "Winter 2017";
 	
@@ -31,5 +32,7 @@ public class AST {
 	public void setChildren(ArrayList<AST> children) {
 		this.children = children;
 	}
+
+	abstract public void checkSemantics(SymbolTable symbols, ArrayList<String> errors);
 
 }

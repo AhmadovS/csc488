@@ -9,7 +9,7 @@ import compiler488.symbol.SymbolTable;
 /**
  * The common features of declarations.
  */
-public class Declaration extends Indentable {
+public abstract class Declaration extends Indentable {
 	/** The type of thing being declared. */
 	protected Type type=null;
 
@@ -31,8 +31,5 @@ public class Declaration extends Indentable {
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
-		
-	}
+
 }
