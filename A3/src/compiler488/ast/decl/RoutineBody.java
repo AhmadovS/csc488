@@ -57,18 +57,26 @@ public class RoutineBody extends Indentable {
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 
-		// S04, S08 - Starts function and procedure scope
+		// Depth-first walk through the parameters
+		ListIterator<ScalarDecl> li = this.parameters.getIterator();
+		while (li.hasNext()) {
+			ScalarDecl param = li.next();
+			param.checkSemantics(symbols, errors);
+		}
+
+		// S04, S08 - Starts function and procedure scope.
 		symbols.startScope();
 
             // Adds parameters to the scope
-            ListIterator<ScalarDecl> li = this.parameters.getIterator();
-            while (li.hasNext()) {
-                ScalarDecl param = li.next();
+            ListIterator<ScalarDecl> typeli = this.parameters.getIterator();
+            while (typeli.hasNext()) {
+                ScalarDecl param = typeli.next();
                 symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()));
             }
 
 			this.body.checkSemantics(symbols, errors);
 
+		// S05, S09 - Closing function scope.
 		symbols.exitScope();
 
 	}
