@@ -1,9 +1,13 @@
+ 
 package compiler488.ast.stmt;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
+import compiler488.ast.AST;
 import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
+import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -14,6 +18,10 @@ public class ProcedureCallStmt extends Stmt {
 
 	private ASTList<Expn> arguments; // The arguments passed to the procedure.
 
+	public ProcedureCallStmt(String name, ASTList<Expn> arguments){
+		this.name = name;
+		this.arguments = arguments;
+	}
 	/** Returns a string describing the procedure call. */
 	@Override
 	public String toString() {
@@ -41,7 +49,40 @@ public class ProcedureCallStmt extends Stmt {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		// TODO Auto-generated method stub
+		
+		
+		
+		if(symbols.getSymbol(this.name) == null){
+			errors.add("Procedure has not been declared");
+		}else if(!(symbols.getSymbol(this.name) instanceof RoutineSymbol)){
+			errors.add("The identifier has not beed declared as procedure");
+		}else{
+			
+			RoutineSymbol proc = (RoutineSymbol) symbols.getSymbol(this.name);
+			
+			//Check if argument and parameter sizes match			
+			if(this.getArguments() == null && proc.getParams() != null){
+				errors.add("Calling procedure without arguments");
+			}
+			
+			if(this.getArguments() != null && proc.getParams() == null){
+				errors.add("Procedure does not have parameters");
+			}
+			
+			if(this.getArguments().size() != proc.getParamCount()){
+				errors.add("Number of arguments and parameters do not match");
+			}
+			ListIterator args = this.getArguments().getIterator(); 
+			ListIterator params = proc.getParams().getIterator();
+			
+			while(args.hasNext() && params.hasNext()){
+				Expn arg = (Expn) args.next();
+				arg.checkSemantics(symbols,errors); 				
+				if(!arg.getType().toString().equals(params.next().toString())){
+					errors.add("Type of arguments and parameter do not match");
+				}	
+			}
+		}
 		
 	}
 }
