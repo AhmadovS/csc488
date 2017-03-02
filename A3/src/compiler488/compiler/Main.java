@@ -1,6 +1,7 @@
 package compiler488.compiler;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import compiler488.parser.*;
 import compiler488.ast.AST ;
@@ -383,102 +384,91 @@ public class Main {
   /** The main driver for the system. 
    * @param argv an array of strings containing command line arguments.
    */
-  public static void main(String argv[]) 
-    {
-        Object parserResult  ;	// the result of parsing and AST building
-        Program  programAST = null ;
+  public static void main(String argv[]) {
+      Object parserResult  ;	// the result of parsing and AST building
+      Program  programAST = null ;
 
-	/* process user options and arguments */
-	try{
-	   commandLineArgs( argv );
-	}
-        catch( Exception e) 
-	    {
-		System.err.println("Exception during command line argument processing");
-	        System.err.println(e.getClass().getName() + ": " + e.getMessage());
-		System.exit( 90 );
-	    }
+      /* process user options and arguments */
+      try {
+          commandLineArgs( argv );
+      } catch( Exception e) {
+          System.err.println("Exception during command line argument processing");
+	      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		  System.exit( 90 );
+      }
 	
-        if( errorOccurred ){
-	    System.out.println("Processing Terminated due to command line errors");
-	    return ;
-        }
+      if( errorOccurred ){
+	      System.out.println("Processing Terminated due to command line errors");
+	      return ;
+      }
 
-	/* Setup files for compilation  */
-  	if( errorFileName.length() > 0 )
-	    setErrorSink( errorFileName );
-        if( compilerOutputFileName.length() > 0 )
-            setOutputSink( compilerOutputFileName );
-        setTraceStream( compilerTraceFileName  );
+      /* Setup files for compilation  */
+  	  if( errorFileName.length() > 0 )
+	      setErrorSink( errorFileName );
+          if( compilerOutputFileName.length() > 0 )
+              setOutputSink( compilerOutputFileName );
+          setTraceStream( compilerTraceFileName  );
 
-  	/* sourceFileName must exist or commandLineArgs would have exited */
-
-	/* Scan and Parse the program	*/
-	try {
-	    Parser p = new Parser(new Lexer(new FileReader(sourceFileName )));
-            if(  traceSyntax )
-	         parserResult = p.debug_parse().value;  //DEBUG Output
-	    else
-	         parserResult = p.parse().value;
-	    programAST = (Program) parserResult ;
-	    }
-        catch (SyntaxErrorException e)
-            {  // parser has already printed an error message
-               errorOccurred = true ;
-            }
-	catch (Exception e)
-	    {
-	    System.err.println("Exception during Parsing and AST building");
-	    System.err.println(e.getClass().getName() + ": " + e.getMessage());
-	    e.printStackTrace ();
-	    errorOccurred = true ;
-	    }
+  	  /* sourceFileName must exist or commandLineArgs would have exited */
+      /* Scan and Parse the program	*/
+	  try {
+	      Parser p = new Parser(new Lexer(new FileReader(sourceFileName)));
+          if(  traceSyntax )
+              parserResult = p.debug_parse().value;  //DEBUG Output
+	      else
+	          parserResult = p.parse().value;
+	      programAST = (Program) parserResult;
+	  } catch (SyntaxErrorException e) {  // parser has already printed an error message
+          errorOccurred = true ;
+	  } catch (Exception e) {
+	      System.err.println("Exception during Parsing and AST building");
+	      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+          e.printStackTrace ();
+	      errorOccurred = true ;
+      }
 	
-        if( errorOccurred ){
-	    System.out.println("Processing Terminated due to errors during parsing");
-	    return ;
-        }
+      if( errorOccurred ){
+	      System.out.println("Processing Terminated due to errors during parsing");
+	      return ;
+      }
 
 	// Dump AST after parsing if requested
-	if( dumpAST1 )
-	   try{
-                if( compilerDumpFileName.length() > 0 ){
-		    dumpFile = new File( compilerDumpFileName ) ;
-                    dumpStream = new PrintStream( new FileOutputStream( dumpFile )) ;
-		    programAST.printOn( dumpStream , 0 );
-		    if( ! dumpAST2 )		// finished with dump stream
-		    	dumpStream.close();
-	        }
-                else 
-		    programAST.printOn( saveSysOut  , 0 );
-	   }
-           catch( Exception e) 
-	       {
-	       System.err.println("Exception during AST dump after AST building");
-	       System.err.println(e.getClass().getName() + ": " + e.getMessage());
-	       e.printStackTrace ();
-	       System.exit(100);
-	       }
+	  if( dumpAST1 ) {
+          try {
+              if (compilerDumpFileName.length() > 0) {
+                  dumpFile = new File(compilerDumpFileName);
+                  dumpStream = new PrintStream(new FileOutputStream(dumpFile));
+                  programAST.printOn(dumpStream, 0);
+                  if (!dumpAST2)        // finished with dump stream
+                      dumpStream.close();
+              } else
+                  programAST.printOn(saveSysOut, 0);
+          } catch (Exception e) {
+              System.err.println("Exception during AST dump after AST building");
+              System.err.println(e.getClass().getName() + ": " + e.getMessage());
+              e.printStackTrace();
+              System.exit(100);
+          }
+      }
 
-	try{
-	   // TODO: INSERT CODE HERE TO DO SEMANTIC ANALYSIS
-           // e.g.
-	   // programAST.doSemantics() ;
-	   // or
-	   // Semantics.doIt( programAST );
-	}
-        catch( Exception e) 
-	    {
-	    System.err.println("Exception during Semantic Analysis");
-	    System.err.println(e.getClass().getName() + ": " + e.getMessage());
-	    e.printStackTrace ();
-	    errorOccurred = true ;
-	    }
+      try {
+          // TODO: build symbols table here
+          SymbolTable symbols = new SymbolTable();
+          ArrayList<String> semanticErrors = new ArrayList<>();
+
+          programAST.checkSemantics(symbols, semanticErrors);
+
+      } catch( Exception e) {
+          System.err.println("Exception during Semantic Analysis");
+          System.err.println(e.getClass().getName() + ": " + e.getMessage());
+          e.printStackTrace ();
+          errorOccurred = true ;
+      }
 	
-        if( errorOccurred ){
-	    System.out.println("Processing Terminated due to errors");
-	    return ;
-        }
+      if( errorOccurred ){
+          System.out.println("Processing Terminated due to errors");
+          return ;
+      }
 
 	// Dump AST after semantic analysis  if requested
 	if( dumpAST2 )
