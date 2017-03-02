@@ -10,6 +10,7 @@ import compiler488.symbol.SymbolTable;
  * The command to write data on the output device.
  */
 public class WriteStmt extends Stmt {
+
 	private ASTList<Printable> outputs; // The objects to be printed.
 
 	public WriteStmt(ASTList<Printable> outputs) {
@@ -32,7 +33,6 @@ public class WriteStmt extends Stmt {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		// TODO Auto-generated method stub
-		
+
 	}
 }
