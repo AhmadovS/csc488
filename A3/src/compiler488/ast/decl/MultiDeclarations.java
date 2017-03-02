@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
+import compiler488.ast.type.Type;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -15,8 +16,9 @@ public class MultiDeclarations extends Declaration {
 	/* The elements being declared */
 	private ASTList<DeclarationPart> elements;
 
-	public MultiDeclarations () {
-		elements = new ASTList<DeclarationPart> ();
+	public MultiDeclarations(String name, Type type, ASTList<DeclarationPart> elements) {
+		super(name, type);
+		this.elements = elements;
 	}
 	
 	/**

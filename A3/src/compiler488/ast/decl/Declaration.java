@@ -15,6 +15,11 @@ public abstract class Declaration extends Indentable {
 
 	/** The name of the thing being declared. */
 	protected String name;
+	
+	public Declaration(String name, Type type) {
+		this.name = name;
+		this.type = type;
+	}
 
 	public String getName() {
 		return name;

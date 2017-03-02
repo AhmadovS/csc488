@@ -21,6 +21,11 @@ public class RoutineDecl extends Declaration {
 	 * statements to execute when the procedure is called.
 	 */
 	private RoutineBody routineBody;
+	
+	public RoutineDecl(String name, RoutineBody routineBody, Type type) {
+		super(name, type);
+		this.routineBody = routineBody;
+	}
 
 	/**
 	 * Returns a string indicating that this is a function with
