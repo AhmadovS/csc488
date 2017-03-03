@@ -15,6 +15,9 @@ public abstract class LoopingStmt extends Stmt {
     public LoopingStmt(Expn expn, Stmt body) {
     	this.body = body;
     	this.expn = expn;
+		
+		this.expn.setParent(this);
+		this.body.setParent(this);
     }
 
 	public Expn getExpn() {

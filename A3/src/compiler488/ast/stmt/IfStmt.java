@@ -21,12 +21,21 @@ public class IfStmt extends Stmt {
 	private Stmt whenFalse = null;
 	
 	public IfStmt(Expn condition, Stmt whenTrue, Stmt whenFalse) {
+		this.condition = condition;
 		this.whenTrue = whenTrue;
 		this.whenFalse = whenFalse;
+		
+		this.condition.setParent(this);
+		this.whenTrue.setParent(this);
+		this.whenFalse.setParent(this);
 	}
 	
 	public IfStmt(Expn condition, Stmt whenTrue) {
+		this.condition = condition;
 		this.whenTrue = whenTrue;
+		
+		this.condition.setParent(this);
+		this.whenTrue.setParent(this);
 	}
 
 	/**

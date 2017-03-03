@@ -19,10 +19,15 @@ public class Scope extends Stmt {
     public Scope(ASTList<Declaration> declarations, ASTList<Stmt> statements) {
         this.declarations = declarations;
         this.statements = statements;
+		
+		this.declarations.setParent(this);
+		this.statements.setParent(this);
     }
 
     public Scope(ASTList<Stmt> statements) {
         this.statements = statements;
+		
+		this.statements.setParent(this);
     }
 
     public Scope() {

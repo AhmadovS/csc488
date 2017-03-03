@@ -12,6 +12,9 @@ public class WhileDoStmt extends LoopingStmt {
 
 	public WhileDoStmt(Expn expn, Stmt body) {
 		super(expn, body);
+		
+		expn.setParent(this);
+		body.setParent(this);
 	}
 
 	/**

@@ -21,12 +21,13 @@ public class ExitStmt extends Stmt {
         this.expn = expn;
         this.level = level;
 		
-		expn.setParent(this);
-		level.setParent(this);
+		this.expn.setParent(this);
     }
 
     public ExitStmt(Expn expn) {
         this.expn = expn;
+		
+		this.expn.setParent(this);
     }
 
     public ExitStmt(Integer level) {

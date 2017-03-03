@@ -17,6 +17,8 @@ public class ReadStmt extends Stmt {
 
 	public ReadStmt(ASTList<Readable> inputs) {
 		this.inputs = inputs;
+		
+		this.inputs.setParent(this);
 	}
 	
 	/** Returns a string describing the <b>read</b> statement. */

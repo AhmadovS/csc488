@@ -17,6 +17,8 @@ public class WriteStmt extends Stmt {
 
 	public WriteStmt(ASTList<Printable> outputs) {
 		this.outputs = outputs;
+		
+		this.outputs.setParent(this);
 	}
 	
 	/** Returns a description of the <b>write</b> statement. */

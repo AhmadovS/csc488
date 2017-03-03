@@ -17,8 +17,8 @@ public class AssignStmt extends Stmt {
 		this.lval = lval;
 		this.rval = rval;
 		
-		lval.addParent(this);
-		rval.addParent(this);
+		this.lval.setParent(this);
+		this.rval.setParent(this);
 	}
 
 	/** Returns a string that describes the assignment statement. */

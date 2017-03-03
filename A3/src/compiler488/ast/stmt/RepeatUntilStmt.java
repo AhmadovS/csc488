@@ -12,6 +12,9 @@ public class RepeatUntilStmt extends LoopingStmt {
 	
 	public RepeatUntilStmt(Expn expn, Stmt body) {
 		super(expn, body);
+		
+		expn.setParent(this);
+		body.setParent(this);
 	}
 
 	/**

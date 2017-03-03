@@ -21,11 +21,15 @@ public class ProcedureCallStmt extends Stmt {
 	public ProcedureCallStmt(String name, ASTList<Expn> arguments){
 		this.name = name;
 		this.arguments = arguments;
+		
+		this.arguments.setParent(this);
 	}
 	
 	public ProcedureCallStmt(String name){
 		this.name = name;
 		this.arguments = new ASTList<Expn>();
+		
+		this.arguments.setParent(this);
 	}
 	
 	/** Returns a string describing the procedure call. */

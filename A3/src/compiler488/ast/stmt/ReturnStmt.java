@@ -17,6 +17,8 @@ public class ReturnStmt extends Stmt {
 	
 	public ReturnStmt(Expn value) {
 		this.value = value;
+		
+		this.value.setParent(this);
 	}
 	
 	public ReturnStmt() {
