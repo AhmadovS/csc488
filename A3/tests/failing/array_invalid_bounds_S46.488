@@ -3,6 +3,7 @@
 {
 
 	% Try to declare an array with a lower bound > upper bound
-	var arr1[10..11] : Integer  
+	var arr1[10..1] : Integer  
 	
+	arr1 := 1
 }
