@@ -13,8 +13,8 @@ import compiler488.symbol.SymbolTable;
  */
 public class Scope extends Stmt {
 
-    private ASTList<Declaration> declarations = null; // The declarations at the top.
-    private ASTList<Stmt> statements = null; // The statements to execute.
+    private ASTList<Declaration> declarations = new ASTList<Declaration>(); // The declarations at the top.
+    private ASTList<Stmt> statements = new ASTList<Stmt>(); // The statements to execute.
 
     public Scope(ASTList<Declaration> declarations, ASTList<Stmt> statements) {
         this.declarations = declarations;
@@ -26,6 +26,7 @@ public class Scope extends Stmt {
     }
 
     public Scope() {
+    	// Do nothing
     }
 
     /**
