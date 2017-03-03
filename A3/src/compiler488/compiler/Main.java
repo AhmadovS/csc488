@@ -451,8 +451,10 @@ public class Main {
           }
       }
 
+      /*
+       * Semantic checking
+       */
       try {
-          // TODO: build symbols table here
           SymbolTable symbols = new SymbolTable();
           ArrayList<String> semanticErrors = new ArrayList<>();
 

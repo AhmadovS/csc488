@@ -1,6 +1,5 @@
 package compiler488.symbol;
 
-import java.io.*;
 import java.util.*;
 
 /** Symbol Table
@@ -11,27 +10,12 @@ import java.util.*;
  *  as they see fit.
  *
  *  @author  <B> Samud Ahmadov</B>
+ *  @author <B>Amir Hossein Heidari Zadi</B>
  */
 
-class ScopeSymbol{
-	
-	HashMap<String, Symbol> symbols;
-	
-	public ScopeSymbol(){
-		symbols = new HashMap<String, Symbol>();
-
-	}
-	
-	public void addSymbol(String name, Symbol value){
-		symbols.put(name, value);
-	}
-	
-	public Symbol getSymbol(String name){
-		return symbols.get(name);
-	}
-	
-}
-
+/**
+ * Global symbol table that contains a stack symbol tables
+ */
 public class SymbolTable {
 	
 	/** String used by Main to print symbol table
@@ -40,31 +24,54 @@ public class SymbolTable {
 
 	public final static String version = "Winter 2017" ;
 	
-	public ArrayDeque<ScopeSymbol> symbolTable;
+	private Stack<HashMap<String, Symbol>> symbolTable;
 
 	/** Symbol Table  constructor
          *  Create and initialize a symbol table 
 	 */
 	public SymbolTable  (){
-		symbolTable = new ArrayDeque<ScopeSymbol>();	
+		symbolTable = new Stack<>();
 	}
 	
 	public void startScope(){
-		symbolTable.push(new ScopeSymbol());
+		symbolTable.push(new HashMap<>());
 	}
 	
 	public void exitScope(){
 		symbolTable.pop();
 	}
-	
-	// TODO: getsymbol from table
+
+    /**
+     * Traverses the scopes of SymbolTable from top to bottom,
+     * and returns earliest declaration found, otherwise null.
+     * @param name Identifier name
+     * @return Returns null of no symbol is found.
+     */
 	public Symbol getSymbol(String name){
-		return null;
+	    ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator();
+	    while(li.hasPrevious()) {
+	        HashMap<String, Symbol> scopeTable = li.previous();
+	        Symbol sym = scopeTable.get(name);
+	        if (sym != null)
+                return sym;
+        }
+        return null;
 	}
-	
-	// TODO addSymbol to table
-	public void addSymbol(Symbol sm){
-		
+
+    /**
+     * Adds symbol to current scope (i.e. the last scope)
+     * @param sm Symbol to add to current scope.
+     * @return true if symbol was added successfully, false otherwise.
+     */
+	public boolean addSymbol(Symbol sm){
+        HashMap<String, Symbol> currentScope = symbolTable.peek();
+
+        if (currentScope.get(sm.getName()) != null) {
+            return false;
+        }
+
+        currentScope.put(sm.getName(), sm);
+        return true;
 	}
 
 	/**  Initialize - called once by semantic analysis  

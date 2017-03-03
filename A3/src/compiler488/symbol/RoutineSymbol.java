@@ -19,6 +19,14 @@ public class RoutineSymbol extends Symbol{
 		this.params = params;
 		this.paramCount = params.size();
 	}
+
+	/**
+	 * Returns true of identifier is a function
+	 * false otherwise.
+	 */
+	public boolean isFunction() {
+		return this.type != null;
+	}
 	
 	public ASTList<Type> getParams(){
 		return this.params;
