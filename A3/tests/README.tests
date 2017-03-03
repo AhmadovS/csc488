@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+	Test Summary - Yang Song (songyan9)
+-------------------------------------------------------------------------------
+
+Tests in tests/passing (All tests in this directory are expected to pass without any errors):
+A1a.488 - Tests all valid arithmetic, logical and comparison operators
+A1b.488 - Tests valid array declarations and usages
+A1c.488 - Tests valid forms of loops
+A1d.488 - Contains basic functions and procedures with/without parameters 
+A1e.488 - Features functions and procedures (like in A1d.488), but functions and procedures in this file are meant to be recursive
+array_arithmetic_index.488 - Tests basic array arithmetic using a while loop
+associativity.488 - Tests for more complex associatvity and precedence rules
+binary_search.488 - A program that implements binary search using several while loops and if statements
+empty_program.488 - Self explanatory
+hello_world.488 - A basic hello world program
+
+Tests in tests/failing (All tests in this directory expected to generate errors in the semantic analysis phase):
+
+function_no_return.488 - Contains a simple function with a return type of Integer, 
+						 but the function body doesn't contain a return statement
+while_no_state.488 - A program that contains a while loop without a proper body
+array_invalid_bounds_S46.488 - Declares an array with a lower bound > upper bound 
+call_procedure_no_params_S42.488 - Calls a procedure that's expected to accept one parameter, without supplying any arguments
+call_undeclared_proc_S41.488 - Calls an undeclared procedure
+check_operands_same_type_S32.488 - Tries to perform an equality opeartion using operands of different types
+declaration_order_S02.488 - Tries to use a variable before it is declared
+exit_integer_S53.488 - Attempts to exit from 2 loops when the number of containing loops is just 1
+identifier_declared_array_S38.488 - Attempts to treat a scalar variable as an array
+if_no_bool_expr_S30.488 - Uses an integer as a condition for an if expression
+incorrect_args_S36.488 - Calls a procedure expecting an Integer arugment using a single string argument
+mismatched_declaration_S34.488 - Attempts to assign a boolean value to an Integer variable
+no_args_passed_S43.488 - Calls a procedure with the incorrect number of arguments
+no_array_size_S48.488 - Declare an array without specifing any bound(s)
+no_scope_S00_S01.488 - Contains a declaration and a statement that are not enclosed in any scopes
+non_associating_ops_S31.488 - Tries to chain several non-associative operators
+repeat_no_expr_S30.488 - Contains a repeat statement without a conditional expression
+repeat_no_state_S30.488 - Contains a repeat statement without a body
+return_outside_function_S51.488 - Contains a return statement that is not enclosed within a function
+return_outside_procedure_S52.488 - Contains a return statement that is not enclosed within a procedure

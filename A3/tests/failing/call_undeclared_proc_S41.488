@@ -1,5 +1,7 @@
 % Author: Yang Song (songyan9)
 
 {
+	var count : Integer
+
 	count(3)
 }
