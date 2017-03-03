@@ -55,13 +55,13 @@ public class SemanticError {
 
     public static void add(AST astNode, String errorMsg) {
         LOC errorLoc = astNode.getLOC();
-        instance.errors.add(String.format("Semantic Error at (line %d, col %d): %s.\n\t%s\n",
+        instance.errors.add(String.format("Semantic Error at (line %d, col %d): %s.\n\t>>> %s\n",
                 errorLoc.getLineNumber(), errorLoc.getColumnNumber(), errorMsg, errorLoc.getLine()));
     }
 
     public static void add(int semanticId, AST astNode, String errorMsg) {
         LOC errorLoc = astNode.getLOC();
-        instance.errors.add(String.format("Semantic Error S%d at (line %d, col %d): %s.\n\t%s\n",
+        instance.errors.add(String.format("Semantic Error S%d at (line %d, col %d): %s.\n\t>>> %s\n",
                 semanticId, errorLoc.getLineNumber(), errorLoc.getColumnNumber(), errorMsg, errorLoc.getLine()));
     }
 
