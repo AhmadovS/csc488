@@ -71,13 +71,28 @@ public class Scope extends Stmt {
         ListIterator stmts = this.getStatements().getIterator();
         ListIterator decls = this.getDeclarations().getIterator();
 
+        // S02 - Associate declaration with scope
+		while(decls.hasNext()){
+			((Declaration) decls.next()).checkSemantics(symbols,  errors);
+		}
+
+		// Checking semantics on child statement nodes.
         while(stmts.hasNext()){
-            ((Stmt) stmts.next()).checkSemantics(symbols,  errors);
+		    Stmt currentStmt = (Stmt) stmts.next();
+
+		    // If the statement is a scope, we need to start a
+			// scope within the symbol table.
+		    if (currentStmt instanceof Scope) {
+				// S06 - Start ordinary scope
+		    	symbols.startScope();
+		    		currentStmt.checkSemantics(symbols, errors);
+				// S07 - End ordinary scope
+				symbols.exitScope();
+			} else {
+		        currentStmt.checkSemantics(symbols, errors);
+			}
         }
 
-        while(decls.hasNext()){
-            ((Declaration) decls.next()).checkSemantics(symbols,  errors);
-        }
 
 	}
 

@@ -19,7 +19,7 @@ public class Program extends Scope {
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 		// S00 - start program scope.
 		symbols.startScope();
-			// Depth-first walk of AST for semantic checking
+			// Walk of AST for semantic checking
             super.checkSemantics(symbols, errors);
 		// S01 - end program scope.
 		symbols.exitScope();
