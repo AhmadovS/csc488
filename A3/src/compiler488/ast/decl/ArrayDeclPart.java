@@ -12,7 +12,6 @@ public class ArrayDeclPart extends DeclarationPart {
 
 	/* The lower and upper boundaries of the array. */
     private Integer lb, ub, lb2,up2;
-    private String name;
     private boolean is2d; //TODO: do we really have 2-dim array
     private Type type = null;
         
