@@ -14,9 +14,18 @@ public abstract class AST {
 	
 	private AST parent = null;
 	private ArrayList<AST> children = new ArrayList<AST>();
+	private LOC loc = new LOC();
 	
 	// Getters & Setters
 	
+	public LOC getLOC() {
+		return loc;
+	}
+
+	public void setLOC(LOC loc) {
+		this.loc = loc;
+	}
+
 	public AST getParent() {
 		return parent;
 	}
