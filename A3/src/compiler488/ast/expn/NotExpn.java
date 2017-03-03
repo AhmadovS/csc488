@@ -21,7 +21,7 @@ public class NotExpn extends UnaryExpn {
         this.getOperand().checkSemantics(symbols);
 
         if (!(this.getOperand().getType() instanceof BooleanType)) {
-            SemanticError.add("Expected boolean expression");
+            SemanticError.add(30, this,"Expected boolean expression");
         }
 
         // S21 - Set return type to boolean

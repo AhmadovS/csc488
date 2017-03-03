@@ -22,7 +22,7 @@ public class EqualsExpn extends BinaryExpn {
 
 		// S32 - left and right operand must have the same type
 		if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
-			SemanticError.add("The type of left and right operand do not match");
+			SemanticError.add(32, this, "The type of left and right operand do not match");
 		}
 
 		// S20 - sets the result type to boolean

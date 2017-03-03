@@ -6,6 +6,7 @@ import compiler488.ast.AST;
 import compiler488.ast.Indentable;
 import compiler488.ast.decl.RoutineDecl;
 import compiler488.ast.expn.Expn;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -69,18 +70,28 @@ public class ReturnStmt extends Stmt {
 		// S51 - check that return is inside a function
 		// S52 - check that return is inside a procedure
 		if (parentNode == null) {
-		    throw new Exception("Return statement is not inside a routine");
-		}
+			SemanticError.add(this, "(S51/S52) Return statement is not inside a routine");
+		} else {
+			if (value == null) {
+				// (value == null) we have a 'return' statement.
 
-		if (value != null) {
-			if (parentNode.getType() == null) {
-				// parent node is a procedure, whereas we expected a function.
-				throw new Exception("Procedure cannot accept return statement with expression");
-			}
+				if (parentNode.getType() != null) {
+					// parent node is a function, and we're not returning an expression
+					SemanticError.add(52, this, "Function expects 'return with' statement");
+				}
+			} else {
+				// (value != null) we have 'return with' statement.
 
-			// S35 - check if expression type matches the return type of the enclosing function.
-			if (parentNode.getType().getClass() != value.getType().getClass()) {
-				throw new Exception("Return type doesn't match function signature return type");
+				if (parentNode.getType() == null) {
+					// parent node is a procedure, whereas we expected a function.
+					SemanticError.add(51, this, "Procedure cannot accept return statement with expression");
+				} else {
+					// parentNode.getType() != null here.
+					// S35 - check if expression type matches the return type of the enclosing function.
+					if (parentNode.getType().getClass() != value.getType().getClass()) {
+						SemanticError.add(35, this, "Return type doesn't match function signature return type");
+					}
+				}
 			}
 		}
 

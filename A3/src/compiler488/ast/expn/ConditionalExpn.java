@@ -60,12 +60,12 @@ public class ConditionalExpn extends Expn {
 
 		// S30 - check that type of expression is boolean
 		if (!(this.getCondition().getType() instanceof BooleanType)){
-			SemanticError.add("The condition of conditional expression must be boolean");
+			SemanticError.add(30, this, "The condition of conditional expression must be boolean");
 		}
 
 		// S33 - check both conditional expression have same type
 		if (this.getFalseValue().getType().getClass() != this.getTrueValue().getType().getClass()) {
-			SemanticError.add("Both side of conditional expression must be the same type");
+			SemanticError.add(30, this, "Both side of conditional expression must be the same type");
 		}
 
 		// S24 - Set result type to type of conditional expression

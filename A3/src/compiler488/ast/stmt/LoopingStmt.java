@@ -2,6 +2,7 @@ package compiler488.ast.stmt;
 
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.BooleanType;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
 
@@ -44,7 +45,7 @@ public abstract class LoopingStmt extends Stmt {
 
         // S30 - check if condition expression is boolean
         if (!(this.getExpn().getType() instanceof BooleanType)){
-            throw new Exception("The expression of loops must be boolean");
+            SemanticError.add(30, this, "The expression of loops must be boolean");
         }
 
         // Check semantics on the body (statements) of the loop.

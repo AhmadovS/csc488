@@ -49,7 +49,7 @@ public class SymbolTable {
      * @param name Identifier name
      * @return returns Symbol if found, null otherwise (if Symbol has not been declared in enclosing scopes).
      */
-	public Symbol getSymbol(String name) throws Exception{
+	public Symbol getSymbol(String name){
 	    ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator(symbolTable.size());
 	    while(li.hasPrevious()) {
 	        HashMap<String, Symbol> scopeTable = li.previous();
@@ -66,7 +66,7 @@ public class SymbolTable {
      * @param sm Symbol to add to current scope.
      * @return returns true if addSymbol was successful, false otherwise.
      */
-	public boolean addSymbol(Symbol sm) throws Exception {
+	public boolean addSymbol(Symbol sm){
 
 	    DebugTool.print("Adding symbol: " + sm.toString());
 

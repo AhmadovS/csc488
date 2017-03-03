@@ -6,6 +6,7 @@ import compiler488.ast.expn.Expn;
 import compiler488.ast.expn.SkipConstExpn;
 import compiler488.ast.expn.TextConstExpn;
 import compiler488.ast.type.IntegerType;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
 import java.util.ListIterator;
@@ -53,7 +54,7 @@ public class WriteStmt extends Stmt {
 
 				// S31 - Check that type of Expn is integer.
                 if (!(((Expn) output).getType() instanceof IntegerType)) {
-                    throw new Exception("output expression must be type integer");
+                    SemanticError.add(31, this, "output expression must be type integer");
 				}
 			}
 		}

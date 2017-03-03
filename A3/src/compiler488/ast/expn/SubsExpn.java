@@ -42,14 +42,16 @@ public class SubsExpn extends UnaryExpn implements Readable {
 	    // S31 - check return type of operand is integer.
 		this.getOperand().checkSemantics(symbols);
 		if (!(this.getOperand().getType() instanceof IntegerType)) {
-            SemanticError.add("Subscript expression must have type integer");
+            SemanticError.add(31, this, "Subscript expression must have type integer");
 		}
 
 		Symbol sm = symbols.getSymbol(this.getVariable());
-		if (sm != null) {
+		if (sm == null) {
+		    SemanticError.addIdentNotDeclaredError(this);
+        } else {
             // S38 - Check variable has been declared as an array.
             if (sm.getClass() != ArraysSymbol.class) {
-                SemanticError.add("Variable has not been declared as an array");
+                SemanticError.addIdentNotDeclaredError(38, this);
             }
             // S27 - Set result type to type of the array element.
             this.setType(sm.getType());

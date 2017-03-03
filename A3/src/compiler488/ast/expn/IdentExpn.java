@@ -1,6 +1,7 @@
 package compiler488.ast.expn;
 
 import compiler488.ast.Readable;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
 
@@ -36,6 +37,8 @@ public class IdentExpn extends Expn implements Readable {
 		Symbol sym = symbols.getSymbol(this.getIdent());
 		if (sym != null) {
 			this.setType(sym.getType());
+		} else {
+			SemanticError.addIdentNotDeclaredError(this);
 		}
 //		DebugTool.print("IdentExpn: " + sym.toString());
 	}

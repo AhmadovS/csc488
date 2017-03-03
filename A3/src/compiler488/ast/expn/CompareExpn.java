@@ -22,12 +22,12 @@ public class CompareExpn extends BinaryExpn {
 
 		// S31 - checks left expression is integer
 		if(!(this.getLeft().getType() instanceof IntegerType)){
-			SemanticError.add("Left side of arithmetic operation must be integer");
+			SemanticError.add(31, this, "Left side of arithmetic operation must be integer");
 		}
 
 		// S31 - checks right expression is integer
 		if(!(this.getRight().getType() instanceof IntegerType)){
-			SemanticError.add("Right side of arithmetic operation must be integer");
+			SemanticError.add(31, this, "Right side of arithmetic operation must be integer");
 		}
 
 		// S20 - sets result type to boolean

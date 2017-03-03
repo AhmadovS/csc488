@@ -54,9 +54,12 @@ public class FunctionCallExpn extends Expn {
 
 		try {
 			routineSym = (RoutineSymbol) symbols.getSymbol(this.getIdent());
+			if (routineSym == null) {
+			    throw new ClassCastException();
+			}
 		} catch (ClassCastException e) {
 			// S40 - check that the identifier has been declared as a function.
-			SemanticError.add("Identifier has not been declared as a function");
+			SemanticError.add(this, "Identifier has not been declared as a function/procedure");
 		}
 
 		// NOTE: Ignoring variable that is not declared, might have a cascading
@@ -66,22 +69,22 @@ public class FunctionCallExpn extends Expn {
 
 			if (!routineSym.isFunction()) {
 				// S40 - check that the identifier has been declared as a function.
-				SemanticError.add("Identifier has not been declared as a function");
+				SemanticError.addIdentNotDeclaredError(40, this);
 			}
 
 			// part of S43 - checks if any arguments are passed.
 			if (this.getArguments() == null && routineSym.getParams() != null) {
-				SemanticError.add("Calling procedure without arguments");
+				SemanticError.add(43, this, "Calling procedure without arguments");
 			}
 
 			// S42 - Checks that function does not have parameters
 			if (this.getArguments() != null && routineSym.getParams() == null) {
-				SemanticError.add("Procedure does not have parameters");
+				SemanticError.add(42, this, "Procedure does not have parameters");
 			}
 
 			// S43, (S45 implicitly) - Check if argument and parameter sizes match
 			if (this.getArguments().size() != routineSym.getParamCount()) {
-				SemanticError.add("Number of arguments and parameters do not match");
+				SemanticError.add(43, this,"Number of arguments and parameters do not match");
 			}
 
 			// S36 - Check that type of argument expression matches type of corresponding formal parameter.
@@ -93,7 +96,7 @@ public class FunctionCallExpn extends Expn {
 				Type paramType = params.next();
 				arg.checkSemantics(symbols);
 				if (arg.getType().getClass() != paramType.getClass()) {
-					SemanticError.add("Type of arguments and parameter do not match");
+					SemanticError.add(36, this,"Type of arguments and parameter do not match");
 				}
 			}
 

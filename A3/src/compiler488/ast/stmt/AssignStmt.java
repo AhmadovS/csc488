@@ -53,7 +53,7 @@ public class AssignStmt extends Stmt {
 
 		// S34 - Check that variable (lval) and expression (rval) are the same type.
 		if (lval.getType().getClass() != rval.getType().getClass()) {
-            SemanticError.add("The type left and right hand of assignments do not match");
+            SemanticError.add(34, this, "The type left and right hand of assignments do not match");
 		}
 	}
 }

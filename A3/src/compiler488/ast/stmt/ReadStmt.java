@@ -5,6 +5,7 @@ import compiler488.ast.Readable;
 import compiler488.ast.expn.IdentExpn;
 import compiler488.ast.expn.SubsExpn;
 import compiler488.ast.type.IntegerType;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
 import java.util.ListIterator;
@@ -48,13 +49,13 @@ public class ReadStmt extends Stmt {
 
 				// S31 - Check that type of Expn is integer.
 				if (!(((IdentExpn) input).getType() instanceof IntegerType)) {
-					throw new Exception("input expression must be type integer");
+                    SemanticError.add(31, this, "input expression must be type integer");
 				}
 			} else if (input instanceof SubsExpn) {
 				((SubsExpn)input).checkSemantics(symbols);
 				// S31 - Check that type of Expn is integer.
 				if (!(((SubsExpn) input).getType() instanceof IntegerType)) {
-					throw new Exception("input expression must be type integer");
+                    SemanticError.add(31, this, "input expression must be type integer");
 				}
 			}
 		}

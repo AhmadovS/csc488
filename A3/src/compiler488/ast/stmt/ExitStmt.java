@@ -72,7 +72,7 @@ public class ExitStmt extends Stmt {
     public void checkSemantics(SymbolTable symbols) {
 
         if (this.getLevel() < 1) {
-            SemanticError.add("Invalid integer exit statement");
+            SemanticError.add(53,this, "Exit integer must be > 0");
         }
 
         // Counts number of parents loops
@@ -89,9 +89,9 @@ public class ExitStmt extends Stmt {
 
         // S50, S53 - check that exit statement is in correct number of loop.
         if (parentLoopsCount == 0) {
-            SemanticError.add("Exit statement is not contained in a loop statement");
+            SemanticError.add(50, this, "Exit statement is not contained in a loop statement");
         } else if (parentLoopsCount != this.getLevel()) {
-            SemanticError.add("Invalid Exit statement integer");
+            SemanticError.add(53, this, "Exit integer is more than number of contained loops");
         }
 
         // If expression is present, check if it is bool S30
@@ -100,7 +100,7 @@ public class ExitStmt extends Stmt {
 
             // S30 - checks that type of expression is boolean.
             if(!(this.expn.getType() instanceof BooleanType)){
-                SemanticError.add("Expression of exit must be boolean");
+                SemanticError.add(30, this,"Expression of exit must be boolean");
             }
         }
 

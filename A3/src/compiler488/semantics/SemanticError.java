@@ -25,6 +25,34 @@ public class SemanticError {
         SemanticError.add(astNode, "Identifier with this name has already been declared.");
     }
 
+    public static void addIdentNotDeclaredError(AST astNode) {
+        SemanticError.add(astNode, "Identifier with this name has not been declared.");
+    }
+
+    public static void addIdentNotDeclaredError(int semanticId, AST astNode) {
+        String errorMsg;
+        switch(semanticId) {
+            case 37:
+                errorMsg = "Identifier has not been declared as scalar variable";
+                break;
+            case 38:
+                errorMsg = "Identifier has not been declared as an array";
+                break;
+            case 39:
+                errorMsg = "Identifier has not been declared as a parameter";
+                break;
+            case 40:
+                errorMsg = "Identifier has not been declared as a function";
+                break;
+            case 41:
+                errorMsg = "Identifier has not been declared as a procedure";
+                break;
+            default:
+                throw new IllegalArgumentException("semantic id is invalid");
+        }
+        SemanticError.add(semanticId, astNode, errorMsg);
+    }
+
     public static void add(AST astNode, String errorMsg) {
         LOC errorLoc = astNode.getLOC();
         instance.errors.add(String.format("Semantic Error at (line %d, col %d): %s.\n\t%s\n",

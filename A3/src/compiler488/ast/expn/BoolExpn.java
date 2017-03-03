@@ -22,12 +22,12 @@ public class BoolExpn extends BinaryExpn {
 
 		// S30 - checks left expression is boolean
 		if(!(this.getLeft().getType() instanceof BooleanType)){
-			SemanticError.add("Left side of boolean operation must be boolean");
+			SemanticError.add(30, this,"Left side of boolean operation must be boolean");
 		}
 
 		// S30 - checks right expression is boolean
 		if(!(this.getRight().getType() instanceof BooleanType)){
-			SemanticError.add("Right side of boolean operation must be boolean");
+			SemanticError.add(30, this, "Right side of boolean operation must be boolean");
 		}
 
 		// S20 - sets result type to boolean

@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.BooleanType;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -90,7 +91,7 @@ public class IfStmt extends Stmt {
 
 	    // S30 - check if condition expression is boolean
 		if (!(this.getCondition().getType() instanceof BooleanType)){
-			throw new Exception("The expression of IF statement must be boolean");
+			SemanticError.add(30, this,"The expression of IF statement must be boolean");
 		}
 
 		// Check semantics on body of if

@@ -21,7 +21,7 @@ public class UnaryMinusExpn extends UnaryExpn {
 		this.getOperand().checkSemantics(symbols);
 
 		if (!(this.getOperand().getType() instanceof IntegerType)) {
-			SemanticError.add("Expected integer expression");
+			SemanticError.add(31, this, "Expected integer expression");
 		}
 
 		// S21 - Set result type to integer.
