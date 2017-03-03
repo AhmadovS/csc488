@@ -322,61 +322,86 @@ unmatchedStatement::=	IF expression:e THEN statement:s
 
 procedureCall	::=	IDENT:i 							// call procedure with no parameters
 			{:
-				RESULT = new ProcedureCallStmt(i);
+				ProcedureCallStmt r = new ProcedureCallStmt(i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	IDENT:i L_PAREN arguments:a R_PAREN  			// call procedure with parameters
 			{:
-				RESULT = new ProcedureCallStmt(i, (ASTList<Expn>) a);
+				ProcedureCallStmt r = new ProcedureCallStmt(i, (ASTList<Expn>) a);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 declaration	::=	VAR variablenames:vs COLON type:t			// declare scalar/array variables
 			{:
-				RESULT = new MultiDeclarations((Type) t, (ASTList<DeclarationPart>) vs);
+				MultiDeclarations r = new MultiDeclarations((Type) t, (ASTList<DeclarationPart>) vs);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	FUNCTION IDENT:i COLON type:t scope:s			// declare function
 			{:
 				RoutineBody body = new RoutineBody((Scope) s);
-				RESULT = new RoutineDecl(i, (Type) t, body);
+				RoutineDecl r = new RoutineDecl(i, (Type) t, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	FUNCTION  IDENT:i L_PAREN parameters:p R_PAREN COLON type:t scope:s
 			{:
 				RoutineBody body = new RoutineBody((ASTList<ParameterDecl>) p, (Scope) s);
-				RESULT = new RoutineDecl(i, (Type) t, body);
+				RoutineDecl r = new RoutineDecl(i, (Type) t, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	PROCEDURE IDENT:i scope:s			//  declare procedure
 			{:
 				RoutineBody body = new RoutineBody((Scope) s);
-				RESULT = new RoutineDecl(i, body);
+				RoutineDecl r = new RoutineDecl(i, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	PROCEDURE IDENT:i L_PAREN parameters:p R_PAREN scope:s
 			{:
 				RoutineBody body = new RoutineBody((ASTList<ParameterDecl>) p, (Scope) s);;
-				RESULT = new RoutineDecl(i, body);
+				RoutineDecl r = new RoutineDecl(i, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 variablenames	::=	variablename:v  				// list of variables being declared
 			{:
-				RESULT = new ASTList<DeclarationPart>((DeclarationPart) v);
+				ASTList<DeclarationPart> r = new ASTList<DeclarationPart>((DeclarationPart) v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	variablenames:vs COMMA variablename:v 
 			{:
-				RESULT = ((ASTList<DeclarationPart>) vs).addLast((DeclarationPart) v);
+				ASTList<DeclarationPart> r = (ASTList<DeclarationPart>) vs;
+				r.addLast((DeclarationPart) v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 variablename	::=	IDENT:i 						// scalar variable
 			{:
-				RESULT = new ScalarDeclPart(i);
+				ScalarDeclPart r = new ScalarDeclPart(i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	IDENT:i1 L_SQUARE INTCONST:i2 R_SQUARE		// array variable with upper bound
 			{:
-				RESULT = new ArrayDeclPart(i1, (int) 1, (int) i2);
+				ArrayDeclPart r = new ArrayDeclPart(i1, (int) 1, (int) i2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
 			:}
 		|	IDENT:i1 L_SQUARE bound:i2 DOT DOT bound:i3  R_SQUARE	// array variable with upper/lower bounds
 			{:
-				RESULT = new ArrayDeclPart(i1, (int) i2, (int) i3);
+				ArrayDeclPart r = new ArrayDeclPart(i1, (int) i2, (int) i3);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
 			:}
 		;
 
@@ -402,21 +427,30 @@ type		::=	INTEGER			// integer type
 
 outputs		::=	output:o			// list of output expressions
 			{:
-				RESULT = new ASTList<Printable>((Printable) o);
+				ASTList<Printable> r = new ASTList<Printable>((Printable) o);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	outputs:os COMMA output:o
 			{:
-				RESULT = ((ASTList<Printable>) os).addLast((Printable)o);
+				ASTList<Printable> r = (ASTList<Printable>) os;
+				r.addLast((Printable) o);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;				
 			:}
 		;
 
 output		::=	expression:e		// integer expression
 			{:
-				RESULT = e;
+				AST r = (AST) e;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	TEXTCONST:t		// text constant
 			{: 
-				RESULT = new TextConstExpn((String) t);
+				TextConstExpn r = new TextConstExpn((String) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	NEWLINE			// newline constant
 			{:
