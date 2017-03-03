@@ -13,87 +13,87 @@ import compiler488.symbol.SymbolTable;
  */
 public class Scope extends Stmt {
 
-	private ASTList<Declaration> declarations = null; // The declarations at the top.
-	private ASTList<Stmt> statements = null; // The statements to execute.
+    private ASTList<Declaration> declarations = null; // The declarations at the top.
+    private ASTList<Stmt> statements = null; // The statements to execute.
 
-	public Scope(ASTList<Declaration> declarations, ASTList<Stmt> statements) {
-		this.declarations = declarations;
-		this.statements = statements;
-	}
-	
-	public Scope(ASTList<Stmt> statements) {
-		this.statements = statements;
-	}
-	
-	public Scope() {
-	}
+    public Scope(ASTList<Declaration> declarations, ASTList<Stmt> statements) {
+        this.declarations = declarations;
+        this.statements = statements;
+    }
 
-	/**
-	 * Print a description of the <b>scope</b> construct.
-	 * 
-	 * @param out
-	 *            Where to print the description.
-	 * @param depth
-	 *            How much indentation to use while printing.
-	 */
-	@Override
-	public void printOn(PrintStream out, int depth) {
-		Indentable.printIndentOnLn(out, depth, "Scope");
-		Indentable.printIndentOnLn(out, depth, "declarations");
+    public Scope(ASTList<Stmt> statements) {
+        this.statements = statements;
+    }
 
-		declarations.printOnSeperateLines(out, depth + 1);
+    public Scope() {
+    }
 
-		Indentable.printIndentOnLn(out, depth, "statements");
+    /**
+     * Print a description of the <b>scope</b> construct.
+     *
+     * @param out
+     *            Where to print the description.
+     * @param depth
+     *            How much indentation to use while printing.
+     */
+    @Override
+    public void printOn(PrintStream out, int depth) {
+        Indentable.printIndentOnLn(out, depth, "Scope");
+        Indentable.printIndentOnLn(out, depth, "declarations");
 
-		statements.printOnSeperateLines(out, depth + 1);
+        declarations.printOnSeperateLines(out, depth + 1);
 
-		Indentable.printIndentOnLn(out, depth, "End Scope");
-	}
+        Indentable.printIndentOnLn(out, depth, "statements");
 
-	public ASTList<Declaration> getDeclarations() {
-		return declarations;
-	}
+        statements.printOnSeperateLines(out, depth + 1);
 
-	public ASTList<Stmt> getStatements() {
-		return statements;
-	}
+        Indentable.printIndentOnLn(out, depth, "End Scope");
+    }
 
-	public void setDeclarations(ASTList<Declaration> declarations) {
-		this.declarations = declarations;
-	}
+    public ASTList<Declaration> getDeclarations() {
+        return declarations;
+    }
 
-	public void setStatements(ASTList<Stmt> statements) {
-		this.statements = statements;
-	}
-	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+    public ASTList<Stmt> getStatements() {
+        return statements;
+    }
+
+    public void setDeclarations(ASTList<Declaration> declarations) {
+        this.declarations = declarations;
+    }
+
+    public void setStatements(ASTList<Stmt> statements) {
+        this.statements = statements;
+    }
+
+    public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 
         ListIterator stmts = this.getStatements().getIterator();
         ListIterator decls = this.getDeclarations().getIterator();
 
         // S02 - Associate declaration with scope
-		while(decls.hasNext()){
-			((Declaration) decls.next()).checkSemantics(symbols,  errors);
-		}
+        while(decls.hasNext()){
+            ((Declaration) decls.next()).checkSemantics(symbols,  errors);
+        }
 
-		// Checking semantics on child statement nodes.
+        // Checking semantics on child statement nodes.
         while(stmts.hasNext()){
-		    Stmt currentStmt = (Stmt) stmts.next();
+            Stmt currentStmt = (Stmt) stmts.next();
 
-		    // If the statement is a scope, we need to start a
-			// scope within the symbol table.
-		    if (currentStmt instanceof Scope) {
-				// S06 - Start ordinary scope
-		    	symbols.startScope();
-		    		currentStmt.checkSemantics(symbols, errors);
-				// S07 - End ordinary scope
-				symbols.exitScope();
-			} else {
-		        currentStmt.checkSemantics(symbols, errors);
-			}
+            // If the statement is a scope, we need to start a
+            // scope within the symbol table.
+            if (currentStmt instanceof Scope) {
+                // S06 - Start ordinary scope
+                symbols.startScope();
+                    currentStmt.checkSemantics(symbols, errors);
+                // S07 - End ordinary scope
+                symbols.exitScope();
+            } else {
+                currentStmt.checkSemantics(symbols, errors);
+            }
         }
 
 
-	}
+    }
 
 }
