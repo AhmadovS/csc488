@@ -73,9 +73,18 @@ public class SymbolTable {
         }
 
         currentScope.put(sm.getName(), sm);
-
-        DebugTool.print("SymbolTable (currentScope): " + currentScope.toString());
 	}
 
+    @Override
+    public String toString() {
+	    String output = "";
 
+        ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator(symbolTable.size());
+        while(li.hasPrevious()) {
+            HashMap<String, Symbol> scopeTable = li.previous();
+            output += "ScopeTable: " + scopeTable.toString() + "\n";
+        }
+
+        return output;
+    }
 }

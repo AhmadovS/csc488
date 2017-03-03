@@ -3,6 +3,7 @@ package compiler488.compiler;
 import java.io.*;
 import java.util.ArrayList;
 
+import compiler488.DebugTool;
 import compiler488.parser.*;
 import compiler488.ast.AST ;
 import compiler488.ast.stmt.Program;
@@ -10,6 +11,7 @@ import compiler488.semantics.Semantics;
 import compiler488.symbol.SymbolTable;
 import compiler488.codegen.CodeGen;
 import compiler488.runtime.*;
+import jdk.nashorn.internal.runtime.Debug;
 
 /** This class serves as the main driver for the CSC488S compiler.<BR>
  *  It accepts user options and coordinates overall control flow.
