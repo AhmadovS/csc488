@@ -12,7 +12,9 @@ public class IntConstExpn extends ConstExpn {
 
     /** Returns a string representing the value of the literal. */
     @Override
-	public String toString () { return value.toString (); }
+	public String toString () {
+    	return value.toString ();
+    }
 
 	public Integer getValue() {
 		return value;

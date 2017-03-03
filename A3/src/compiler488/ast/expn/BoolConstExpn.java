@@ -9,7 +9,7 @@ import compiler488.symbol.SymbolTable;
  * Boolean literal constants.
  */
 public class BoolConstExpn extends ConstExpn {
-    private boolean  value ;	/* value of the constant */
+    private boolean value ;	/* value of the constant */
     
     public BoolConstExpn(boolean value) {
     	this.value = value;
