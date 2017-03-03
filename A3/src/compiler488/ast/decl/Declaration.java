@@ -19,6 +19,8 @@ public abstract class Declaration extends Indentable {
 	public Declaration(String name, Type type) {
 		this.name = name;
 		this.type = type;
+		
+		this.type.setParent(this);
 	}
 
 	public String getName() {

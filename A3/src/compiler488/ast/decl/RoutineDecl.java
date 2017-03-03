@@ -22,11 +22,15 @@ public class RoutineDecl extends Declaration {
 	public RoutineDecl(String name, Type type, RoutineBody routineBody) {
 		super(name, type);
 		this.routineBody = routineBody;
+		
+		this.routineBody.setParent(this);
 	}
 	
 	public RoutineDecl(String name, RoutineBody routineBody) {
 		super(name, null);
 		this.routineBody = routineBody;
+		
+		this.routineBody.setParent(this);
 	}
 
 	/**

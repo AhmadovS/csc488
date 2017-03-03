@@ -22,11 +22,15 @@ public class MultiDeclarations extends Declaration {
 	public MultiDeclarations(String name, Type type, ASTList<DeclarationPart> elements) {
 		super(name, type);
 		this.elements = elements;
+		
+		this.elements.setParent(this);
 	}
 	
 	public MultiDeclarations(Type type, ASTList<DeclarationPart> elements) {
 		super("", type);
 		this.elements = elements;
+		
+		this.elements.setParent(this);
 	}
 	
 	/**

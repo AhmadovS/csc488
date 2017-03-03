@@ -22,11 +22,17 @@ public class RoutineBody extends Indentable {
 	public RoutineBody(ASTList<ParameterDecl> parameters, Scope body) {
 		this.body = body;
 		this.parameters = parameters;
+		
+		this.body.setParent(this);
+		this.parameters.setParent(this);
 	}
 	
 	public RoutineBody(Scope body) {
 		this.body = body;
 		this.parameters = new ASTList<ParameterDecl>();
+		
+		this.body.setParent(this);
+		this.parameters.setParent(this);
 	}
 
 	/**
