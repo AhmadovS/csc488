@@ -22,7 +22,7 @@
 	write arr2[1] + arr2[4]     % print sum of first and 4th index
 
 	% If statement with variable expression
-	if arr3[-5] then write arr2[1]*arr2[4]
+	if arr3[-5] > 0 then write arr2[1]*arr2[4]
 
 	% Array initialization with while loop
 	i := 1
