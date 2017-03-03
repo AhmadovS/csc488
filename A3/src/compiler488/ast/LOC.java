@@ -9,7 +9,7 @@ public class LOC {
 		//		new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek())
 		this.symbol = symbol;
 		
-		this.print(); // COMMENT THIS OUT AFTER!!!
+//		this.print(); // COMMENT THIS OUT AFTER!!!
 	}
 	
 	public LOC() {
@@ -25,7 +25,10 @@ public class LOC {
 	}
 	
 	public String getLine() {
-		return (this.symbol == null) ? "":(String) this.symbol.value.toString();
+		if (this.symbol == null || this.symbol.value == null)
+		    return "";
+		else
+			return symbol.value.toString();
 	}
 	
 	public String toString() {

@@ -22,11 +22,11 @@ public class SemanticError {
     }
 
     public static void addIdentAlreadyDeclaredError(AST astNode) {
-        SemanticError.add(astNode, "Identifier with this name has already been declared.");
+        SemanticError.add(astNode, "Identifier with this name has already been declared");
     }
 
     public static void addIdentNotDeclaredError(AST astNode) {
-        SemanticError.add(astNode, "Identifier with this name has not been declared.");
+        SemanticError.add(astNode, "Identifier with this name has not been declared");
     }
 
     public static void addIdentNotDeclaredError(int semanticId, AST astNode) {
