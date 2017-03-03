@@ -17,6 +17,10 @@ public class ReturnStmt extends Stmt {
 	public ReturnStmt(Expn value) {
 		this.value = value;
 	}
+	
+	public ReturnStmt() {
+		this.value = null;
+	}
 
 	/**
 	 * Print <b>return</b> or <b>return with </b> expression on a line, by itself.

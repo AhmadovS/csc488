@@ -249,7 +249,7 @@ matchedStatement::=	variable:v COLON EQUAL expression:e				// assignment stateme
 			:}
 		|	READ  inputs:i
 			{:
-				RESULT = new ReadStmt((ASTList<Readable>) i); 
+				RESULT = new ReadStmt((ASTList<compiler488.ast.Readable>) i); 
 			:}
 		|	procedureCall:p						// procedure call
 			{: 
@@ -377,11 +377,11 @@ output		::=	expression:e		// integer expression
 
 inputs		::=	variable:v		// list of variables being read into
 			{:
-				RESULT = new ASTList<Readable>((Readable) v);
+				RESULT = new ASTList<compiler488.ast.Readable>((compiler488.ast.Readable) v);
 			:}
 		|	inputs:i COMMA variable:v
 			{:
-				RESULT = ((ASTList<Readable>) i).addLast((Readable)v);
+				RESULT = ((ASTList<compiler488.ast.Readable>) i).addLast((compiler488.ast.Readable)v);
 			:}
 		;
 
