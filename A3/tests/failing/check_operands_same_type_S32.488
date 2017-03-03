@@ -1,0 +1,6 @@
+% Author: Yang Song (songyan9)
+
+{
+	var I : Boolean
+	I := ( 1 = true )
+}

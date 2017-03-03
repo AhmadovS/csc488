@@ -1,0 +1,7 @@
+% Author: Steven Song (songyan9)
+
+{
+	if 1 then {
+		write "Failed"
+	}
+}

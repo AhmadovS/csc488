@@ -1,0 +1,12 @@
+% Author: Yang Song (songyan9)
+
+{
+
+% Simple procedure that prints a message
+procedure count (n : Integer) {
+    write "Hello World!"
+    return
+}
+
+count
+}
