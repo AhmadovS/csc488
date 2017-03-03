@@ -25,6 +25,6 @@ public abstract class DeclarationPart extends AST {
 		this.name = name;
 	}
 
-	public abstract void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors);
+	public abstract void checkSemantics(SymbolTable symbols, ArrayList<String> errors);
 
 }

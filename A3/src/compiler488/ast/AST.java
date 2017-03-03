@@ -33,6 +33,6 @@ public abstract class AST {
 		this.children = children;
 	}
 
-	abstract public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors);
+	abstract public void checkSemantics(SymbolTable symbols, ArrayList<String> errors);
 
 }

@@ -14,7 +14,7 @@ public class Expn extends AST implements Printable {
 	
 	public Type type;
 	
-	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 		
 	}
 	

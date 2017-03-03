@@ -2,7 +2,6 @@ package compiler488.ast.stmt;
 
 import java.util.ArrayList;
 
-import compiler488.ast.AST;
 import compiler488.ast.expn.*;
 import compiler488.ast.type.BooleanType;
 import compiler488.symbol.SymbolTable;
@@ -66,12 +65,16 @@ public class ExitStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
-		// TODO S50 (check inside of loop), S53
-		
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+
+	    
+
+
+        // If expression is present, check if it is bool S30
 		if(this.expn != null){
-			this.expn.checkSemantics(, symbols, errors);
-			
+			this.expn.checkSemantics(symbols, errors);
+
+			// S30 - checks that type of expression is boolean.
 			if(!(this.expn.getType() instanceof BooleanType)){
 				errors.add("Expression of exit must be boolean");
 			}

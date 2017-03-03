@@ -4,7 +4,6 @@ package compiler488.ast.stmt;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import compiler488.ast.AST;
 import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
 import compiler488.symbol.RoutineSymbol;
@@ -54,7 +53,7 @@ public class ProcedureCallStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 
 		if(symbols.getSymbol(this.name) == null){
 			errors.add("Procedure has not been declared");
@@ -81,7 +80,7 @@ public class ProcedureCallStmt extends Stmt {
 			
 			while(args.hasNext() && params.hasNext()){
 				Expn arg = (Expn) args.next();
-				arg.checkSemantics(, symbols, errors);
+				arg.checkSemantics(symbols, errors);
 				if(!arg.getType().toString().equals(params.next().toString())){
 					errors.add("Type of arguments and parameter do not match");
 				}	

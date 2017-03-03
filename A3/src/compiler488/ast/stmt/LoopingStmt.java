@@ -2,7 +2,6 @@ package compiler488.ast.stmt;
 
 import java.util.ArrayList;
 
-import compiler488.ast.AST;
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.BooleanType;
 import compiler488.symbol.SymbolTable;
@@ -37,10 +36,10 @@ public abstract class LoopingStmt extends Stmt {
 	}
 	
 	@Override
-	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 
         // We need to check children expression, so we can know it's type for S30 check.
-        this.getExpn().checkSemantics(, symbols, errors);
+        this.getExpn().checkSemantics(symbols, errors);
 
         // S30 - check if condition expression is boolean
         if (!(this.getExpn().getType() instanceof BooleanType)){
@@ -49,7 +48,7 @@ public abstract class LoopingStmt extends Stmt {
 
         // Check semantics on the body (statements) of the loop.
 		if (this.getBody() != null){
-			this.getBody().checkSemantics(, symbols, errors);
+			this.getBody().checkSemantics(symbols, errors);
 		}
 		
 		

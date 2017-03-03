@@ -17,11 +17,16 @@ public class Program extends Scope {
 	}
 
 	@Override
-	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
+	public void setParent(AST parent) {
+	    // Program can't have a parent.
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
 		// S00 - start program scope.
 		symbols.startScope();
 			// Walk of AST for semantic checking
-            super.checkSemantics(syntaxTree, symbols, errors);
+            super.checkSemantics(symbols, errors);
 		// S01 - end program scope.
 		symbols.exitScope();
 	}

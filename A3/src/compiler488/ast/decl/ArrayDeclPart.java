@@ -2,7 +2,6 @@ package compiler488.ast.decl;
 
 import java.util.ArrayList;
 
-import compiler488.ast.AST;
 import compiler488.ast.type.Type;
 import compiler488.symbol.*;
 
@@ -69,7 +68,7 @@ public class ArrayDeclPart extends DeclarationPart {
 	}
 
 	@Override
-	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
 		if(symbols.getSymbol(this.name) != null){
 			errors.add("Variable has been already declared");
 		}
