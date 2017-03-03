@@ -1,0 +1,17 @@
+# Assignment 3
+
+-------------------------------------------------------------------------------
+	Contributions
+-------------------------------------------------------------------------------
+
+	Samud Ahmadov: 
+
+	Jathu Satkunarajah (satkun16): 
+
+	Rosario Bevacqua: 
+
+	Amir Hossein Heidari Zadi: 
+
+	Yang Song: Modified the starter code's csc488.cup file to generate complete AST trees. Later
+			   assisted in refactoring the AST generation code to make csc488.cup code cleaner, and 
+			   wrote some (failing) test cases to help test the semantic analysis parts of our code.
