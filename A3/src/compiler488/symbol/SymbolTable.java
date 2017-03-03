@@ -74,7 +74,7 @@ public class SymbolTable {
 
         currentScope.put(sm.getName(), sm);
 
-        DebugTool.print("SymbolTable: " + currentScope.toString());
+        DebugTool.print("SymbolTable (currentScope): " + currentScope.toString());
 	}
 
 

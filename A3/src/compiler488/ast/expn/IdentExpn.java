@@ -1,5 +1,6 @@
 package compiler488.ast.expn;
 
+import compiler488.DebugTool;
 import compiler488.ast.Readable;
 import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
@@ -35,5 +36,6 @@ public class IdentExpn extends Expn implements Readable {
         // S25, S26 - set result type to type of variablename
 		Symbol sym = symbols.getSymbol(this.getIdent());
 		this.setType(sym.getType());
+		DebugTool.print("IdentExpn: " + sym.toString());
 	}
 }

@@ -3,6 +3,8 @@ package compiler488.ast.stmt;
 import compiler488.ast.ASTList;
 import compiler488.ast.Printable;
 import compiler488.ast.expn.Expn;
+import compiler488.ast.expn.SkipConstExpn;
+import compiler488.ast.expn.TextConstExpn;
 import compiler488.ast.type.IntegerType;
 import compiler488.symbol.SymbolTable;
 
@@ -40,7 +42,15 @@ public class WriteStmt extends Stmt {
 		ListIterator<Printable> li = outputs.getIterator();
 		while(li.hasNext()) {
 			Printable output = li.next();
-			if (output instanceof Expn) {
+
+			if (output instanceof TextConstExpn || output instanceof SkipConstExpn) {
+			    // Nothing to do.
+			} else if (output instanceof Expn) {
+			    // Expn now must be type integer.
+
+				// Run semantic check on child first
+				((Expn) output).checkSemantics(symbols);
+
 				// S31 - Check that type of Expn is integer.
                 if (!(((Expn) output).getType() instanceof IntegerType)) {
                     throw new Exception("output expression must be type integer");
