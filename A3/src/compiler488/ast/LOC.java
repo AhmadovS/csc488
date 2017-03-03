@@ -25,7 +25,12 @@ public class LOC {
 	}
 	
 	public String getLine() {
-		return (this.symbol == null) ? "":(String) this.symbol.value.toString();
+		if(this.symbol == null) {
+			return "";
+		} else if(this.symbol.value == null) {
+			return "";
+		}
+		return this.symbol.value.toString();
 	}
 	
 	public String toString() {
