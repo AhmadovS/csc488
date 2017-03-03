@@ -166,7 +166,6 @@ scope		::=	L_CURLEY  declarations:d statements:s  R_CURLEY  	// scope with decla
 		|	L_CURLEY statements:s  R_CURLEY 		// scope with statments only
 			{:
 				RESULT = new Scope((ASTList<Stmt>) s);
-				RESULT.setParent(
 			:}
 		|	L_CURLEY  R_CURLEY			// empty scope
 			{:
