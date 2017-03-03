@@ -1,6 +1,7 @@
 package compiler488.symbol;
 
 import java.util.*;
+import compiler488.DebugTool;
 
 /** Symbol Table
  *  This almost empty class is a framework for implementing
@@ -47,14 +48,14 @@ public class SymbolTable {
      * @param name Identifier name
      */
 	public Symbol getSymbol(String name) throws Exception{
-	    ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator();
+	    ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator(symbolTable.size());
 	    while(li.hasPrevious()) {
 	        HashMap<String, Symbol> scopeTable = li.previous();
 	        Symbol sym = scopeTable.get(name);
 	        if (sym != null)
                 return sym;
         }
-        throw new Exception(String.format("Identifier with %s has not been declared", name));
+        throw new Exception(String.format("Identifier (%s) has not been declared", name));
 	}
 
     /**
@@ -62,6 +63,9 @@ public class SymbolTable {
      * @param sm Symbol to add to current scope.
      */
 	public void addSymbol(Symbol sm) throws Exception {
+
+	    DebugTool.print("Adding symbol: " + sm.toString());
+
         HashMap<String, Symbol> currentScope = symbolTable.peek();
 
         if (currentScope.get(sm.getName()) != null) {
@@ -69,6 +73,8 @@ public class SymbolTable {
         }
 
         currentScope.put(sm.getName(), sm);
+
+        DebugTool.print("SymbolTable: " + currentScope.toString());
 	}
 
 

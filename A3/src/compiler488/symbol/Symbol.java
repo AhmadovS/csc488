@@ -18,6 +18,11 @@ public abstract class Symbol{
 	
 	public abstract void setName(String name);
 	public abstract void setType(Type type);
+
+	@Override
+	public String toString() {
+	    return String.format("Symbol(name=%s, type=%s)", this.getName(), this.getType().getClass().getName());
+	}
 }
 
 
