@@ -70,10 +70,10 @@ public class Scope extends Stmt {
     @Override
     public void checkSemantics(SymbolTable symbols) throws Exception{
 
-        ListIterator stmts = this.getStatements().getIterator();
         ListIterator decls = this.getDeclarations().getIterator();
+        ListIterator stmts = this.getStatements().getIterator();
 
-        // S02 - Associate declaration with scope
+        // S02 - Associate declaration with scope (happens inside each semantic check)
         while(decls.hasNext()){
             ((Declaration) decls.next()).checkSemantics(symbols);
         }

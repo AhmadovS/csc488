@@ -2,7 +2,11 @@ package compiler488.ast.stmt;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Printable;
+import compiler488.ast.expn.Expn;
+import compiler488.ast.type.IntegerType;
 import compiler488.symbol.SymbolTable;
+
+import java.util.ListIterator;
 
 /**
  * The command to write data on the output device.
@@ -30,7 +34,16 @@ public class WriteStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) {
-
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+		ListIterator<Printable> li = outputs.getIterator();
+		while(li.hasNext()) {
+			Printable output = li.next();
+			if (output instanceof Expn) {
+				// S31 - Check that type of Expn is integer.
+                if (!(((Expn) output).getType() instanceof IntegerType)) {
+                    throw new Exception("output expression must be type integer");
+				}
+			}
+		}
 	}
 }

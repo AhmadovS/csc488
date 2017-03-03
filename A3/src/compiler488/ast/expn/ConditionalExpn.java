@@ -45,19 +45,24 @@ public class ConditionalExpn extends Expn {
 		this.trueValue = trueValue;
 	}
 	
-	public void checkSemantics(SymbolTable symbols){
-		
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+
+	    // Note: do semantic check on children before checking their type.
 		this.getCondition().checkSemantics(symbols);
 		this.getTrueValue().checkSemantics(symbols);
 		this.getFalseValue().checkSemantics(symbols);
-		
+
+		// S30 - check that type of expression is boolean
 		if (!(this.getCondition().getType() instanceof BooleanType)){
 			throw new Exception("The condition of conditional expression must be boolean");
 		}
-		if(!this.getFalseValue().getType().toString().equals(this.getTrueValue().getType().toString())){
+
+		// S33 - check both conditional expression have same type
+		if (this.getFalseValue().getType().getClass() != this.getTrueValue().getType().getClass()) {
 			throw new Exception("Both side of conditional expression must be the same type");
 		}
-		
+
+		// S24 - Set result type to type of conditional expression
 		this.setType(this.getTrueValue().getType());
 	}
 }

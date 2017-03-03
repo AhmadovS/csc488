@@ -12,7 +12,7 @@ public class Expn extends AST implements Printable {
 	
 	public Type type;
 	
-	public void checkSemantics(SymbolTable symbols) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 		
 	}
 	

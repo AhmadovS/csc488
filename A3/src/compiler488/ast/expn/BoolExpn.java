@@ -13,16 +13,18 @@ public class BoolExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	public void checkSemantics(SymbolTable symbols){
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+
+		// Semantics check on children must be performed before getting their type.
+		this.getLeft().checkSemantics(symbols);
+		this.getRight().checkSemantics(symbols);
 
 		// S30 - checks left expression is boolean
-		this.getLeft().checkSemantics(symbols);
 		if(!(this.getLeft().getType() instanceof BooleanType)){
 			throw new Exception("Left side of boolean operation must be boolean");
 		}
 
 		// S30 - checks right expression is boolean
-		this.getRight().checkSemantics(symbols);
 		if(!(this.getRight().getType() instanceof BooleanType)){
 			throw new Exception("Right side of boolean operation must be boolean");
 		}

@@ -60,6 +60,9 @@ public class ProcedureCallStmt extends Stmt {
 
 	    try {
 	        routineSym = (RoutineSymbol) symbols.getSymbol(this.getName());
+	        if (routineSym.isFunction()) {
+	            throw new ClassCastException();
+            }
         } catch (ClassCastException e) {
 	        // S41 - check that the identifier has been declared as a procedure.
 	        throw new Exception("Identifier has not been declared as a procedure");
@@ -75,7 +78,7 @@ public class ProcedureCallStmt extends Stmt {
             throw new Exception("Procedure does not have parameters");
         }
 
-        // S43 - Check if argument and parameter sizes match
+        // S43, (S45 implicitly) - Check if argument and parameter sizes match
         if(this.getArguments().size() != routineSym.getParamCount()){
             throw new Exception("Number of arguments and parameters do not match");
         }

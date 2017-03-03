@@ -42,9 +42,9 @@ public class AssignStmt extends Stmt {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols) throws Exception {
-		
-		this.getLval().checkSemantics(symbols);
 
+	    // Note: Have to perform semantic check on children first, to get their type.
+		this.getLval().checkSemantics(symbols);
 		this.getRval().checkSemantics(symbols);
 
 		// S34 - Check that variable (lval) and expression (rval) are the same type.

@@ -4,7 +4,7 @@ package compiler488.ast.expn;
 /**
  * The common features of binary expressions.
  */
-public class BinaryExpn extends Expn {
+public abstract class BinaryExpn extends Expn {
     private Expn left, right;	/* Left and right operands of the binary operator. */
     private String opSymbol;	/* Name of the operator. */
     

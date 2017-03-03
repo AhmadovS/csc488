@@ -11,6 +11,8 @@ public class BoolConstExpn extends ConstExpn {
     
     public BoolConstExpn(boolean value) {
     	this.value = value;
+    	// S20 - set result type to boolean.
+    	this.setType(new BooleanType());
     }
 
     /** Returns the value of the boolean constant */
@@ -26,8 +28,9 @@ public class BoolConstExpn extends ConstExpn {
 	public void setValue(boolean value) {
 		this.value = value;
 	}
-	
+
+	@Override
 	public void checkSemantics(SymbolTable symbols){
-		this.setType(new BooleanType());
+    	// Nothing to do here
 	}
 }

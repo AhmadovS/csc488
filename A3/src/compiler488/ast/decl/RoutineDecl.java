@@ -80,7 +80,7 @@ public class RoutineDecl extends Declaration {
 		}
 		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsTypes);
 
-		// S11, S12, S17, S18 - Adding routine symbol to symbol table
+		// S11, S12, S15, S16 S17, S18 (All implicit) - Adding routine symbol to symbol table
 		symbols.addSymbol(sym);
 
         // Calls semantics check on the body

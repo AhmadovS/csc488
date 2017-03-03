@@ -13,15 +13,18 @@ public class EqualsExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	public void checkSemantics(SymbolTable symbols){
-		
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+
+		// Note: do semantic check on children before checking their type.
 		this.getLeft().checkSemantics(symbols);
 		this.getRight().checkSemantics(symbols);
-		
-		if(!(this.getLeft().getType().toString().equals(this.getRight().getType().toString()))){
+
+		// S32 - left and right operand must have the same type
+		if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
 			throw new Exception("The type of left and right operand do not match");
 		}
-		
+
+		// S20 - sets the result type to boolean
 		this.setType(new BooleanType());
 	}
 }

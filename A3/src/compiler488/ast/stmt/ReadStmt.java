@@ -2,7 +2,11 @@ package compiler488.ast.stmt;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Readable;
+import compiler488.ast.expn.IdentExpn;
+import compiler488.ast.type.IntegerType;
 import compiler488.symbol.SymbolTable;
+
+import java.util.ListIterator;
 
 /**
  * The command to read data into one or more variables.
@@ -30,8 +34,16 @@ public class ReadStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) {
-		// TODO Auto-generated method stub
-		
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+		ListIterator<Readable> li = inputs.getIterator();
+		while(li.hasNext()) {
+			Readable input = li.next();
+			if (input instanceof IdentExpn) {
+				// S31 - Check that type of Expn is integer.
+				if (!(((IdentExpn) input).getType() instanceof IntegerType)) {
+					throw new Exception("input expression must be type integer");
+				}
+			}
+		}
 	}
 }

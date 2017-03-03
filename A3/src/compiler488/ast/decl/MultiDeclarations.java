@@ -68,7 +68,7 @@ public class MultiDeclarations extends Declaration {
 			DeclarationPart decl =  li.next();
 
 			if (decl instanceof ScalarDeclPart) {
-				// S47 - Associate type with variables
+				// S10, S47 - Declare scalar variable, Associate type with variable
 				VariablesSymbol sm = new VariablesSymbol(decl.getName(), this.getType());
 				symbols.addSymbol(sm);
 			} else if (decl instanceof ArrayDeclPart) {

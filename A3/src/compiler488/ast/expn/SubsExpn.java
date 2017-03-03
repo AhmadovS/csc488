@@ -2,6 +2,10 @@ package compiler488.ast.expn;
 
 import compiler488.ast.OPSYMBOL;
 import compiler488.ast.Readable;
+import compiler488.ast.type.IntegerType;
+import compiler488.symbol.ArraysSymbol;
+import compiler488.symbol.Symbol;
+import compiler488.symbol.SymbolTable;
 
 /**
  * References to an array element variable
@@ -32,4 +36,20 @@ public class SubsExpn extends UnaryExpn implements Readable {
 		this.variable = variable;
 	}
 
+	@Override
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+	    // S31 - check return type of operand is integer.
+		this.getOperand().checkSemantics(symbols);
+		if (!(this.getOperand().getType() instanceof IntegerType)) {
+		    throw new Exception("Subscript expression must have type integer");
+		}
+
+		Symbol sm = symbols.getSymbol(this.getVariable());
+		// S38 - Check variable has been declared as an array.
+        if (sm.getClass() != ArraysSymbol.class) {
+            throw new Exception("Variable has not been declared as an array");
+        }
+        // S27 - Set result type to type of the array element.
+		this.setType(sm.getType());
+	}
 }

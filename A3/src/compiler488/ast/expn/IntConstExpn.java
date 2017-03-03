@@ -1,5 +1,8 @@
 package compiler488.ast.expn;
 
+import compiler488.ast.type.IntegerType;
+import compiler488.symbol.SymbolTable;
+
 /**
  * Represents a literal integer constant.
  */
@@ -8,6 +11,8 @@ public class IntConstExpn extends ConstExpn {
     
     public IntConstExpn(Integer value) {
     	this.value = value;
+    	// S21 - Set result type to integer
+    	this.setType(new IntegerType());
     }
 
     /** Returns a string representing the value of the literal. */
@@ -22,5 +27,10 @@ public class IntConstExpn extends ConstExpn {
 
 	public void setValue(Integer value) {
 		this.value = value;
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols) {
+        // Nothing to do here.
 	}
 }

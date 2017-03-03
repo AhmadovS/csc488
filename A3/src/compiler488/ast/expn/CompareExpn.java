@@ -13,16 +13,18 @@ public class CompareExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 
-	public void checkSemantics(SymbolTable symbols){
-		
-		// S31 - checks left expression is integer
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+
+		// Semantics check on children must be performed before getting their type.
 		this.getLeft().checkSemantics(symbols);
+		this.getRight().checkSemantics(symbols);
+
+		// S31 - checks left expression is integer
 		if(!(this.getLeft().getType() instanceof IntegerType)){
 			throw new Exception("Left side of arithmetic operation must be integer");
 		}
 
 		// S31 - checks right expression is integer
-		this.getRight().checkSemantics(symbols);
 		if(!(this.getRight().getType() instanceof IntegerType)){
 			throw new Exception("Right side of arithmetic operation must be integer");
 		}

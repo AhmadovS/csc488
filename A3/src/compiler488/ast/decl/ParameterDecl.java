@@ -2,7 +2,6 @@ package compiler488.ast.decl;
 
 import compiler488.symbol.SymbolTable;
 import compiler488.ast.type.Type;
-import compiler488.symbol.VariablesSymbol;
 
 /**
  * Represents the declaration of a simple variable.
@@ -25,9 +24,6 @@ public class ParameterDecl extends Declaration {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols) throws Exception {
-
-	    // S47 - Associates type with variable (add symbol to symbol table).
-		VariablesSymbol sm = new VariablesSymbol(this.getName(), this.getType());
-        symbols.addSymbol(sm);
+	    // Nothing to do here.
 	}
 }

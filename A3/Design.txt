@@ -1,0 +1,3 @@
+Design:
+
+- Changed ScalarDecl node tag to ParameterDecl, since it is only used in declaring parameters.
