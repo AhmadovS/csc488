@@ -10,8 +10,12 @@ public abstract class BinaryExpn extends Expn {
     
     public BinaryExpn(String opSymbol, Expn left, Expn right) {
     	this.opSymbol = opSymbol;
+    	
     	this.left = left;
+    	this.left.setParent(this);
+    	
     	this.right = right;
+    	this.right.setParent(this);
     }
 
     /** Returns a string that represents the binary expression. */

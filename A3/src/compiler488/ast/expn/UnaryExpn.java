@@ -10,6 +10,7 @@ public class UnaryExpn extends Expn {
 
     public UnaryExpn(String opSymbol, Expn operand) {
     	this.operand = operand;
+    	this.operand.setParent(this);
     	this.opSymbol = opSymbol;
     }
 

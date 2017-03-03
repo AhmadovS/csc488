@@ -16,8 +16,14 @@ public class FunctionCallExpn extends Expn {
 	private ASTList<Expn> arguments; // The arguments passed to the function.
 	
 	public FunctionCallExpn(String ident, ASTList<Expn> arguments) {
-		this.ident = ident;
+		this.ident = ident;		
 		this.arguments = arguments;
+		
+		ListIterator<Expn> it = this.arguments.getIterator();
+		while(it.hasNext()) {
+			it.next().setParent(this);
+		}
+		
 	}
 
 	/** Returns a string describing the function call. */
