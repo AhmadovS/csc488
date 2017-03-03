@@ -20,6 +20,9 @@ public class ExitStmt extends Stmt {
     public ExitStmt(Expn expn, Integer level) {
         this.expn = expn;
         this.level = level;
+		
+		expn.setParent(this);
+		level.setParent(this);
     }
 
     public ExitStmt(Expn expn) {
