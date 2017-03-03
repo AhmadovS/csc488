@@ -74,14 +74,14 @@ public class ExitStmt extends Stmt {
 
         // Counts number of parents loops
         int parentLoopsCount = 0;
-        AST currentNode = this.getParent();
-        while (currentNode != null && parentLoopsCount < this.getLevel()) {
+        AST parentNode = this.getParent();
+        while (parentNode != null && parentLoopsCount < this.getLevel()) {
             // For each parent loop node found, increment parentLoopsCount
-            if (currentNode instanceof LoopingStmt) {
+            if (parentNode instanceof LoopingStmt) {
                 parentLoopsCount++;
             }
             // Go up the tree!
-            currentNode = currentNode.getParent();
+            parentNode = parentNode.getParent();
         }
 
         // S50, S53 - check that exit statement is in correct number of loop.
