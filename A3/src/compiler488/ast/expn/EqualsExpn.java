@@ -1,7 +1,5 @@
 package compiler488.ast.expn;
 
-import java.util.ArrayList;
-
 import compiler488.ast.type.*;
 import compiler488.symbol.SymbolTable;
 
@@ -15,13 +13,13 @@ public class EqualsExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols){
 		
-		this.getLeft().checkSemantics(symbols, errors);
-		this.getRight().checkSemantics(symbols, errors);
+		this.getLeft().checkSemantics(symbols);
+		this.getRight().checkSemantics(symbols);
 		
 		if(!(this.getLeft().getType().toString().equals(this.getRight().getType().toString()))){
-			errors.add("The type of left and right operand do not match");
+			throw new Exception("The type of left and right operand do not match");
 		}
 		
 		this.setType(new BooleanType());

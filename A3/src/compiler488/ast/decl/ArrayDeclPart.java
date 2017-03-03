@@ -1,7 +1,5 @@
 package compiler488.ast.decl;
 
-import java.util.ArrayList;
-
 import compiler488.ast.type.Type;
 import compiler488.symbol.*;
 
@@ -66,14 +64,14 @@ public class ArrayDeclPart extends DeclarationPart {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 		if(symbols.getSymbol(this.name) != null){
-			errors.add("Variable has been already declared");
+			throw new Exception("Variable has been already declared");
 		}
 
 		// S46 Check that lower bound is <= upper bound
 		if(this.lb>this.ub){
-			errors.add("The lower bound must be smaller than upper bound");
+			throw new Exception("The lower bound must be smaller than upper bound");
 		}
 
 		// S19 and S48 Declaring the array by adding it to the symbol table

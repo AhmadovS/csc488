@@ -1,7 +1,5 @@
 package compiler488.ast.stmt;
 
-import java.util.ArrayList;
-
 import compiler488.ast.ASTList;
 import compiler488.ast.Printable;
 import compiler488.symbol.SymbolTable;
@@ -32,7 +30,7 @@ public class WriteStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 
 	}
 }

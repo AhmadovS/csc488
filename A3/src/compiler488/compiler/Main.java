@@ -456,9 +456,8 @@ public class Main {
        */
       try {
           SymbolTable symbols = new SymbolTable();
-          ArrayList<String> semanticErrors = new ArrayList<>();
 
-          programAST.checkSemantics(symbols, semanticErrors);
+          programAST.checkSemantics(symbols);
 
       } catch( Exception e) {
           System.err.println("Exception during Semantic Analysis");

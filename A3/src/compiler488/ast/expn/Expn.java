@@ -1,7 +1,5 @@
 package compiler488.ast.expn;
 
-import java.util.ArrayList;
-
 import compiler488.ast.AST;
 import compiler488.ast.Printable;
 import compiler488.ast.type.Type;
@@ -14,7 +12,7 @@ public class Expn extends AST implements Printable {
 	
 	public Type type;
 	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 		
 	}
 	

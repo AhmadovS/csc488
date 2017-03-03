@@ -1,7 +1,5 @@
 package compiler488.ast.type;
 
-import java.util.ArrayList;
-
 import compiler488.ast.AST;
 import compiler488.symbol.SymbolTable;
 
@@ -11,7 +9,7 @@ import compiler488.symbol.SymbolTable;
 public class Type extends AST {
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 		// TODO Auto-generated method stub
 		
 	}

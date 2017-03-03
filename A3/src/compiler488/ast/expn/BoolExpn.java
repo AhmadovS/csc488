@@ -1,7 +1,5 @@
 package compiler488.ast.expn;
 
-import java.util.ArrayList;
-
 import compiler488.ast.type.*;
 import compiler488.symbol.SymbolTable;
 
@@ -15,18 +13,18 @@ public class BoolExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols){
 
 		// S30 - checks left expression is boolean
-		this.getLeft().checkSemantics(symbols, errors);
+		this.getLeft().checkSemantics(symbols);
 		if(!(this.getLeft().getType() instanceof BooleanType)){
-			errors.add("Left side of boolean operation must be boolean");
+			throw new Exception("Left side of boolean operation must be boolean");
 		}
 
 		// S30 - checks right expression is boolean
-		this.getRight().checkSemantics(symbols, errors);
+		this.getRight().checkSemantics(symbols);
 		if(!(this.getRight().getType() instanceof BooleanType)){
-			errors.add("Right side of boolean operation must be boolean");
+			throw new Exception("Right side of boolean operation must be boolean");
 		}
 
 		// S20 - sets result type to boolean

@@ -1,7 +1,5 @@
 package compiler488.ast.stmt;
 
-import java.util.ArrayList;
-
 import compiler488.ast.AST;
 import compiler488.ast.expn.*;
 import compiler488.ast.type.BooleanType;
@@ -66,10 +64,10 @@ public class ExitStmt extends Stmt {
     }
 
     @Override
-    public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
         if (this.getLevel() < 1) {
-            errors.add("Invalid integer exit statement");
+            throw new Exception("Invalid integer exit statement");
         }
 
         // Counts number of parents loops
@@ -86,19 +84,19 @@ public class ExitStmt extends Stmt {
 
         // S50, S53 - check that exit statement is in correct number of loop.
         if (parentLoopsCount == 0) {
-            errors.add("Exit statement is not contained in a loop statement");
+            throw new Exception("Exit statement is not contained in a loop statement");
         } else if (parentLoopsCount != this.getLevel()) {
-            errors.add("Invalid Exit statement integer");
+            throw new Exception("Invalid Exit statement integer");
         }
 
 
         // If expression is present, check if it is bool S30
         if(this.expn != null){
-            this.expn.checkSemantics(symbols, errors);
+            this.expn.checkSemantics(symbols);
 
             // S30 - checks that type of expression is boolean.
             if(!(this.expn.getType() instanceof BooleanType)){
-                errors.add("Expression of exit must be boolean");
+                throw new Exception("Expression of exit must be boolean");
             }
         }
 

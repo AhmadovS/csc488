@@ -1,7 +1,6 @@
 package compiler488.ast.stmt;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
@@ -75,22 +74,22 @@ public class IfStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		// We need to check children expression, so we can know it's type for S30 check.
-		this.getCondition().checkSemantics(symbols, errors);
+		this.getCondition().checkSemantics(symbols);
 
 	    // S30 - check if condition expression is boolean
 		if (!(this.getCondition().getType() instanceof BooleanType)){
-			errors.add("The expression of IF statement must be boolean");
+			throw new Exception("The expression of IF statement must be boolean");
 		}
 
 		// Check semantics on body of if
-		this.getWhenTrue().checkSemantics(symbols, errors);
+		this.getWhenTrue().checkSemantics(symbols);
 
 		// Check semantics on body of else
 		if (this.getWhenFalse() != null){
-			this.getWhenFalse().checkSemantics(symbols, errors);
+			this.getWhenFalse().checkSemantics(symbols);
 		}
 		
 	}

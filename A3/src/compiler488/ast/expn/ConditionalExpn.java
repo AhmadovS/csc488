@@ -1,7 +1,5 @@
 package compiler488.ast.expn;
 
-import java.util.ArrayList;
-
 import compiler488.ast.type.*;
 import compiler488.symbol.*;
 
@@ -47,17 +45,17 @@ public class ConditionalExpn extends Expn {
 		this.trueValue = trueValue;
 	}
 	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols){
 		
-		this.getCondition().checkSemantics(symbols, errors);
-		this.getTrueValue().checkSemantics(symbols, errors);
-		this.getFalseValue().checkSemantics(symbols, errors);
+		this.getCondition().checkSemantics(symbols);
+		this.getTrueValue().checkSemantics(symbols);
+		this.getFalseValue().checkSemantics(symbols);
 		
 		if (!(this.getCondition().getType() instanceof BooleanType)){
-			errors.add("The condition of conditional expression must be boolean");
+			throw new Exception("The condition of conditional expression must be boolean");
 		}
 		if(!this.getFalseValue().getType().toString().equals(this.getTrueValue().getType().toString())){
-			errors.add("Both side of conditional expression must be the same type");
+			throw new Exception("Both side of conditional expression must be the same type");
 		}
 		
 		this.setType(this.getTrueValue().getType());

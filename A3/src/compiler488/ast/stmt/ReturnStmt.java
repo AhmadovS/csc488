@@ -1,7 +1,6 @@
 package compiler488.ast.stmt;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import compiler488.ast.AST;
 import compiler488.ast.Indentable;
@@ -50,11 +49,11 @@ public class ReturnStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
 	    // If contained expression is not null, do semantic check on children.
 		if (value != null) {
-			value.checkSemantics(symbols, errors);
+			value.checkSemantics(symbols);
 		}
 
 		// Finds RoutineDecl parent node
@@ -68,18 +67,18 @@ public class ReturnStmt extends Stmt {
 		// S51 - check that return is inside a function
 		// S52 - check that return is inside a procedure
 		if (parentNode == null) {
-		    errors.add("Return statement is not inside a routine");
+		    throw new Exception("Return statement is not inside a routine");
 		}
 
 		if (value != null) {
-			// S35 - check if expression type matches the return type of the enclosing function.
 			if (parentNode.getType() == null) {
 				// parent node is a procedure, whereas we expected a function.
-				errors.add("Procedure cannot accept return statement with expression");
+				throw new Exception("Procedure cannot accept return statement with expression");
 			}
 
+			// S35 - check if expression type matches the return type of the enclosing function.
 			if (parentNode.getType().getClass() != value.getType().getClass()) {
-				errors.add("Return type doesn't match function signature return type");
+				throw new Exception("Return type doesn't match function signature return type");
 			}
 		}
 

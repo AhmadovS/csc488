@@ -1,7 +1,6 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
@@ -65,13 +64,13 @@ public class RoutineBody extends Indentable {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 
 		// Depth-first walk through the parameters
 		ListIterator<ScalarDecl> li = this.parameters.getIterator();
 		while (li.hasNext()) {
 			ScalarDecl param = li.next();
-			param.checkSemantics(symbols, errors);
+			param.checkSemantics(symbols);
 		}
 
 		// S04, S08 - Starts function and procedure scope.
@@ -84,7 +83,7 @@ public class RoutineBody extends Indentable {
                 symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()));
             }
 
-			this.body.checkSemantics(symbols, errors);
+			this.body.checkSemantics(symbols);
 
 		// S05, S09 - Closing function scope.
 		symbols.exitScope();

@@ -1,7 +1,5 @@
 package compiler488.ast.decl;
 
-import java.util.ArrayList;
-
 import compiler488.ast.AST;
 import compiler488.symbol.SymbolTable;
 
@@ -25,6 +23,6 @@ public abstract class DeclarationPart extends AST {
 		this.name = name;
 	}
 
-	public abstract void checkSemantics(SymbolTable symbols, ArrayList<String> errors);
+	public abstract void checkSemantics(SymbolTable symbols) throws Exception;
 
 }

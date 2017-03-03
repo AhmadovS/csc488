@@ -1,7 +1,6 @@
 package compiler488.ast;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import compiler488.symbol.SymbolTable;
 
@@ -67,7 +66,7 @@ public class Indentable extends AST {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

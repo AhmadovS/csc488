@@ -1,7 +1,5 @@
 package compiler488.ast.expn;
 
-import java.util.ArrayList;
-
 import compiler488.ast.type.IntegerType;
 import compiler488.symbol.SymbolTable;
 
@@ -15,18 +13,18 @@ public class ArithExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols){
 		
 		// S31 - checks left expression is integer
-		this.getLeft().checkSemantics(symbols, errors);
+		this.getLeft().checkSemantics(symbols);
 		if(!(this.getLeft().getType() instanceof IntegerType)){
-			errors.add("Left side of arithmetic operation must be integer");
+			throw new Exception("Left side of arithmetic operation must be integer");
 		}
 
 		// S31 - checks right expression is integer
-		this.getRight().checkSemantics(symbols, errors);
+		this.getRight().checkSemantics(symbols);
 		if(!(this.getRight().getType() instanceof IntegerType)){
-			errors.add("Right side of arithmetic operation must be integer");
+			throw new Exception("Right side of arithmetic operation must be integer");
 		}
 
 		// S21 - sets result type to integer

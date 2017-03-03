@@ -1,7 +1,6 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
@@ -70,7 +69,7 @@ public class RoutineDecl extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 
 		// TODO: check if the symbol table already contains declaration
         // should this be the job of SymbolTable.addSymbol()?
@@ -88,6 +87,6 @@ public class RoutineDecl extends Declaration {
 		symbols.addSymbol(sym);
 
         // Calls semantics check on the body
-        this.routineBody.checkSemantics(symbols, errors);
+        this.routineBody.checkSemantics(symbols);
 	}
 }

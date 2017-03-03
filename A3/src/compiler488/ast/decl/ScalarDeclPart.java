@@ -1,7 +1,5 @@
 package compiler488.ast.decl;
 
-import java.util.ArrayList;
-
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -23,7 +21,7 @@ public class ScalarDeclPart extends DeclarationPart {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 		// TODO Auto-generated method stub
 		
 	}

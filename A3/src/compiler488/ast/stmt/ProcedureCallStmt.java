@@ -1,12 +1,13 @@
  
 package compiler488.ast.stmt;
 
-import java.util.ArrayList;
 import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
+import compiler488.ast.type.Type;
 import compiler488.symbol.RoutineSymbol;
+import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -53,39 +54,49 @@ public class ProcedureCallStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
-		if(symbols.getSymbol(this.name) == null){
-			errors.add("Procedure has not been declared");
-		}else if(!(symbols.getSymbol(this.name) instanceof RoutineSymbol)){
-			errors.add("The identifier has not beed declared as procedure");
-		}else{
-			
-			RoutineSymbol proc = (RoutineSymbol) symbols.getSymbol(this.name);
-			
-			//Check if argument and parameter sizes match			
-			if(this.getArguments() == null && proc.getParams() != null){
-				errors.add("Calling procedure without arguments");
-			}
-			
-			if(this.getArguments() != null && proc.getParams() == null){
-				errors.add("Procedure does not have parameters");
-			}
-			
-			if(this.getArguments().size() != proc.getParamCount()){
-				errors.add("Number of arguments and parameters do not match");
-			}
-			ListIterator args = this.getArguments().getIterator(); 
-			ListIterator params = proc.getParams().getIterator();
-			
-			while(args.hasNext() && params.hasNext()){
-				Expn arg = (Expn) args.next();
-				arg.checkSemantics(symbols, errors);
-				if(!arg.getType().toString().equals(params.next().toString())){
-					errors.add("Type of arguments and parameter do not match");
-				}	
-			}
+	    RoutineSymbol routineSym = null;
+
+	    try {
+	        routineSym = (RoutineSymbol) symbols.getSymbol(this.getName());
+        } catch (ClassCastException e) {
+	        // S41 - check that the identifier has been declared as a procedure.
+	        throw new Exception("Identifier has not been declared as a procedure");
+        }
+
+        // Checks if the symbol is declared.
+		if (routineSym == null){
+			throw new Exception("Procedure has not been declared");
 		}
-		
+
+        // part of S43 - checks if any arguments are passed.
+        if(this.getArguments() == null && routineSym.getParams() != null){
+            throw new Exception("Calling procedure without arguments");
+        }
+
+        // S42 - Checks that procedure does not have parameters
+        if(this.getArguments() != null && routineSym.getParams() == null){
+            throw new Exception("Procedure does not have parameters");
+        }
+
+        // S43 - Check if argument and parameter sizes match
+        if(this.getArguments().size() != routineSym.getParamCount()){
+            throw new Exception("Number of arguments and parameters do not match");
+        }
+
+        // S36 - Check that type of argument expression matches type of corresponding formal parameter.
+        ListIterator<Expn> args = this.getArguments().getIterator();
+        ListIterator<Type> params = routineSym.getParams().getIterator();
+
+        while(args.hasNext() && params.hasNext()){
+            Expn arg =  args.next();
+            Type paramType = params.next();
+            arg.checkSemantics(symbols);
+            if (arg.getType().getClass() != paramType.getClass()) {
+                throw new Exception("Type of arguments and parameter do not match");
+            }
+        }
+
 	}
 }

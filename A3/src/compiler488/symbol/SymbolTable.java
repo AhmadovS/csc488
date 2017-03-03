@@ -74,36 +74,5 @@ public class SymbolTable {
         return true;
 	}
 
-	/**  Initialize - called once by semantic analysis  
-	 *                at the start of  compilation     
-	 *                May be unnecessary if constructor
- 	 *                does all required initialization	
-	 */
-	public void Initialize() {
-	
-	   /**   Initialize the symbol table             
-	    *	Any additional symbol table initialization
-	    *  GOES HERE                                	
-	    */
-	   
-	}
-
-	/**  Finalize - called once by Semantics at the end of compilation
-	 *              May be unnecessary 		
-	 */
-	public void Finalize(){
-	
-	  /**  Additional finalization code for the 
-	   *  symbol table  class GOES HERE.
-	   *  
-	   */
-	}
-	
-
-	/** The rest of Symbol Table
-	 *  Data structures, public and private functions
- 	 *  to implement the Symbol Table
-	 *  GO HERE.				
-	 */
 
 }

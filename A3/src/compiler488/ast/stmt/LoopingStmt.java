@@ -1,7 +1,5 @@
 package compiler488.ast.stmt;
 
-import java.util.ArrayList;
-
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.BooleanType;
 import compiler488.symbol.SymbolTable;
@@ -36,19 +34,19 @@ public abstract class LoopingStmt extends Stmt {
 	}
 	
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) throws Exception{
 
         // We need to check children expression, so we can know it's type for S30 check.
-        this.getExpn().checkSemantics(symbols, errors);
+        this.getExpn().checkSemantics(symbols);
 
         // S30 - check if condition expression is boolean
         if (!(this.getExpn().getType() instanceof BooleanType)){
-            errors.add("The expression of loops must be boolean");
+            throw new Exception("The expression of loops must be boolean");
         }
 
         // Check semantics on the body (statements) of the loop.
 		if (this.getBody() != null){
-			this.getBody().checkSemantics(symbols, errors);
+			this.getBody().checkSemantics(symbols);
 		}
 		
 		

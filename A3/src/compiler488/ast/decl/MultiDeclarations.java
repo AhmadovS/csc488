@@ -1,7 +1,6 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
@@ -58,17 +57,17 @@ public class MultiDeclarations extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols){
 
 		ListIterator li = this.getElements().getIterator();
 		
 		while(li.hasNext()){
 			DeclarationPart decl =  (DeclarationPart) li.next(); 
-			decl.checkSemantics(symbols, errors);
+			decl.checkSemantics(symbols);
 
 			// TODO: each implementation of DeclarationPart already checks for this
 			if(symbols.getSymbol(decl.getName()) != null){
-				errors.add("Variable has already been declared");
+				throw new Exception("Variable has already been declared");
 			}
 			// TODO add multiple decls to symbol table (is this needed?)
 		}

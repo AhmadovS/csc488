@@ -67,14 +67,15 @@ public class Scope extends Stmt {
         this.statements = statements;
     }
 
-    public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+    @Override
+    public void checkSemantics(SymbolTable symbols) throws Exception{
 
         ListIterator stmts = this.getStatements().getIterator();
         ListIterator decls = this.getDeclarations().getIterator();
 
         // S02 - Associate declaration with scope
         while(decls.hasNext()){
-            ((Declaration) decls.next()).checkSemantics(symbols, errors);
+            ((Declaration) decls.next()).checkSemantics(symbols);
         }
 
         // Checking semantics on child statement nodes.
@@ -86,11 +87,11 @@ public class Scope extends Stmt {
             if (currentStmt instanceof Scope) {
                 // S06 - Start ordinary scope
                 symbols.startScope();
-                    currentStmt.checkSemantics(symbols, errors);
+                    currentStmt.checkSemantics(symbols);
                 // S07 - End ordinary scope
                 symbols.exitScope();
             } else {
-                currentStmt.checkSemantics(symbols, errors);
+                currentStmt.checkSemantics(symbols);
             }
         }
 

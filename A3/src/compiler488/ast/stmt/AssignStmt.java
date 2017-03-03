@@ -1,7 +1,5 @@
 package compiler488.ast.stmt;
 
-import java.util.ArrayList;
-
 import compiler488.ast.expn.Expn;
 import compiler488.symbol.SymbolTable;
 
@@ -43,15 +41,15 @@ public class AssignStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 		
-		this.getLval().checkSemantics(symbols, errors);
+		this.getLval().checkSemantics(symbols);
 
-		this.getRval().checkSemantics(symbols, errors);
+		this.getRval().checkSemantics(symbols);
 
 		// S34 - Check that variable (lval) and expression (rval) are the same type.
 		if (lval.getType().getClass() != rval.getType().getClass()) {
-			errors.add("The type left and right hand of assignments do not match");
+			throw new Exception("The type left and right hand of assignments do not match");
 		}
 	}
 }

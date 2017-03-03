@@ -1,7 +1,5 @@
 package compiler488.ast.decl;
 
-import java.util.ArrayList;
-
 import compiler488.symbol.SymbolTable;
 import compiler488.ast.type.Type;
 
@@ -25,13 +23,13 @@ public class ScalarDecl extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(SymbolTable symbols){
 
 	    //TODO: does this check need to happen here,
 		// should SymbolTable.addSymbol already have taken care of this?
 
 		if(symbols.getSymbol(this.getName()) != null){
-			errors.add("Scalar variable has been already declared");
+			throw new Exception("Scalar variable has been already declared");
 		}
 	}
 }

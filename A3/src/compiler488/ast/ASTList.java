@@ -3,7 +3,6 @@ package compiler488.ast;
 import compiler488.symbol.SymbolTable;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -50,12 +49,12 @@ public class ASTList<E> extends AST {
 		return this;
 	}
 	
-	public ListIterator getIterator(){
+	public ListIterator<E> getIterator(){
 		return ll.listIterator();
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(SymbolTable symbols) {
 
 	}
 
