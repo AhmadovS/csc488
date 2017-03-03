@@ -273,11 +273,11 @@ unmatchedStatement::=	IF expression:e THEN statement:s
 
 procedureCall	::=	IDENT:i 							// call procedure with no parameters
 			{:
-				RESULT = new ProcedureCallStmt((String) i);
+				RESULT = new ProcedureCallStmt(i);
 			:}
 		|	IDENT:i L_PAREN arguments:a R_PAREN  			// call procedure with parameters
 			{:
-				RESULT = new ProcedureCallStmt((String) i, (ASTList<Expn>) a);
+				RESULT = new ProcedureCallStmt(i, (ASTList<Expn>) a);
 			:}
 		;
 
@@ -288,22 +288,22 @@ declaration	::=	VAR variablenames:vs COLON type:t			// declare scalar/array vari
 		|	FUNCTION IDENT:i COLON type:t scope:s			// declare function
 			{:
 				RoutineBody body = new RoutineBody((Scope) s);
-				RESULT = new RoutineDecl((String) i, (Type) t, body);
+				RESULT = new RoutineDecl(i, (Type) t, body);
 			:}
 		|	FUNCTION  IDENT:i L_PAREN parameters:p R_PAREN COLON type:t scope:s
 			{:
 				RoutineBody body = new RoutineBody((ASTList<ScalarDecl>) p, (Scope) s);
-				RESULT = new RoutineDecl((String) i, (Type) t, body);
+				RESULT = new RoutineDecl(i, (Type) t, body);
 			:}
 		|	PROCEDURE IDENT:i scope:s			//  declare procedure
 			{:
 				RoutineBody body = new RoutineBody((Scope) s);
-				RESULT = new RoutineDecl((String) i, body);
+				RESULT = new RoutineDecl(i, body);
 			:}
 		|	PROCEDURE IDENT:i L_PAREN parameters:p R_PAREN scope:s
 			{:
 				RoutineBody body = new RoutineBody((ASTList<ScalarDecl>) p, (Scope) s);;
-				RESULT = new RoutineDecl((String) i, body);
+				RESULT = new RoutineDecl(i, body);
 			:}
 		;
 
@@ -319,15 +319,15 @@ variablenames	::=	variablename:v  				// list of variables being declared
 
 variablename	::=	IDENT:i 						// scalar variable
 			{:
-				RESULT = new ScalarDeclPart((String) i);
+				RESULT = new ScalarDeclPart(i);
 			:}
 		|	IDENT:i1 L_SQUARE INTCONST:i2 R_SQUARE		// array variable with upper bound
 			{:
-				RESULT = new ArrayDeclPart((String) i1, (int) 1, (int) i2);
+				RESULT = new ArrayDeclPart(i1, (int) 1, (int) i2);
 			:}
 		|	IDENT:i1 L_SQUARE bound:i2 DOT DOT bound:i3  R_SQUARE	// array variable with upper/lower bounds
 			{:
-				RESULT = new ArrayDeclPart((String) i1, (int) i2, (int) i3);
+				RESULT = new ArrayDeclPart(i1, (int) i2, (int) i3);
 			:}
 		;
 
@@ -407,7 +407,7 @@ parameters	::=	parameter:p			// list of function/procedure formal parameters
 
 parameter	::=	IDENT:i COLON type:t 		// declare one parameter
 			{:
-				RESULT = new ScalarDecl((String) i, (Type) t);
+				RESULT = new ScalarDecl(i, (Type) t);
 			:}
 		;
 
@@ -519,7 +519,7 @@ primary		::=	constant:c				// integer or boolean constant
 			:}
 		|	IDENT:i L_PAREN arguments:a R_PAREN 	// function call
 			{:
-				RESULT = new FunctionCallExpn((String) i, (ASTList<Expn>) a);
+				RESULT = new FunctionCallExpn(i, (ASTList<Expn>) a);
 			:}
 		| 	L_PAREN  expression:e  R_PAREN		// parenthesized expression
 			{:
@@ -551,7 +551,7 @@ variable	::=	IDENT:i					// scalar variable or function call
 			:}
 		|	IDENT:i L_SQUARE expression:e R_SQUARE	// element of an array
 			{:
-				RESULT = new SubsExpn((Expn) e, (String) i);
+				RESULT = new SubsExpn((Expn) e, i);
 			:}
 		;
 
