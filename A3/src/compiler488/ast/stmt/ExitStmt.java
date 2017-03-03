@@ -28,6 +28,10 @@ public class ExitStmt extends Stmt {
 	public ExitStmt(Integer level) {
 		this.level = level;
 	}
+	
+	public ExitStmt() {
+		
+	}
 
 	/** Returns the string <b>"exit"</b> or <b>"exit when e"</b>" 
             or  <b>"exit"</b> level  or  <b>"exit"</b> level  when e 
