@@ -15,18 +15,18 @@ import compiler488.symbol.SymbolTable;
  */
 public class RoutineBody extends Indentable {
 
-	private ASTList<ScalarDecl> parameters; // The formal parameters of the routine.
+	private ASTList<ParameterDecl> parameters; // The formal parameters of the routine.
 
 	private Scope body; // Execute this scope when routine is called.
 	
-	public RoutineBody(ASTList<ScalarDecl> parameters, Scope body) {
+	public RoutineBody(ASTList<ParameterDecl> parameters, Scope body) {
 		this.body = body;
 		this.parameters = parameters;
 	}
 	
 	public RoutineBody(Scope body) {
 		this.body = body;
-		this.parameters = new ASTList<ScalarDecl>();
+		this.parameters = new ASTList<ParameterDecl>();
 	}
 
 	/**
@@ -55,37 +55,33 @@ public class RoutineBody extends Indentable {
 		this.body = body;
 	}
 
-	public ASTList<ScalarDecl> getParameters() {
+	public ASTList<ParameterDecl> getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(ASTList<ScalarDecl> parameters) {
+	public void setParameters(ASTList<ParameterDecl> parameters) {
 		this.parameters = parameters;
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
-		// Depth-first walk through the parameters
-		ListIterator<ScalarDecl> li = this.parameters.getIterator();
-		while (li.hasNext()) {
-			ScalarDecl param = li.next();
-			param.checkSemantics(symbols);
-		}
+		// Note: Parameters don't need semantic check.
 
 		// S04, S08 - Starts function and procedure scope.
 		symbols.startScope();
 
             // Adds parameters to the scope
-            ListIterator<ScalarDecl> typeli = this.parameters.getIterator();
+            ListIterator<ParameterDecl> typeli = this.parameters.getIterator();
             while (typeli.hasNext()) {
-                ScalarDecl param = typeli.next();
+                ParameterDecl param = typeli.next();
                 symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()));
             }
 
+            // Semantic check on the routine body
 			this.body.checkSemantics(symbols);
 
-		// S05, S09 - Closing function scope.
+		// S05, S09 - Closing function/procedure scope.
 		symbols.exitScope();
 
 	}

@@ -1,12 +1,16 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
+import compiler488.symbol.ArraysSymbol;
+import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
+import compiler488.symbol.VariablesSymbol;
 
 /**
  * Holds the declaration of multiple elements.
@@ -57,19 +61,22 @@ public class MultiDeclarations extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols){
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
-		ListIterator li = this.getElements().getIterator();
-		
+		ListIterator<DeclarationPart> li = this.getElements().getIterator();
 		while(li.hasNext()){
-			DeclarationPart decl =  (DeclarationPart) li.next(); 
-			decl.checkSemantics(symbols);
+			DeclarationPart decl =  li.next();
 
-			// TODO: each implementation of DeclarationPart already checks for this
-			if(symbols.getSymbol(decl.getName()) != null){
-				throw new Exception("Variable has already been declared");
+			if (decl instanceof ScalarDeclPart) {
+				// S47 - Associate type with variables
+				VariablesSymbol sm = new VariablesSymbol(decl.getName(), this.getType());
+				symbols.addSymbol(sm);
+			} else if (decl instanceof ArrayDeclPart) {
+			    // S19, S48 - Declare array varialbe with specified lower and upper bounds.
+			    ArrayDeclPart arrayDecl = (ArrayDeclPart) decl;
+				ArraysSymbol sm = new ArraysSymbol(arrayDecl.getName(), this.getType(), arrayDecl.getLowerBoundary(), arrayDecl.getLowerBoundary());
+				symbols.addSymbol(sm);
 			}
-			// TODO add multiple decls to symbol table (is this needed?)
 		}
 		
 	}

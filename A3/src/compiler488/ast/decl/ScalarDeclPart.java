@@ -22,7 +22,6 @@ public class ScalarDeclPart extends DeclarationPart {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols) {
-		// TODO Auto-generated method stub
-		
+	    // Nothing to do here.
 	}
 }

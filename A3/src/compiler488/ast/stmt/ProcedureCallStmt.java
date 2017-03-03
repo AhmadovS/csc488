@@ -65,11 +65,6 @@ public class ProcedureCallStmt extends Stmt {
 	        throw new Exception("Identifier has not been declared as a procedure");
         }
 
-        // Checks if the symbol is declared.
-		if (routineSym == null){
-			throw new Exception("Procedure has not been declared");
-		}
-
         // part of S43 - checks if any arguments are passed.
         if(this.getArguments() == null && routineSym.getParams() != null){
             throw new Exception("Calling procedure without arguments");

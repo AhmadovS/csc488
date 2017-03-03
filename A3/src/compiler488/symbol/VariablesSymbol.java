@@ -2,7 +2,7 @@ package compiler488.symbol;
 
 import compiler488.ast.type.Type;
 
-class VariablesSymbol extends Symbol{
+public class VariablesSymbol extends Symbol{
 	
 	private String name;
 	private Type type;

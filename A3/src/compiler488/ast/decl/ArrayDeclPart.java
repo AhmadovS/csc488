@@ -10,8 +10,7 @@ public class ArrayDeclPart extends DeclarationPart {
 
 	/* The lower and upper boundaries of the array. */
     private Integer lb, ub;
-    private Type type = null;
-        
+
 	/* The number of objects the array holds. */
 	private Integer size;
 	
@@ -20,15 +19,6 @@ public class ArrayDeclPart extends DeclarationPart {
 		
 		this.lb = lb;
 		this.ub = up;
-	}
-	
-	
-	public ArrayDeclPart(String name, Type type, int lb, int up){
-		super(name);
-		
-		this.lb = lb;
-		this.ub = up;
-		this.type = type;
 	}
 	
 	/**
@@ -65,17 +55,10 @@ public class ArrayDeclPart extends DeclarationPart {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols) throws Exception {
-		if(symbols.getSymbol(this.name) != null){
-			throw new Exception("Variable has been already declared");
-		}
-
-		// S46 Check that lower bound is <= upper bound
-		if(this.lb>this.ub){
+		// S46 - Check that lower bound is <= upper bound
+		if(this.lb > this.ub){
 			throw new Exception("The lower bound must be smaller than upper bound");
 		}
 
-		// S19 and S48 Declaring the array by adding it to the symbol table
-        ArraysSymbol array = new ArraysSymbol(this.name,this.type, this.lb, this.ub);
-        symbols.addSymbol(array);
 	}
 }

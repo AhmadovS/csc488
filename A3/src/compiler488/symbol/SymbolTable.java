@@ -43,11 +43,10 @@ public class SymbolTable {
 
     /**
      * Traverses the scopes of SymbolTable from top to bottom,
-     * and returns earliest declaration found, otherwise null.
+     * and returns earliest declaration found.
      * @param name Identifier name
-     * @return Returns null of no symbol is found.
      */
-	public Symbol getSymbol(String name){
+	public Symbol getSymbol(String name) throws Exception{
 	    ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator();
 	    while(li.hasPrevious()) {
 	        HashMap<String, Symbol> scopeTable = li.previous();
@@ -55,23 +54,21 @@ public class SymbolTable {
 	        if (sym != null)
                 return sym;
         }
-        return null;
+        throw new Exception(String.format("Identifier with %s has not been declared", name));
 	}
 
     /**
      * Adds symbol to current scope (i.e. the last scope)
      * @param sm Symbol to add to current scope.
-     * @return true if symbol was added successfully, false otherwise.
      */
-	public boolean addSymbol(Symbol sm){
+	public void addSymbol(Symbol sm) throws Exception {
         HashMap<String, Symbol> currentScope = symbolTable.peek();
 
         if (currentScope.get(sm.getName()) != null) {
-            return false;
+            throw new Exception(String.format("Identifier with name (%s) has already been declared", sm.getName()));
         }
 
         currentScope.put(sm.getName(), sm);
-        return true;
 	}
 
 
