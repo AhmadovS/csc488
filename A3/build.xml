@@ -126,6 +126,11 @@
     </jar>
   </target>
 
+  <target name="compile+dist" depends="compile,dist"
+          description="Runs compile and dist">
+
+  </target>
+
   <target name="submit" depends="compile"
    description="generate the distribution" >
     <!-- Create the distribution directory -->
