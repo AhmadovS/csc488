@@ -42,7 +42,6 @@ public class ReadStmt extends Stmt {
 		while(li.hasNext()) {
 			Readable input = li.next();
 
-
 			if (input instanceof IdentExpn) {
 				// Note: do semantic check first
 				((IdentExpn)input).checkSemantics(symbols);

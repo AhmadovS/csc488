@@ -7,7 +7,7 @@
 var input1 : Integer          % Integer variable
 var input2 : Integer          % Boolean variable
 var input3[2] : Integer       % Integer array
-var input4[-5..-4] : Boolean  % Boolean array
+var input4[-5..-4] : Integer  % Boolean array
 
 var a : Integer
 var b : Integer
@@ -37,22 +37,22 @@ R := not P  % Complex boolean assignment including variables
 
 % test logical OR operator 
 
-write true or false % simple, no variable
-write P or P % (both True)
-write P or Q	% (one False and another True)
-write not P or P % (more complex logical expression)
+% write true or false % simple, no variable
+% write P or P % (both True)
+% write P or Q	% (one False and another True)
+% write not P or P % (more complex logical expression)
 
-% test logical AND operator
+% % test logical AND operator
 
-write true and true % simple, no variable
-write P and P % (both True) (true)
-write Q and P % (one False and the other True) (false)
-write R and not Q and P % (more complex logical expression) (false)
+% write true and true % simple, no variable
+% write P and P % (both True) (true)
+% write Q and P % (one False and the other True) (false)
+% write R and not Q and P % (more complex logical expression) (false)
 
 % test logical NOT operator
-write not false % (simple, no variable) (true)
-write not Q % (variable is False) (true)
-write not P and Q or not Q and R % (complex expression) (false)
+% write not false % (simple, no variable) (true)
+% write not Q % (variable is False) (true)
+% write not P and Q or not Q and R % (complex expression) (false)
 
 %-------------------------------
 % Comparison tests
@@ -92,7 +92,7 @@ else
 % Single-statement conditional if/then/else statement
 % logical expression used
 if P or not R then 
-	write R
+	write "TRUEEE"
 else
 	write "False", "Both P is False"
 
@@ -119,7 +119,7 @@ if input1 < 2 or input2 > 5 then {
 write (input1 > 5 ? 1 : 0) % simple text output expression
 write (input1 > 5 ? 4 / 2 : 2 + 2)  % simple arithmetic output expression
 write (input2 - 2 not= -1 and input1 >= 3 ? 1 : 0) % more complex input expression
-write (input2 - 3 = 1 or input1 > 3 ? 3 + 2 <= input1 : 3 + 2 > input1) % complex conditional expression with logical output 
+write (input2 - 3 = 1 or input1 > 3 ? 3 + 2 : 3 + 1) % complex conditional expression with logical output 
 
 
 }

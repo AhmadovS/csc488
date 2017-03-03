@@ -36,6 +36,6 @@ public class IdentExpn extends Expn implements Readable {
         // S25, S26 - set result type to type of variablename
 		Symbol sym = symbols.getSymbol(this.getIdent());
 		this.setType(sym.getType());
-		DebugTool.print("IdentExpn: " + sym.toString());
+//		DebugTool.print("IdentExpn: " + sym.toString());
 	}
 }
