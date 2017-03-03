@@ -1,6 +1,7 @@
 package compiler488.ast.stmt;
 
 import compiler488.ast.expn.Expn;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -44,7 +45,7 @@ public class AssignStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 
 	    // Note: Have to perform semantic check on children first, to get their type.
 		this.getLval().checkSemantics(symbols);
@@ -52,7 +53,7 @@ public class AssignStmt extends Stmt {
 
 		// S34 - Check that variable (lval) and expression (rval) are the same type.
 		if (lval.getType().getClass() != rval.getType().getClass()) {
-			throw new Exception("The type left and right hand of assignments do not match");
+            SemanticError.add("The type left and right hand of assignments do not match");
 		}
 	}
 }

@@ -20,11 +20,11 @@ public class Program extends Scope {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception{
+	public void checkSemantics(SymbolTable symbols) {
 		// S00 - start program scope.
 		symbols.startScope();
 			// Walk of AST for semantic checking
-            super.checkSemantics(symbols);
+		super.checkSemantics(symbols);
 		// S01 - end program scope.
 		symbols.exitScope();
 	}

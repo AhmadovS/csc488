@@ -37,7 +37,7 @@ public class ReadStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 		ListIterator<Readable> li = inputs.getIterator();
 		while(li.hasNext()) {
 			Readable input = li.next();

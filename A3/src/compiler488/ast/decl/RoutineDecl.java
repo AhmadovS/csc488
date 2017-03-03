@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
 
@@ -73,7 +74,7 @@ public class RoutineDecl extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 
 		// Iterates through the parameters of the body and gets their type
 		ASTList<Type> paramsTypes = new ASTList<>();
@@ -85,7 +86,9 @@ public class RoutineDecl extends Declaration {
 		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsTypes);
 
 		// S11, S12, S15, S16 S17, S18 (All implicit) - Adding routine symbol to symbol table
-		symbols.addSymbol(sym);
+		if (!symbols.addSymbol(sym)) {
+			SemanticError.addIdentAlreadyDeclaredError(this);
+		}
 
         // Calls semantics check on the body
         this.routineBody.checkSemantics(symbols);

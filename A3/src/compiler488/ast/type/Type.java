@@ -9,7 +9,7 @@ import compiler488.symbol.SymbolTable;
 public class Type extends AST {
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) {
 		// TODO Auto-generated method stub
 		
 	}

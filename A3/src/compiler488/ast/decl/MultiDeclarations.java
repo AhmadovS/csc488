@@ -1,14 +1,13 @@
 package compiler488.ast.decl;
 
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.ArraysSymbol;
-import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
 import compiler488.symbol.VariablesSymbol;
 
@@ -65,7 +64,7 @@ public class MultiDeclarations extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 
 		ListIterator<DeclarationPart> li = this.getElements().getIterator();
 		while(li.hasNext()){
@@ -74,12 +73,16 @@ public class MultiDeclarations extends Declaration {
 			if (decl instanceof ScalarDeclPart) {
 				// S10, S47 - Declare scalar variable, Associate type with variable
 				VariablesSymbol sm = new VariablesSymbol(decl.getName(), this.getType());
-				symbols.addSymbol(sm);
+				if (!symbols.addSymbol(sm)) {
+				    SemanticError.addIdentAlreadyDeclaredError(this);
+                }
 			} else if (decl instanceof ArrayDeclPart) {
 			    // S19, S48 - Declare array varialbe with specified lower and upper bounds.
 			    ArrayDeclPart arrayDecl = (ArrayDeclPart) decl;
 				ArraysSymbol sm = new ArraysSymbol(arrayDecl.getName(), this.getType(), arrayDecl.getLowerBoundary(), arrayDecl.getLowerBoundary());
-				symbols.addSymbol(sm);
+				if (!symbols.addSymbol(sm)) {
+                    SemanticError.addIdentAlreadyDeclaredError(this);
+                }
 			}
 		}
 		

@@ -74,7 +74,7 @@ public class Scope extends Stmt {
     }
 
     @Override
-    public void checkSemantics(SymbolTable symbols) throws Exception{
+    public void checkSemantics(SymbolTable symbols) {
 
         ListIterator decls = this.getDeclarations().getIterator();
         ListIterator stmts = this.getStatements().getIterator();

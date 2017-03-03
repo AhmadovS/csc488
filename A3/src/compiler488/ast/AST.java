@@ -42,6 +42,6 @@ public abstract class AST {
 		this.children = children;
 	}
 
-	abstract public void checkSemantics(SymbolTable symbols) throws Exception;
+	abstract public void checkSemantics(SymbolTable symbols);
 
 }

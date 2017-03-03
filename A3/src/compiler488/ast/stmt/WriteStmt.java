@@ -38,7 +38,7 @@ public class WriteStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 		ListIterator<Printable> li = outputs.getIterator();
 		while(li.hasNext()) {
 			Printable output = li.next();

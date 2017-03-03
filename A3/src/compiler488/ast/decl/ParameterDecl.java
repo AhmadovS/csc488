@@ -23,7 +23,7 @@ public class ParameterDecl extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 	    // Nothing to do here.
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.stmt.Scope;
+import compiler488.semantics.SemanticError;
 import compiler488.symbol.ParamsSymbol;
 import compiler488.symbol.SymbolTable;
 
@@ -70,7 +71,7 @@ public class RoutineBody extends Indentable {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 
 		// Note: Parameters don't need semantic check.
 
@@ -81,7 +82,9 @@ public class RoutineBody extends Indentable {
             ListIterator<ParameterDecl> typeli = this.parameters.getIterator();
             while (typeli.hasNext()) {
                 ParameterDecl param = typeli.next();
-                symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()));
+                if (!symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()))) {
+					SemanticError.addIdentAlreadyDeclaredError(this);
+				}
             }
 
             // Semantic check on the routine body

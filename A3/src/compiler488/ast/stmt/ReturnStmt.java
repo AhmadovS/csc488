@@ -51,7 +51,7 @@ public class ReturnStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 
 	    // If contained expression is not null, do semantic check on children.
 		if (value != null) {

@@ -1,17 +1,18 @@
 package compiler488.compiler;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.List;
 
-import compiler488.DebugTool;
 import compiler488.parser.*;
 import compiler488.ast.AST ;
 import compiler488.ast.stmt.Program;
+import compiler488.semantics.SemanticError;
 import compiler488.semantics.Semantics;
 import compiler488.symbol.SymbolTable;
 import compiler488.codegen.CodeGen;
 import compiler488.runtime.*;
-import jdk.nashorn.internal.runtime.Debug;
+
+import javax.sound.midi.SysexMessage;
 
 /** This class serves as the main driver for the CSC488S compiler.<BR>
  *  It accepts user options and coordinates overall control flow.
@@ -460,6 +461,13 @@ public class Main {
           SymbolTable symbols = new SymbolTable();
 
           programAST.checkSemantics(symbols);
+
+          List<String> errors = SemanticError.getErrors();
+
+          System.out.println("Semantic errors:");
+          for (String error : errors) {
+              System.out.println(error);
+          }
 
       } catch( Exception e) {
           System.err.println("Exception during Semantic Analysis");

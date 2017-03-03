@@ -30,7 +30,7 @@ public class BoolConstExpn extends ConstExpn {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols){
+    public void checkSemantics(SymbolTable symbols) {
     	// Nothing to do here
 	}
 }

@@ -66,7 +66,7 @@ public class Indentable extends AST {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 		// TODO Auto-generated method stub
 		
 	}

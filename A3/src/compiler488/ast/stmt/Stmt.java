@@ -8,6 +8,6 @@ import compiler488.symbol.SymbolTable;
  */
 public abstract class Stmt extends Indentable {
 	
-	public abstract void checkSemantics(SymbolTable symbols) throws Exception;
+	public abstract void checkSemantics(SymbolTable symbols);
 	
 }

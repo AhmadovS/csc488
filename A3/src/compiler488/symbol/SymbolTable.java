@@ -2,6 +2,7 @@ package compiler488.symbol;
 
 import java.util.*;
 import compiler488.DebugTool;
+import compiler488.semantics.SemanticError;
 
 /** Symbol Table
  *  This almost empty class is a framework for implementing
@@ -46,6 +47,7 @@ public class SymbolTable {
      * Traverses the scopes of SymbolTable from top to bottom,
      * and returns earliest declaration found.
      * @param name Identifier name
+     * @return returns Symbol if found, null otherwise (if Symbol has not been declared in enclosing scopes).
      */
 	public Symbol getSymbol(String name) throws Exception{
 	    ListIterator<HashMap<String, Symbol>> li = symbolTable.listIterator(symbolTable.size());
@@ -55,24 +57,28 @@ public class SymbolTable {
 	        if (sym != null)
                 return sym;
         }
-        throw new Exception(String.format("Identifier (%s) has not been declared", name));
+//        SemanticError.add(String.format("Identifier (%s) has not been declared", name));
+	    return null;
 	}
 
     /**
      * Adds symbol to current scope (i.e. the last scope)
      * @param sm Symbol to add to current scope.
+     * @return returns true if addSymbol was successful, false otherwise.
      */
-	public void addSymbol(Symbol sm) throws Exception {
+	public boolean addSymbol(Symbol sm) throws Exception {
 
 	    DebugTool.print("Adding symbol: " + sm.toString());
 
         HashMap<String, Symbol> currentScope = symbolTable.peek();
 
         if (currentScope.get(sm.getName()) != null) {
-            throw new Exception(String.format("Identifier with name (%s) has already been declared", sm.getName()));
+//            SemanticError.add(String.format("Identifier with name (%s) has already been declared", sm.getName()));
+            return false;
         }
 
         currentScope.put(sm.getName(), sm);
+        return true;
 	}
 
     @Override

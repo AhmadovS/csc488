@@ -7,7 +7,6 @@ import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.Type;
 import compiler488.symbol.RoutineSymbol;
-import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -58,7 +57,7 @@ public class ProcedureCallStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) throws Exception {
+    public void checkSemantics(SymbolTable symbols) {
 
 	    RoutineSymbol routineSym = null;
 
