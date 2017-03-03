@@ -11,9 +11,7 @@ import compiler488.symbol.*;
 public class ArrayDeclPart extends DeclarationPart {
 
 	/* The lower and upper boundaries of the array. */
-    private Integer lb, ub, lb2,up2;
-    private String name;
-    private boolean is2d; //TODO: do we really have 2-dim array
+    private Integer lb, ub;
     private Type type = null;
         
 	/* The number of objects the array holds. */
@@ -74,7 +72,7 @@ public class ArrayDeclPart extends DeclarationPart {
 		}
 
 		// S46 Check that lower bound is <= upper bound
-		if(this.lb>this.ub || (this.is2d && (this.lb2>this.up2))){
+		if(this.lb>this.ub){
 			errors.add("The lower bound must be smaller than upper bound");
 		}
 
