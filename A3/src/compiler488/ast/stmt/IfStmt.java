@@ -76,13 +76,19 @@ public class IfStmt extends Stmt {
 
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		
-		if (!(this.getCondition().type instanceof BooleanType)){
+
+		// We need to check children expression, so we can know it's type for S30 check.
+		this.getCondition().checkSemantics(symbols, errors);
+
+	    // S30 - check if condition expression is boolean
+		if (!(this.getCondition().getType() instanceof BooleanType)){
 			errors.add("The expression of IF statement must be boolean");
 		}
-		
+
+		// Check semantics on body of if
 		this.getWhenTrue().checkSemantics(symbols, errors);
-		
+
+		// Check semantics on body of else
 		if (this.getWhenFalse() != null){
 			this.getWhenFalse().checkSemantics(symbols, errors);
 		}

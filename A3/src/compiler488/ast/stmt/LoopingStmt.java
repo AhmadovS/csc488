@@ -37,16 +37,16 @@ public abstract class LoopingStmt extends Stmt {
 	
 	@Override
 	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
-		
-		if(this.getExpn() != null){
-		
-			this.getExpn().checkSemantics(symbols, errors);
-			
-			if (!(this.getExpn().getType() instanceof BooleanType)){
-				errors.add("The expression of loops must be boolean");
-			}
-		}
 
+        // We need to check children expression, so we can know it's type for S30 check.
+        this.getExpn().checkSemantics(symbols, errors);
+
+        // S30 - check if condition expression is boolean
+        if (!(this.getExpn().getType() instanceof BooleanType)){
+            errors.add("The expression of loops must be boolean");
+        }
+
+        // Check semantics on the body (statements) of the loop.
 		if (this.getBody() != null){
 			this.getBody().checkSemantics(symbols, errors);
 		}
