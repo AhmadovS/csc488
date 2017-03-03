@@ -221,70 +221,102 @@ statement	::=	matchedStatement:m
 		;
 
 matchedStatement::=	variable:v COLON EQUAL expression:e				// assignment statement
-			{: 
-				RESULT = new AssignStmt((Expn) v, (Expn) e); 
+			{:
+				AssignStmt r = new AssignStmt((Expn) v, (Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	IF expression:e THEN matchedStatement:m1 ELSE matchedStatement:m2 // if statements
 			{:
-				RESULT = new IfStmt((Expn) e, (Stmt) m1, (Stmt) m2);
+				IfStmt r = new IfStmt((Expn) e, (Stmt) m1, (Stmt) m2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	WHILE expression:e DO statement:s				// while statement
 			{:
-				RESULT = new WhileDoStmt((Expn) e, (Stmt) s);
+				WhileDoStmt r = new WhileDoStmt((Expn) e, (Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	REPEAT statement:s  UNTIL expression:e			// repeat statement
 			{:
-				RESULT = new RepeatUntilStmt((Expn) e, (Stmt) s);
+				RepeatUntilStmt r = new RepeatUntilStmt((Expn) e, (Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	EXIT							// exit statements
 			{:
-				RESULT = new ExitStmt();
+				ExitStmt r = new ExitStmt();
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	EXIT INTCONST:i
 			{:
-				RESULT = new ExitStmt((Integer) i);
+				ExitStmt r = new ExitStmt((Integer) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	EXIT WHEN expression:e
 			{:
-				RESULT = new ExitStmt((Expn) e);
+				ExitStmt r = new ExitStmt((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	EXIT INTCONST:i WHEN expression:e
 			{:
-				RESULT = new ExitStmt((Expn) e, (Integer) i);
+				ExitStmt r = new ExitStmt((Expn) e, (Integer) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	RETURN WITHX  expression:e 
 			{:
-				RESULT = new ReturnStmt((Expn) e);
+				ReturnStmt r = new ReturnStmt((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	RETURN 							// return statements
 			{:
-				RESULT = new ReturnStmt();
+				ReturnStmt r = new ReturnStmt();
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	WRITE outputs:o						// input/output statments
 			{: 
-				RESULT = new WriteStmt((ASTList<Printable>) o); 
+				WriteStmt r = new WriteStmt((ASTList<Printable>) o);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	READ  inputs:i
 			{:
-				RESULT = new ReadStmt((ASTList<compiler488.ast.Readable>) i); 
+				ReadStmt r = new ReadStmt((ASTList<compiler488.ast.Readable>) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	procedureCall:p						// procedure call
 			{: 
-				RESULT = p; 
+				AST r = (AST) p;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	scope:s							// embedded scope
 			{: 
-				RESULT = s; 
+				AST r = (AST) s;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 unmatchedStatement::=	IF expression:e THEN statement:s	
 			{:
-				RESULT = new IfStmt((Expn) e, (Stmt) s);
+				IfStmt r = new IfStmt((Expn) e, (Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	IF expression:e THEN matchedStatement:m ELSE unmatchedStatement:u
 			{:
-				RESULT = new IfStmt((Expn) e, (Stmt) m, (Stmt) u);
+				IfStmt r = new IfStmt((Expn) e, (Stmt) m, (Stmt) u);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
