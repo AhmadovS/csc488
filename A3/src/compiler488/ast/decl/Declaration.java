@@ -20,7 +20,8 @@ public abstract class Declaration extends Indentable {
 		this.name = name;
 		this.type = type;
 		
-		this.type.setParent(this);
+		if (this.type != null)
+			this.type.setParent(this);
 	}
 
 	public String getName() {
