@@ -1,6 +1,9 @@
 package compiler488.ast;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+
+import compiler488.symbol.SymbolTable;
 
 /**
  * Generic features of constructs that cannot be expected to print on a single
@@ -61,5 +64,11 @@ public class Indentable extends AST {
 	 */
 	public void printOn(PrintStream out, int depth) {
 		Indentable.printIndentOnLn(out, depth, this.toString());
+	}
+
+	@Override
+	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+		// TODO Auto-generated method stub
+		
 	}
 }
