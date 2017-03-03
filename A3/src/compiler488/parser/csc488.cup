@@ -166,6 +166,7 @@ scope		::=	L_CURLEY  declarations:d statements:s  R_CURLEY  	// scope with decla
 		|	L_CURLEY statements:s  R_CURLEY 		// scope with statments only
 			{:
 				RESULT = new Scope((ASTList<Stmt>) s);
+				RESULT.setParent(
 			:}
 		|	L_CURLEY  R_CURLEY			// empty scope
 			{:
@@ -292,7 +293,7 @@ declaration	::=	VAR variablenames:vs COLON type:t			// declare scalar/array vari
 			:}
 		|	FUNCTION  IDENT:i L_PAREN parameters:p R_PAREN COLON type:t scope:s
 			{:
-				RoutineBody body = new RoutineBody((ASTList<ScalarDecl>) p, (Scope) s);
+				RoutineBody body = new RoutineBody((ASTList<ParameterDecl>) p, (Scope) s);
 				RESULT = new RoutineDecl(i, (Type) t, body);
 			:}
 		|	PROCEDURE IDENT:i scope:s			//  declare procedure
@@ -302,7 +303,7 @@ declaration	::=	VAR variablenames:vs COLON type:t			// declare scalar/array vari
 			:}
 		|	PROCEDURE IDENT:i L_PAREN parameters:p R_PAREN scope:s
 			{:
-				RoutineBody body = new RoutineBody((ASTList<ScalarDecl>) p, (Scope) s);;
+				RoutineBody body = new RoutineBody((ASTList<ParameterDecl>) p, (Scope) s);;
 				RESULT = new RoutineDecl(i, body);
 			:}
 		;
@@ -397,17 +398,17 @@ arguments	::=	expression:e			// list of function/procedure arguments
 
 parameters	::=	parameter:p			// list of function/procedure formal parameters
 			{:
-				RESULT = new ASTList<ScalarDecl>((ScalarDecl) p);
+				RESULT = new ASTList<ParameterDecl>((ParameterDecl) p);
 			:}
 		|	parameters:ps COMMA parameter:p
 			{:
-				RESULT = ((ASTList<ScalarDecl>) ps).addLast((ScalarDecl) p);
+				RESULT = ((ASTList<ParameterDecl>) ps).addLast((ParameterDecl) p);
 			:}
 		;
 
 parameter	::=	IDENT:i COLON type:t 		// declare one parameter
 			{:
-				RESULT = new ScalarDecl(i, (Type) t);
+				RESULT = new ParameterDecl(i, (Type) t);
 			:}
 		;
 
