@@ -157,19 +157,19 @@ program		::=	scope:s
 scope		::=	L_CURLEY  declarations:d statements:s  R_CURLEY  	// scope with declarations and statements
 			{:
 				Scope r = new Scope((ASTList<Declaration>) d, (ASTList<Stmt>) s);
-				// r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
 				RESULT = r;
 			:}
 		|	L_CURLEY statements:s  R_CURLEY 		// scope with statments only
 			{:
 				Scope r = new Scope((ASTList<Stmt>) s);
-				// r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
 				RESULT = r;
 			:}
 		|	L_CURLEY  R_CURLEY			// empty scope
 			{:
 				Scope r = new Scope();
-				// r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
 				RESULT = new Scope();
 			:}
 		;
@@ -460,163 +460,234 @@ output		::=	expression:e		// integer expression
 
 inputs		::=	variable:v		// list of variables being read into
 			{:
-				RESULT = new ASTList<compiler488.ast.Readable>((compiler488.ast.Readable) v);
+				ASTList<compiler488.ast.Readable> r = new ASTList<compiler488.ast.Readable>((compiler488.ast.Readable) v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	inputs:i COMMA variable:v
-			{:
-				RESULT = ((ASTList<compiler488.ast.Readable>) i).addLast((compiler488.ast.Readable)v);
+			{:	
+				ASTList<compiler488.ast.Readable> r = (ASTList<compiler488.ast.Readable>) i;
+				r.addLast((compiler488.ast.Readable)v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 arguments	::=	expression:e			// list of function/procedure arguments
 			{:
-				RESULT = new ASTList<Expn>((Expn) e);
+				ASTList<Expn> r = new ASTList<Expn>((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arguments:a COMMA expression:e
 			{:
-				RESULT = ((ASTList<Expn>) a).addLast((Expn) e);
+				ASTList<Expn> r = (ASTList<Expn>) a;
+				r.addLast((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 parameters	::=	parameter:p			// list of function/procedure formal parameters
 			{:
-				RESULT = new ASTList<ParameterDecl>((ParameterDecl) p);
+				ASTList<ParameterDecl> r = new ASTList<ParameterDecl>((ParameterDecl) p);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	parameters:ps COMMA parameter:p
 			{:
-				RESULT = ((ASTList<ParameterDecl>) ps).addLast((ParameterDecl) p);
+				ASTList<ParameterDecl> r = (ASTList<ParameterDecl>) ps;
+				r.addLast((ParameterDecl) p);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 parameter	::=	IDENT:i COLON type:t 		// declare one parameter
 			{:
-				RESULT = new ParameterDecl(i, (Type) t);
+				ParameterDecl r = new ParameterDecl(i, (Type) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 expression	::=	conjunction:c			// disjunctions, associate left-to-right
 			{:
-				RESULT = c;
+				AST r = (AST) c;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	expression:e OR conjunction:c
 			{:
-				RESULT = new BoolExpn(OPSYMBOL.OR, (Expn) e, (Expn) c);
+				BoolExpn r = new BoolExpn(OPSYMBOL.OR, (Expn) e, (Expn) c);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 conjunction	::=	negation:n			// conjunctions, associate left-to-right
 			{:
-				RESULT = n;
+				AST r = (AST) n;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	conjunction:c AND negation:n
 			{:
-				RESULT = new BoolExpn(OPSYMBOL.AND, (Expn) c, (Expn) n);
+				BoolExpn r = new BoolExpn(OPSYMBOL.AND, (Expn) c, (Expn) n);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 negation	::=	compareExpn:e 			// negations
 			{:
-				RESULT = e;
+				AST r = (AST) e;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	NOT negation:n
 			{:
-				RESULT = new NotExpn((Expn) n);
+				NotExpn r = new NotExpn((Expn) n);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 compareExpn	::=	arithExpn:a			// comparisons, do not associate
 			{:
-				RESULT = a;
+				AST r = (AST) a;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a1 EQUAL arithExpn:a2
 			{:
-				RESULT = new CompareExpn(OPSYMBOL.EQUALS, (Expn) a1, (Expn) a2);
+				CompareExpn r = new CompareExpn(OPSYMBOL.EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		| 	arithExpn:a1 NOT EQUAL arithExpn:a2
 			{:
-				RESULT = new CompareExpn(OPSYMBOL.NOT_EQUALS, (Expn) a1, (Expn) a2);
+				CompareExpn r = new CompareExpn(OPSYMBOL.NOT_EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a1 LESS arithExpn:a2
 			{:
-				RESULT = new CompareExpn(OPSYMBOL.LESS_THAN, (Expn) a1, (Expn) a2);
+				CompareExpn r = new CompareExpn(OPSYMBOL.LESS_THAN, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a1 LESS EQUAL arithExpn:a2
 			{:
-				RESULT = new CompareExpn(OPSYMBOL.LESS_THAN_EQUALS, (Expn) a1, (Expn) a2);
+				CompareExpn r = new CompareExpn(OPSYMBOL.LESS_THAN_EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a1 GREATER arithExpn:a2
 			{:
-				RESULT = new CompareExpn(OPSYMBOL.GREATER_THAN, (Expn) a1, (Expn) a2);
+				CompareExpn r = new CompareExpn(OPSYMBOL.GREATER_THAN, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a1 GREATER EQUAL arithExpn:a2
 			{:
-				RESULT = new CompareExpn(OPSYMBOL.GREATER_THAN_EQUALS, (Expn) a1, (Expn) a2);
+				CompareExpn r = new CompareExpn(OPSYMBOL.GREATER_THAN_EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 arithExpn	::=	term:t				// expressions, associate + , - left-to-right
 			{:
-				RESULT = t;
+				AST r = (AST) t;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a  PLUS  term:t
 			{:
-				RESULT = new ArithExpn(OPSYMBOL.PLUS, (Expn) a, (Expn) t);
+				ArithExpn r = new ArithExpn(OPSYMBOL.PLUS, (Expn) a, (Expn) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	arithExpn:a  MINUS term:t
 			{:
-				RESULT = new ArithExpn(OPSYMBOL.MINUS, (Expn) a, (Expn) t);
+				ArithExpn r = new ArithExpn(OPSYMBOL.MINUS, (Expn) a, (Expn) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 term		::=	factor:f				// terms, associate * , /   left-to-right
 			{:
-				RESULT = f;
+				AST r = (AST) f;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	term:t TIMES factor:f
 			{:
-				RESULT = new ArithExpn(OPSYMBOL.TIMES, (Expn) t, (Expn) f);
+				ArithExpn r = new ArithExpn(OPSYMBOL.TIMES, (Expn) t, (Expn) f);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	term:t DIVIDE factor:f
 			{:
-				RESULT = new ArithExpn(OPSYMBOL.DIVIDE, (Expn) t, (Expn) f);
+				ArithExpn r = new ArithExpn(OPSYMBOL.DIVIDE, (Expn) t, (Expn) f);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 factor		::=	primary:p				// unary minus
 			{:
-				RESULT = p;
+				AST r = (AST) p;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	MINUS factor:f
 			{:
-				RESULT = new UnaryMinusExpn((Expn) f);
+				UnaryMinusExpn r = new UnaryMinusExpn((Expn) f);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		;
 
 primary		::=	constant:c				// integer or boolean constant
 			{:
-				RESULT = c;
+				AST r = (AST) c;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	variable:v				// scalar, array variable or function call
 			{:
-				RESULT = v;
+				AST r = (AST) v;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	IDENT:i L_PAREN arguments:a R_PAREN 	// function call
 			{:
-				RESULT = new FunctionCallExpn(i, (ASTList<Expn>) a);
+				FunctionCallExpn r = new FunctionCallExpn(i, (ASTList<Expn>) a);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		| 	L_PAREN  expression:e  R_PAREN		// parenthesized expression
 			{:
-				RESULT = e;
+				AST r = (AST) e;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
 			:}
 		|	L_PAREN  expression:e1 QUESTION expression:e2 COLON expression:e3 R_PAREN
 			{:
-				RESULT = new ConditionalExpn((Expn) e1, (Expn) e2, (Expn) e3);
+				ConditionalExpn r = new ConditionalExpn((Expn) e1, (Expn) e2, (Expn) e3);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
 			:}
 		;
 
 constant	::=	INTCONST:i	// integer constant
 			{:
-				RESULT = new IntConstExpn((Integer) i);
+				IntConstExpn r = new IntConstExpn((Integer) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	TRUE		// constant true
 			{:
@@ -630,11 +701,15 @@ constant	::=	INTCONST:i	// integer constant
 
 variable	::=	IDENT:i					// scalar variable or function call
 			{:
-				RESULT = new IdentExpn(i);
+				IdentExpn r = new IdentExpn(i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
 			:}
 		|	IDENT:i L_SQUARE expression:e R_SQUARE	// element of an array
 			{:
-				RESULT = new SubsExpn((Expn) e, i);
+				SubsExpn r = new SubsExpn((Expn) e, i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
 			:}
 		;
 
