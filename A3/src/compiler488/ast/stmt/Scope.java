@@ -3,6 +3,7 @@ package compiler488.ast.stmt;
 import java.io.PrintStream;
 import java.util.*;
 
+import compiler488.ast.AST;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.decl.Declaration;
@@ -66,14 +67,14 @@ public class Scope extends Stmt {
         this.statements = statements;
     }
 
-    public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+    public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors){
 
         ListIterator stmts = this.getStatements().getIterator();
         ListIterator decls = this.getDeclarations().getIterator();
 
         // S02 - Associate declaration with scope
         while(decls.hasNext()){
-            ((Declaration) decls.next()).checkSemantics(symbols,  errors);
+            ((Declaration) decls.next()).checkSemantics(, symbols, errors);
         }
 
         // Checking semantics on child statement nodes.
@@ -85,11 +86,11 @@ public class Scope extends Stmt {
             if (currentStmt instanceof Scope) {
                 // S06 - Start ordinary scope
                 symbols.startScope();
-                    currentStmt.checkSemantics(symbols, errors);
+                    currentStmt.checkSemantics(, symbols, errors);
                 // S07 - End ordinary scope
                 symbols.exitScope();
             } else {
-                currentStmt.checkSemantics(symbols, errors);
+                currentStmt.checkSemantics(, symbols, errors);
             }
         }
 

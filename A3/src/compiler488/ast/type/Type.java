@@ -11,7 +11,7 @@ import compiler488.symbol.SymbolTable;
 public class Type extends AST {
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
 		// TODO Auto-generated method stub
 		
 	}

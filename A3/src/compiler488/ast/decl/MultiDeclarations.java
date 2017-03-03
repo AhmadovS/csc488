@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import compiler488.ast.AST;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
@@ -58,13 +59,13 @@ public class MultiDeclarations extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors){
 
 		ListIterator li = this.getElements().getIterator();
 		
 		while(li.hasNext()){
 			DeclarationPart decl =  (DeclarationPart) li.next(); 
-			decl.checkSemantics(symbols, errors);
+			decl.checkSemantics(, symbols, errors);
 
 			// TODO: each implementation of DeclarationPart already checks for this
 			if(symbols.getSymbol(decl.getName()) != null){

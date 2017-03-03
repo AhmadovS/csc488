@@ -2,6 +2,7 @@ package compiler488.ast.decl;
 
 import java.util.ArrayList;
 
+import compiler488.ast.AST;
 import compiler488.symbol.SymbolTable;
 import compiler488.ast.type.Type;
 
@@ -25,7 +26,7 @@ public class ScalarDecl extends Declaration {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors){
 
 	    //TODO: does this check need to happen here,
 		// should SymbolTable.addSymbol already have taken care of this?

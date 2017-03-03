@@ -54,7 +54,7 @@ public class ProcedureCallStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
 
 		if(symbols.getSymbol(this.name) == null){
 			errors.add("Procedure has not been declared");
@@ -81,7 +81,7 @@ public class ProcedureCallStmt extends Stmt {
 			
 			while(args.hasNext() && params.hasNext()){
 				Expn arg = (Expn) args.next();
-				arg.checkSemantics(symbols,errors); 				
+				arg.checkSemantics(, symbols, errors);
 				if(!arg.getType().toString().equals(params.next().toString())){
 					errors.add("Type of arguments and parameter do not match");
 				}	

@@ -2,6 +2,7 @@ package compiler488.ast.decl;
 
 import java.util.ArrayList;
 
+import compiler488.ast.AST;
 import compiler488.ast.type.Type;
 import compiler488.symbol.*;
 
@@ -24,7 +25,6 @@ public class ArrayDeclPart extends DeclarationPart {
 		
 		this.lb = lb;
 		this.ub = up;
-		this.is2d = false;
 	}
 	
 	
@@ -33,21 +33,9 @@ public class ArrayDeclPart extends DeclarationPart {
 		
 		this.lb = lb;
 		this.ub = up;
-		this.is2d = false;
 		this.type = type;
 	}
 	
-	public ArrayDeclPart(String name, Type type, int lb, int up, int lb2, int up2){
-		super(name);
-		
-		this.lb = lb;
-		this.ub = up;
-		this.lb2 = lb2;
-		this.up2 = up2;
-		this.is2d = true;
-		this.type = type;
-	}
-
 	/**
 	 * Returns a string that describes the array.
 	 */
@@ -81,7 +69,7 @@ public class ArrayDeclPart extends DeclarationPart {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors){
 		if(symbols.getSymbol(this.name) != null){
 			errors.add("Variable has been already declared");
 		}
@@ -92,12 +80,7 @@ public class ArrayDeclPart extends DeclarationPart {
 		}
 
 		// S19 and S48 Declaring the array by adding it to the symbol table
-		if(!this.is2d){
-			ArraysSymbol array = new ArraysSymbol(this.name,this.type, this.lb, this.ub);
-			symbols.addSymbol(array);
-		}else{
-			ArraysSymbol array = new ArraysSymbol(this.name,this.type, this.lb, this.ub, this.lb2,this.up2);
-			symbols.addSymbol(array);
-		}
+        ArraysSymbol array = new ArraysSymbol(this.name,this.type, this.lb, this.ub);
+        symbols.addSymbol(array);
 	}
 }

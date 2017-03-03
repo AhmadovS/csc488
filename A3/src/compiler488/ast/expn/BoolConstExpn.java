@@ -2,6 +2,7 @@ package compiler488.ast.expn;
 
 import java.util.ArrayList;
 
+import compiler488.ast.AST;
 import compiler488.ast.type.BooleanType;
 import compiler488.symbol.SymbolTable;
 
@@ -29,7 +30,7 @@ public class BoolConstExpn extends ConstExpn {
 		this.value = value;
 	}
 	
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors){
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors){
 		this.setType(new BooleanType());
 	}
 }

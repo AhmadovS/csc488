@@ -3,6 +3,7 @@ package compiler488.ast.stmt;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+import compiler488.ast.AST;
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
 import compiler488.symbol.SymbolTable;
@@ -48,7 +49,7 @@ public class ReturnStmt extends Stmt {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols, ArrayList<String> errors) {
+	public void checkSemantics(AST syntaxTree, SymbolTable symbols, ArrayList<String> errors) {
 
 
 
