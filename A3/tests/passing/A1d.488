@@ -127,7 +127,7 @@ write "All assert statement from here should print 'Passed!", newline
 % This is also a test for creating a boolean expression
 % from a function call and passing it to a procedure
 
-assert( sum3(1, 2, 4) = 7 )
+assert( sum4(1, 2, 4, 5) = 7 )
 
 assert( fib_23 = 28657 )
 
