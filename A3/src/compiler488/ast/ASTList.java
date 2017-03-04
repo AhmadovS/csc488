@@ -59,6 +59,10 @@ public class ASTList<E> extends AST {
 
 	}
 
+	/**
+	 * Sets the parent for each node of in the ASTList
+	 * @param parent
+	 */
 	@Override
 	public void setParent(AST parent) {
 	    ListIterator li = this.getIterator();

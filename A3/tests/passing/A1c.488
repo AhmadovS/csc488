@@ -95,7 +95,7 @@
 
 	write "nested while and repeat loop"
 	I := 0
-	while X < 3 do {
+	while I < 3 do {
 		J := 1
 		
 		repeat {
