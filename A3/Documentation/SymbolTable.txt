@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+    Symbol Table - Amir & Samud
+-------------------------------------------------------------------------------
+The symbol table construction is rather straighforward. Since we’re not optimizing for performance, we decided to create a stack of hashmaps, with each hashmap associated with a scope. Scopes are created by pushing an empty hashmap to the stack, and are closed by popping the stack.
+
+Adding symbols:
+    When an identifier is declared, it is always put into the hashmap on top of the stack, and when an identifier is asked for, the stack is searched from top to the bottom, returning earliest (closest scope) declaration of an identifier. With this approach, identifiers can be shadowed by going to a new scope, however no two identifiers can share a name in the same scope.
+
+Major and minor scopes:
+Major and minor scopes are treated the same, and there is no semantic difference between them. The only difference is in a scope of a routine, where it would be pre-populated by the `RoutineBody` node by the parameters of the routine.
+
+Symbol table entry:
+    Each entry of the symbol table is a subclass of the `Symbol` class. Due to very different needs of different declarations to fully describe theirtype, the `Symbol` class is subclassed to create entries that have the appropriate fields for the declared identifiers. We have 4 different types of symbols, namely, `ArraysSymbol`, `ParamsSymbol` (previously callked `ScalarDecl`), `RoutineSymbol` and `VariablesSymbol`.
+Of special interest is `ArraysSymbol` where it contains fields for the range of the array it’s representing, and `RoutineSymbol` where it contains fields for return type and the parameters of the declared routine. Thus all necessary type information for each identifier is stored in the symbol table.

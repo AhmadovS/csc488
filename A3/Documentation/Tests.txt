@@ -1,4 +1,11 @@
 -------------------------------------------------------------------------------
+        Testing - Steven & Amir
+-------------------------------------------------------------------------------
+
+Individual test cases were written to ensure that appropriate semantic analysis checks were being performed, and that any errors that were detected during semantic analysis would be reported by the compiler. To this end, “failing” tests (containing semantic errors) corresponding to many of the semantic checks (listed in the language’s semantic analysis document) were written. Members of our group then tried to compile these tests to determine if a given semantic check was properly implemented. A “failing” test that can be compiled without producing any errors is usually indicative of a problem with the semantic checks being performed by the compiler.
+    In addition to the “failing” tests, tests containing only valid code were also written. These passing tests were also compiled to ensure that our code did not contain any serious bugs/errors.
+
+-------------------------------------------------------------------------------
 	Test Summary - Yang Song (songyan9)
 -------------------------------------------------------------------------------
 

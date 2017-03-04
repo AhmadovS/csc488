@@ -1,0 +1,26 @@
+-------------------------------------------------------------------------------
+    Semantic Analysis - Amir & Samud
+-------------------------------------------------------------------------------
+Please note that we don’t make use of the `Semantics` class.
+Main function used for semantic analysis is `checkSemantics` of AST class.
+Once the program has been parsed successfully and an AST with root node `Program` has been constructed, we call `checkSemantics` function of `Program` node to start the semantic analysis process.
+
+-Changes made to AST:
+LOC field tracks where the AST node relates to in the source code
+`AST parent` field is a reference to the parent node. Only `Program` node is going to have a `null` parent.
+`ArrayList<AST> children`, is collection of all children.
+`checkSemantics` should be overrided by all subclasses of AST for their semantic analysis check.
+
+How does `checkSemantics` work?
+Each node in the AST performs all the checks it needs, and calls `checkSemantics` on it’s children where appropriate (this is explained more later). Each node of the AST also has the ability to walk up the tree (by calling .getParent() method) if it’s needed to accomplish its semantic check.
+    In order to do type checking properly, e.g. in `ArithExpn` node, we might need to call `checkSemantics` on children of `ArithExpn` in order to evaluate their types, before `ArithExpn` tries to compare its operands and do it’s own semantic analysis.
+In declarations such as `RoutineDecl`, we add their declaration to the symbol table, before calling `checkSemantics` on its child node, `RoutineBody`. This is because the body might need to refernce the routine it’s enclosed in, to perform recursion. Therefore, great care must be taken to decide at which point during `checkSemantics`, the children of a node should be analyzed.
+
+Types:
+Types are represented by instantiating `BooleanType` and `IntegerType` subclasses of `Type. Only declarations and expressins have an associated type among nodes of an AST (subclasses of `Declaration` and `Expn`). The type of a `Declaration` represents the type of the declared identifier (maybe null e.g. for a procedure), and type of a expression `Expn` represents the return type of the expression (that’s why we must perform `checkSemantics` on children first, so that type of a `Expn` would be identified). On the other hand statements (subclasses of Stmt) don’t have an associated type.
+
+Opening and closing scopes:
+Although it would be easier to set responsibility of opening and closing scopes to the `Scope` node of the AST, this is sometimes not the desired behaviour. For example in `RoutineBody` we need to the add the declared parameters of a routine to the symbol table associated with that routine, and so need to open a new scope at this point, and then call semantic analysis on the `Scope` child of `RoutineBody`. Therefor, our convention is that the parent node of a `Scope` is responsible for opening a new scope in the symbol table, and closing it when semantic analysis on the `Scope` node has finished.
+
+Walking up the tree:
+    Sometimes it is necessary for a node to walk up the AST tree and look for specific parents of a node to perform semantic check. We use this behaviour for the `ExitStmt` and `ReturnStmt`. In `ExitStmt` we need to make sure that it’s used in a looping statement, and that the exit Integer matches number of looping statements its contained in. `ReturnStmt` similarly needs to make sure that it is contained in a procedure if it has no expression to return, or contained in a function if it has an expression to return.
