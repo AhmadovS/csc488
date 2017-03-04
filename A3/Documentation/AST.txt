@@ -1,12 +1,13 @@
 -------------------------------------------------------------------------------
-	AST Documentation (Written by Yang Song)
+	AST Documentation (Written by Yang Song & Jathu Satkunarajah)
 -------------------------------------------------------------------------------
-- How an AST is generated: 
-  The AST (Abstract Syntax Tree) is generated with the help of CUP's parser. Each identifier is 
-  a leaf in the initial AST tree. Using a bottom up parsing scheme, the parser will attempt to 
-  match symbols to productions specified in the cup file. For each new production encountered by the parser, 
-  AST objects in the AST tree corresponding to symbols on the RHS(Right Hand Side) of the production are
-  used by a constructor to create a new AST object. This newly constructed AST object acts as 
-  a parent node for the children, and can be used later on (when/if they are matched to more productions) to
-  construct more nodes in the tree. This process continues until a root node (i.e Program object) is constructed.
+How an AST is generated: 
+	The AST (Abstract Syntax Tree) is generated with the help of CUP's parser. Each identifier is a leaf in the initial AST tree. Using a bottom up parsing scheme, the parser will attempt to match symbols to productions specified in the cup file. For each new production encountered by the parser, AST objects in the AST tree corresponding to symbols on the RHS(Right Hand Side) of the production are used by a constructor to create a new AST object. This newly constructed AST object acts as a parent node for the children, and can be used later on (when/if they are matched to more productions) to construct more nodes in the tree. This process continues until a root node (i.e Program object) is constructed.
+
+More about the structure:
+	The AST was designed to abstract on most levels and get more precise as the inheritance deepens. For example the AST class itself is extremely abstract and contain only the common traits amongst all nodes: parent, children and current line of code. We did most of the work within the AST classes themselves to reduce work needed to be done in parser.  We also enabled all AST family of classes to be initialized with constructors that accept its respective properties. Constructor overloading was used and handled nulls necessarily according to different classes that require different arguments. Managing nulls was crucial in ensuring errors weren’t found. 
+
+	We also have a global interface structure of OPSYMBOLS that contains strings of common operators. This ensures that there is no error caused by directly using strings such as “PLUS” through various parts of the code (usually human errors).
+
+	We also used the AST to manage the current line and column of the parser. We used the parser to retrieve the exposed stack and it’s top object (Symbol) to get the current character. We then passed this into our custom class “LOC” that parses out line number, column number and the line itself. This was made as a variable in the AST class as it is common amongst all its children. This also ensures that line number and all the other information can be accessed wherever the AST object is used.
   
