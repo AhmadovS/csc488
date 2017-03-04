@@ -1,5 +1,6 @@
 package compiler488.ast.stmt;
 
+import compiler488.DebugTool;
 import compiler488.ast.AST;
 import compiler488.ast.expn.*;
 import compiler488.ast.type.BooleanType;
@@ -78,7 +79,11 @@ public class ExitStmt extends Stmt {
         // Counts number of parents loops
         int parentLoopsCount = 0;
         AST parentNode = this.getParent();
+        if (parentNode == null) {
+            DebugTool.print("exit parent node is null");
+        }
         while (parentNode != null && parentLoopsCount < this.getLevel()) {
+            DebugTool.print("incrementing parent loops count");
             // For each parent loop node found, increment parentLoopsCount
             if (parentNode instanceof LoopingStmt) {
                 parentLoopsCount++;

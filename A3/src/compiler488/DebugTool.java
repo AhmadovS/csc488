@@ -18,7 +18,7 @@ public class DebugTool {
 
     public static void print(String s) {
         if (DEBUG) {
-            System.out.println(s);
+            System.out.println("DEBUG>>>>: " + s);
         }
     }
 

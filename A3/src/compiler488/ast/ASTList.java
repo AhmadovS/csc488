@@ -1,5 +1,6 @@
 package compiler488.ast;
 
+import compiler488.DebugTool;
 import compiler488.symbol.SymbolTable;
 
 import java.io.PrintStream;
@@ -56,6 +57,16 @@ public class ASTList<E> extends AST {
 	@Override
     public void checkSemantics(SymbolTable symbols) {
 
+	}
+
+	@Override
+	public void setParent(AST parent) {
+	    ListIterator li = this.getIterator();
+	    while(li.hasNext()) {
+	      	AST item = (AST) li.next();
+			DebugTool.print("setting individual parent node of ASTList");
+	      	item.setParent(parent);
+		}
 	}
 
 	/**
