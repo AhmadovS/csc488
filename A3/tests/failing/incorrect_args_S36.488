@@ -1,5 +1,5 @@
 % Author: Jathu Satkunarajah (satkun16)
-
+% This should fail during syntax analysis
 {
 	% Procedure declaration with one parameter
 	procedure write_number (num : Integer) {

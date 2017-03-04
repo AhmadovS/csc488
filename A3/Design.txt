@@ -1,3 +1,5 @@
+% Author: Amir Hossein Heidari Zadi
+
 Design:
 
 - Per post @90 on piazza, all errors are suppressed, and the error message are collected. This might have undesirable side-effects.
