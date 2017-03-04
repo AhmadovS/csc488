@@ -21,8 +21,13 @@ public abstract class Symbol{
 
 	@Override
 	public String toString() {
+	    String typeName;
+	    if (this.getType() == null)
+	        typeName = "";
+	    else
+	        typeName = this.getType().getClass().getSimpleName();
 	    return String.format("%s(name=%s, type=%s)",
-                this.getClass().getSimpleName(), this.getName(), this.getType().getClass().getSimpleName());
+                this.getClass().getSimpleName(), this.getName(), typeName);
 	}
 }
 

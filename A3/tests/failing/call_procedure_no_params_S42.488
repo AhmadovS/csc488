@@ -3,10 +3,13 @@
 {
 
 % Simple procedure that prints a message
-procedure count (n : Integer) {
-    write "Hello World!"
-    return
-}
+% procedure count (n : Integer) {
+%     write "Hello World!"
+%     return
+% }
 
-count
+var a : Integer
+
+a : = 1
+
 }
