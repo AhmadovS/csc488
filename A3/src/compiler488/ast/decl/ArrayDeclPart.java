@@ -56,7 +56,6 @@ public class ArrayDeclPart extends DeclarationPart {
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
-		DebugTool.print("ArrayDeclPart semantic check");
 		// S46 - Check that lower bound is <= upper bound
 		if(this.lb > this.ub){
 			SemanticError.add(46, this, "The lower bound must be smaller than upper bound");
