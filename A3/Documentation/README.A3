@@ -4,14 +4,20 @@
 	Contributions
 -------------------------------------------------------------------------------
 
-	Samud Ahmadov: 
+	Samud Ahmadov: Worked on the design and implementation of the semantics analysis, error checking and symbol table.
+
+    Amir Hossein Heidari Zadi (heidariz): Worked on the design and implementation of the semantics analysis, error checking and symbol table. Wrote documentation for the parts worked on.
 
 	Jathu Satkunarajah (satkun16): AST, csc488.cup, LOC, Documentations
 
 	Rosario Bevacqua: 
 
-	Amir Hossein Heidari Zadi: 
-
 	Yang Song: Modified the starter code's csc488.cup file to generate complete AST trees. Later
 			   assisted in refactoring the AST generation code to make csc488.cup code cleaner, and 
 			   wrote some (failing) test cases to help test the semantic analysis parts of our code.
+
+Some design changes:
+- Per post @90 on piazza, all errors are suppressed, and the error message are collected. This might have undesirable side-effects.
+- Changed ScalarDecl node tag to ParameterDecl, since it is only used in declaring parameters.
+- We do not use `Semantics` class for semantics analysis. Semantics analysis starts by calling `checkSemantics` function on the 
+  root node of AST (i.e. the `Program` node).
