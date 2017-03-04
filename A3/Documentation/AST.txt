@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+	AST Documentation (Written by Yang Song)
+-------------------------------------------------------------------------------
+- How an AST is generated: 
+  The AST (Abstract Syntax Tree) is generated with the help of CUP's parser. Each identifier is 
+  a leaf in the initial AST tree. Using a bottom up parsing scheme, the parser will attempt to 
+  match symbols to productions specified in the cup file. For each new production encountered by the parser, 
+  AST objects in the AST tree corresponding to symbols on the RHS(Right Hand Side) of the production are
+  used by a constructor to create a new AST object. This newly constructed AST object acts as 
+  a parent node for the children, and can be used later on (when/if they are matched to more productions) to
+  construct more nodes in the tree. This process continues until a root node (i.e Program object) is constructed.
+  
