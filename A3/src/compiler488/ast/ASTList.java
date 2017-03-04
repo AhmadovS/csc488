@@ -68,7 +68,6 @@ public class ASTList<E> extends AST {
 	    ListIterator li = this.getIterator();
 	    while(li.hasNext()) {
 	      	AST item = (AST) li.next();
-			DebugTool.print("setting individual parent node of ASTList");
 	      	item.setParent(parent);
 		}
 	}

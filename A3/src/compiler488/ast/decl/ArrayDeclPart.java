@@ -1,5 +1,6 @@
 package compiler488.ast.decl;
 
+import compiler488.DebugTool;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.*;
 
@@ -55,6 +56,7 @@ public class ArrayDeclPart extends DeclarationPart {
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
+		DebugTool.print("ArrayDeclPart semantic check");
 		// S46 - Check that lower bound is <= upper bound
 		if(this.lb > this.ub){
 			SemanticError.add(46, this, "The lower bound must be smaller than upper bound");

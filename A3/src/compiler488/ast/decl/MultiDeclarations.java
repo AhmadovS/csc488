@@ -70,6 +70,9 @@ public class MultiDeclarations extends Declaration {
 		while(li.hasNext()){
 			DeclarationPart decl =  li.next();
 
+			// Performing semantic check on each decl.
+            decl.checkSemantics(symbols);
+
 			if (decl instanceof ScalarDeclPart) {
 				// S10, S47 - Declare scalar variable, Associate type with variable
 				VariablesSymbol sm = new VariablesSymbol(decl.getName(), this.getType());

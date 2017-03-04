@@ -464,7 +464,7 @@ public class Main {
 
           List<String> errors = SemanticError.getErrors();
 
-          System.out.println("\nSemantic errors:");
+          System.out.println("\nSemantic errors:\n");
           for (String error : errors) {
               System.out.println(error);
           }
