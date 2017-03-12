@@ -6,7 +6,7 @@ Lorem ipsum
 
 We will push activation records for each scope, preducure and function of the program into the runtime stack. Each activation record contains the following words: return data, dynamic link (pointer to the start of the previous record) and then the following arguments and/or variables in that specific scope. The records are in this specific order, meaning the first word in a record is the return data, followed by the dynamic link then the arguments and/or variables. Once the record needs to be used, you simply pop all but the bottom two words. Push the result into the return data and use the dynamic link to go back to the previous record.
 
-![](images/storage-1)
+![](images/storage-1.png)
 
 Each scope will have an associated lexical level (LL) in reference to the main scope. The main scope has a LL of 0. The display is initialized at display[0] pointing to the head of the main activation record. Note that the dynamic link for this record will be null as it has nowhere to return to. Any initilized variables are also pushed in to the stack, these also act as the global variables within that program.
 
