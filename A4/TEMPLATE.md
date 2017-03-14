@@ -27,13 +27,13 @@ I'm not too sure what they are really asking here. The machine itself tells us h
 >Integers will be stored in the word as is. As the integers have a bound of -32767 to +32767 and the memory is 16 bits, it will align. 
 
 
-#Expressions
+# Expressions
 
-##Constants
+## Constants
 
 Since the constants have been pushed onto stack during parsing the execution. We can simply use POP to access them during the expression evaluation. For example: a != True, PUSH MACHINE_TRUE will be executed when parsing the expression and later we can use POP to access its value
 
-##Scalar variables
+## Scalar variables
 
 Since the code genaration happens after the semantic analysis, we already have a symbol table created for this program. For each scalar variable in the program we can store the lexical level and offset. Then during code generation we can look up into our symbol table and get its lexical level and offset from the table and use ADDR operation to access the scalar variable.
 
@@ -43,7 +43,7 @@ Example: let's say a has been declared as MACHINE_TRUE and stored in our symbol 
 ADDR 0 4 (get the address of a)
 LOAD
 
-##Arrays
+## Arrays
 
 Our language only supports one-dimensional array. Then in order to declare an array with bounds, we have to allocate memory for that array. Let's say we have a declared array A[5]. And we want to access A[3]. We already know the base address of the array and then program executes following commands to access A[3]
 
@@ -54,7 +54,7 @@ PUSH base_addr
 ADD
 LOAD
 
-##Arithmetic operations
+## Arithmetic operations
 
 To do the arithmetic operations, we have to first access the left and right handside of the expression and pop and push them onto the top of the stack. After that we call MULT,DIV,ADD,SUB operators respectively. Example: x declared as 5 and y declared as 2 and assume they have been already accessed and placed on the top of the stack. 
 
@@ -63,7 +63,7 @@ PUSH X
 PUSH Y
 MULT
 
-##Comparison operators
+## Comparison operators
 
 We do the same thing as above in the arithmetic operations, access the variables and place them on the top of the stack. Then call LT, EQ to do comparisons. Assume x and y has been declared and placed on the top of stack.
 
@@ -77,7 +77,7 @@ push x
 EQ
 OR
 
-##Boolean operations
+## Boolean operations
 
 Since we do not have a AND instruction, we can use De Morgan's law to replace AND statement with OR.  A and B = neg(neg(A) or neg(B)). Again as above, we access the variables and place them on top of the stack and call appropriate instruction.
 
@@ -90,7 +90,7 @@ NEG
 OR 
 NEG
 
-##Conditional expressions
+## Conditional expressions
 
 For conditional expression, we access the value of conditional expression and place it on top of the stack and compare it with True. If it is an if-else statement, push the address of first instruction in else block and do branch false. If it is an ordinary if statement with an else clause, then place first address of the first instruction after if statement on top of the stack and do branch false.
 
@@ -105,3 +105,86 @@ PUSH MACHINE_TRUE
 EQ
 PUSH addr_else (the address of first instruction in else clause)
 BF
+
+# Statements
+
+## assignment statement
+
+For each assignment statement, we will first need to calculate the address of the variable by looking at its enclosing scope's activation record. Each variable inside a scope is assigned an offset, so that inside a contiguous region of memory that contains the all of the scopeo's variables, the address of any given variable can be determined to be the starting address of the region of memory + the particular variable's offset. Since the scope's activation record has all of its variables stored in a contiguous region of memory, we can then easily determine the variable's address in the activation stack to be display[currentLL] + 2 * wordSize + variableOffset. Once that is done, the value (constant or variable) can be stored/pushed to the top of the stack, right before we store the value in the variable.
+
+Example (Assume that variable x has already been declared as an Integer): 
+x := 3
+
+can cause the following machine code to be generated (Note that currentLL will always be a constant/address of the currentLL value that is stored in the memory, and variableOffset is also a constant that determines the position of the given variable inside the variables region of the activation record):
+PUSHMT
+ADDR currentLL 0
+PUSH 2
+PUSH 16
+MUL
+ADD 
+PUSH variableOffset
+ADD
+
+PUSH 3
+STORE
+
+## if statements
+
+Each if statement will be composed of 1) a conditional statement, 2) a "then clause" and 3) an "else clause" (in the case that the if statement is actually an if-else statement). In memory, the machine code for the conditional statement will be followed by the code for the "then clause", which will in turn be followed the machine code for the "else clause" (in the case of an if-else statement). 
+It is important to note that the address of each and every instruction in the program is known at compile time. During code generation every node in the AST tree will need to be traversed. Although the length of the "then clause" is unknown when the node for the enclosing if statement is first encountered, the generator will nevertheless proceed to examine the then clause's node in a depth first manner before coming back up to its parent node (i.e the if statment's node), at which point the length of the "then clause" will be known.
+Therefore the length of the then clause will be known at compile time. If firstAddress is the address of the first instruction belonging to the "then clause" (which is also known at compile time), then we can calculate the address of the first instruction that follows the "then clause" to be firstAddress + length of "then clause"
+
+Example (Assume that variable b has already been declared as an Integer): 
+if (false) then b := 1 else b := 0
+
+can cause the following machine code to be generated (Note that thenLength is a constant representing the length of the "then clause" that is determined at compile time):
+
+PUSH firstAddress
+PUSH thenLength
+ADD
+PUSH false
+BF
+
+## the while and repeat statements
+The repeat statement is somewhat similar to an if statement. As the address of each and every instruction in the program is known at compile time, a while statement can be translated to a sequence of instructions for the loop's body followed by a conditional branch that branches to the loop body if the conditional expression evaluates to false.
+For a while statement however, the statement's conditional expression is evaluated before any instruction belonging to the loop's body is executed. The evaluation fo the conditional expression is then followed by a conditional branch (i.e BF), so that the program will jump to the first instruction following the while statement if the conditional evalutes to false. The instructions/machine code belonging to the loop body follows the conditional branch, and finally an unconditional branch to the instruction that initially evaluated the conditional expression is added after the loop body.
+
+Example 1:
+repeat b := 1 until false
+
+can cause the followiong code to be generated (Assume that firstAddr is the address of the first instruction, b has already been declared as an Integer, and the address of variable b has already been calculated and put on top of the stack):
+PUSH 1
+STORE   % b := 1
+PUSH firstAddr % firstAddr is the address of the instruction PUSH 1
+PUSH 0
+BF
+
+Example 2:
+while true do b := 100
+
+causes the following code to be generated (Again assume that b has already been declared as an Integer):
+PUSH nextStatementAddr      % Address of the first statement that immediately follows the current while statement
+                            % is equal to the address of the instruction PUSH nextStatementAddr + total length of while
+PUSH 1
+BF
+% Assume that inside the current activation record's list of variables, variable b's distance from the first variable in the % list is the constant bOffset 
+PUSHMT
+ADDR currentLL 0
+PUSH 2
+PUSH 16
+MUL
+ADD 
+PUSH bOffset
+ADD             % address of b = display[currentLL] + 2 * wordSize + bOffset
+
+PUSH 100
+STORE           % b := 100
+BR firstAddr    % firstAddr is the address of PUSH nextStatementAddr
+
+## all forms of exit statements
+
+
+
+
+
+
