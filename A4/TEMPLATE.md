@@ -116,7 +116,6 @@ Example (Assume that variable x has already been declared as an Integer):
 x := 3
 
 can cause the following machine code to be generated (Note that currentLL will always be a constant/address of the currentLL value that is stored in the memory, and variableOffset is also a constant that determines the position of the given variable inside the variables region of the activation record):
-PUSHMT
 ADDR currentLL 0
 PUSH 2
 PUSH 16
@@ -168,7 +167,6 @@ PUSH nextStatementAddr      % Address of the first statement that immediately fo
 PUSH 1
 BF
 % Assume that inside the current activation record's list of variables, variable b's distance from the first variable in the % list is the constant bOffset 
-PUSHMT
 ADDR currentLL 0
 PUSH 2
 PUSH 16
@@ -183,8 +181,77 @@ BR firstAddr    % firstAddr is the address of PUSH nextStatementAddr
 
 ## all forms of exit statements
 
+## return statements
+In the case of a simple return statement (for a procedure), the size of the current procedure's activation record is first calculated, before the entire record is popped off the stack.
+If the return statement returns with an expression however, everything on the activation record except the return value will be popped off the stack.
 
+Example 1 (Assume the following statement is nested inside a procedure):
+return
 
+generates:
+ADDR currentLL 0    % Get the starting address of the activation record
+PUSHMT              % Get the address of the top of the stack
+SUB                 % Get the difference to calculate the size of the activation record
+POPN                % Pop off the activation record
 
+Example 2 (Assume the following statement is nested inside a function):
+return with 1
 
+generates:
+ADDR currentLL 0    % Get the starting address of the activation record
+PUSHMT              % Get the address of the top of the stack
+SUB                 % Get the difference to calculate the size of the activation record
+PUSH 1              % Size of the return value on the activation record
+POPN                % Pop off everything on the record except the return value
+
+## 'read' and 'write' statements
+
+During code generation, a 'write' output instruction can result in a mixture of integers and strings being outputted. Due to this fact, output will be converted an ASCII string by the code generator if it is an Integer. Similarly, a character or newline can be represented as '\n' in Unix systems, so any newline character will be converted to the string "\n". This is done so that a sequence of characters, strings, newlines, integers can be treated as a single string by the code generator. Once the entire output argument has been converted into a string, we will be able to print output as a sequence of ASCII characters.
+
+Example 1:
+write "Hello", newline
+
+generates:
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PUSH 110
+PUSH 92 
+PUSH 111
+PUSH 108 
+PUSH 108 
+PUSH 101 
+PUSH 72 
+
+'read' statements only read in Integers, so no ASCII conversions are used for this particular statement. A sequence of inputs will be read in using multiple READI instructions, as shown below. 
+
+Example 2 (Assume a, b have already been declared as Integer variables):
+read a, b
+
+generates:
+ADDR currentLL 0
+PUSH 2
+PUSH 16
+MUL
+ADD 
+PUSH aOffset    
+ADD             % address of a = display[currentLL] + 2 * wordSize + aOffset
+READI
+STORE 
+
+ADDR currentLL 0
+PUSH 2
+PUSH 16
+MUL
+ADD 
+PUSH bOffset    
+ADD             % address of b = display[currentLL] + 2 * wordSize + bOffset
+READI
+STORE 
+
+## handling of minor scopes
 
