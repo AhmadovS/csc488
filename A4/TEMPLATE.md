@@ -48,10 +48,15 @@ LOAD
 Our language only supports one-dimensional array. Then in order to declare an array with bounds, we have to allocate memory for that array. Let's say we have a declared array A[5]. And we want to access A[3]. We already know the base address of the array and then program executes following commands to access A[3]
 
 PUSH 3
+
 PUSH wordsize
+
 MULT
+
 PUSH base_addr
+
 ADD
+
 LOAD
 
 ## Arithmetic operations
@@ -59,8 +64,11 @@ LOAD
 To do the arithmetic operations, we have to first access the left and right handside of the expression and pop and push them onto the top of the stack. After that we call MULT,DIV,ADD,SUB operators respectively. Example: x declared as 5 and y declared as 2 and assume they have been already accessed and placed on the top of the stack. 
 
 x*y
+
 PUSH X
+
 PUSH Y
+
 MULT
 
 ## Comparison operators
@@ -70,11 +78,17 @@ We do the same thing as above in the arithmetic operations, access the variables
 x >= y
 
 push y
+
 push x
+
 LT
+
 push y
+
 push x
+
 EQ
+
 OR
 
 ## Boolean operations
@@ -84,26 +98,36 @@ Since we do not have a AND instruction, we can use De Morgan's law to replace AN
 A AND B
 
 PUSH A
+
 NEG
+
 PUSH B
+
 NEG
+
 OR 
+
 NEG
 
 ## Conditional expressions
 
 For conditional expression, we access the value of conditional expression and place it on top of the stack and compare it with True. If it is an if-else statement, push the address of first instruction in else block and do branch false. If it is an ordinary if statement with an else clause, then place first address of the first instruction after if statement on top of the stack and do branch false.
 
-if a > 5:
-  b = 1
-else:
-  b = 2
+```
+	if a > 5:
+	  b = 1
+	else:
+	  b = 2
+```
 
 Let's assume value of a > 5 has been placed on top of the stack
 
 PUSH MACHINE_TRUE
+
 EQ
+
 PUSH addr_else (the address of first instruction in else clause)
+
 BF
 
 # Statements
@@ -112,19 +136,26 @@ BF
 
 For each assignment statement, we will first need to calculate the address of the variable by looking at its enclosing scope's activation record. Each variable inside a scope is assigned an offset, so that inside a contiguous region of memory that contains the all of the scopeo's variables, the address of any given variable can be determined to be the starting address of the region of memory + the particular variable's offset. Since the scope's activation record has all of its variables stored in a contiguous region of memory, we can then easily determine the variable's address in the activation stack to be display[currentLL] + 2 * wordSize + variableOffset. Once that is done, the value (constant or variable) can be stored/pushed to the top of the stack, right before we store the value in the variable.
 
-Example (Assume that variable x has already been declared as an Integer): 
-x := 3
+Example (Assume that variable x has already been declared as an Integer): ```x := 3```
 
 can cause the following machine code to be generated (Note that currentLL will always be a constant/address of the currentLL value that is stored in the memory, and variableOffset is also a constant that determines the position of the given variable inside the variables region of the activation record):
+
 ADDR currentLL 0
+
 PUSH 2
+
 PUSH 16
+
 MUL
+
 ADD 
+
 PUSH variableOffset
+
 ADD
 
 PUSH 3
+
 STORE
 
 ## if statements
@@ -134,49 +165,66 @@ It is important to note that the address of each and every instruction in the pr
 Therefore the length of the then clause will be known at compile time. If firstAddress is the address of the first instruction belonging to the "then clause" (which is also known at compile time), then we can calculate the address of the first instruction that follows the "then clause" to be firstAddress + length of "then clause"
 
 Example (Assume that variable b has already been declared as an Integer): 
-if (false) then b := 1 else b := 0
+```if (false) then b := 1 else b := 0```
 
 can cause the following machine code to be generated (Note that thenLength is a constant representing the length of the "then clause" that is determined at compile time):
 
 PUSH firstAddress
+
 PUSH thenLength
+
 ADD
+
 PUSH false
+
 BF
 
 ## the while and repeat statements
 The repeat statement is somewhat similar to an if statement. As the address of each and every instruction in the program is known at compile time, a while statement can be translated to a sequence of instructions for the loop's body followed by a conditional branch that branches to the loop body if the conditional expression evaluates to false.
 For a while statement however, the statement's conditional expression is evaluated before any instruction belonging to the loop's body is executed. The evaluation fo the conditional expression is then followed by a conditional branch (i.e BF), so that the program will jump to the first instruction following the while statement if the conditional evalutes to false. The instructions/machine code belonging to the loop body follows the conditional branch, and finally an unconditional branch to the instruction that initially evaluated the conditional expression is added after the loop body.
 
-Example 1:
-repeat b := 1 until false
+Example 1: ```repeat b := 1 until false```
 
 can cause the followiong code to be generated (Assume that firstAddr is the address of the first instruction, b has already been declared as an Integer, and the address of variable b has already been calculated and put on top of the stack):
+
 PUSH 1
+
 STORE   % b := 1
+
 PUSH firstAddr % firstAddr is the address of the instruction PUSH 1
+
 PUSH 0
+
 BF
 
-Example 2:
-while true do b := 100
+Example 2: ```while true do b := 100```
 
 causes the following code to be generated (Again assume that b has already been declared as an Integer):
+
 PUSH nextStatementAddr      % Address of the first statement that immediately follows the current while statement
                             % is equal to the address of the instruction PUSH nextStatementAddr + total length of while
 PUSH 1
+
 BF
 % Assume that inside the current activation record's list of variables, variable b's distance from the first variable in the % list is the constant bOffset 
 ADDR currentLL 0
+
 PUSH 2
+
 PUSH 16
+
 MUL
+
 ADD 
+
 PUSH bOffset
+
 ADD             % address of b = display[currentLL] + 2 * wordSize + bOffset
 
 PUSH 100
+
 STORE           % b := 100
+
 BR firstAddr    % firstAddr is the address of PUSH nextStatementAddr
 
 ## all forms of exit statements
@@ -185,72 +233,107 @@ BR firstAddr    % firstAddr is the address of PUSH nextStatementAddr
 In the case of a simple return statement (for a procedure), the size of the current procedure's activation record is first calculated, before the entire record is popped off the stack.
 If the return statement returns with an expression however, everything on the activation record except the return value will be popped off the stack.
 
-Example 1 (Assume the following statement is nested inside a procedure):
-return
+Example 1 (Assume the following statement is nested inside a procedure): ```return```
 
 generates:
 ADDR currentLL 0    % Get the starting address of the activation record
+
 PUSHMT              % Get the address of the top of the stack
+
 SUB                 % Get the difference to calculate the size of the activation record
+
 POPN                % Pop off the activation record
 
-Example 2 (Assume the following statement is nested inside a function):
-return with 1
+Example 2 (Assume the following statement is nested inside a function): ```return with 1```
 
 generates:
+
 ADDR currentLL 0    % Get the starting address of the activation record
+
 PUSHMT              % Get the address of the top of the stack
+
 SUB                 % Get the difference to calculate the size of the activation record
+
 PUSH 1              % Size of the return value on the activation record
+
 POPN                % Pop off everything on the record except the return value
 
 ## 'read' and 'write' statements
 
 During code generation, a 'write' output instruction can result in a mixture of integers and strings being outputted. Due to this fact, output will be converted an ASCII string by the code generator if it is an Integer. Similarly, a character or newline can be represented as '\n' in Unix systems, so any newline character will be converted to the string "\n". This is done so that a sequence of characters, strings, newlines, integers can be treated as a single string by the code generator. Once the entire output argument has been converted into a string, we will be able to print output as a sequence of ASCII characters.
 
-Example 1:
-write "Hello", newline
+Example 1: ```write "Hello", newline```
 
 generates:
+
 PRINTC
+
 PRINTC
+
 PRINTC
+
 PRINTC
+
 PRINTC
+
 PRINTC
+
 PRINTC
+
 PUSH 110
+
 PUSH 92 
+
 PUSH 111
+
 PUSH 108 
+
 PUSH 108 
+
 PUSH 101 
+
 PUSH 72 
 
 'read' statements only read in Integers, so no ASCII conversions are used for this particular statement. A sequence of inputs will be read in using multiple READI instructions, as shown below. 
 
-Example 2 (Assume a, b have already been declared as Integer variables):
-read a, b
+Example 2 (Assume a, b have already been declared as Integer variables): ```read a, b```
 
 generates:
+
 ADDR currentLL 0
+
 PUSH 2
+
 PUSH 16
+
 MUL
+
 ADD 
-PUSH aOffset    
+
+PUSH aOffset 
+
 ADD             % address of a = display[currentLL] + 2 * wordSize + aOffset
+
 READI
+
 STORE 
 
 ADDR currentLL 0
+
 PUSH 2
+
 PUSH 16
+
 MUL
+
 ADD 
-PUSH bOffset    
+
+PUSH bOffset 
+
 ADD             % address of b = display[currentLL] + 2 * wordSize + bOffset
+
 READI
+
 STORE 
 
 ## handling of minor scopes
