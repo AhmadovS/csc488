@@ -123,6 +123,26 @@ class Machine:
 			self.DUPN()
 		elif S.find("DUP") > -1:
 			self.DUP()
+		elif S.find("BR") > -1:
+			self.BR()
+		elif S.find("BF") > -1:
+			self.BF()
+		elif S.find("NEG") > -1:
+			self.NEG()
+		elif S.find("ADD") > -1:
+			self.ADD()
+		elif S.find("SUB") > -1:
+			self.SUB()
+		elif S.find("MUL") > -1:
+			self.MUL()
+		elif S.find("DIV") > -1:
+			self.DIV()
+		elif S.find("EQ") > -1:
+			self.EQ()
+		elif S.find("LT") > -1:
+			self.LT()
+		elif S.find("OR") > -1:
+			self.OR()
 
 	def print(self, bound):
 		L = len(self.memory)
