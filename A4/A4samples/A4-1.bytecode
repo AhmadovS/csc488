@@ -1,6 +1,8 @@
-# main initialization
+# main initialization	% 1-1, 1-2
 PUSH 0  # push addr of main frame
 SETD 0  # display[0] = 0
+PUSH 2
+DUPN 	# the return data and dynamic link portions of the main activation frame is null
 
 # var i, j, k, l, m : Integer          % 1-3
 # Multideclaration > ScalarDeclPart
@@ -38,14 +40,14 @@ DUPN
 
 # i := 1                  % 1-7
 #  AssignStmt
-ADDR 0 0
+ADDR 0 2
 PUSH 1
 STORE
 
 # j := i + 3                  % 1-8
 #  AssignStmt > ArithExpn
-ADDR 0 1  # j addr
-ADDR 0 0  # i addr
+ADDR 0 3  # j addr
+ADDR 0 2  # i addr
 LOAD      # load value of i
 PUSH 3
 ADD
@@ -54,25 +56,166 @@ STORE     # stores top to j
 # k := i - j                   % 1-9
 #  AssignStmt > IdentExpn
 #             > ArithExpn
-ADDR 0 2  # k addr
-ADDR 0 0  # i addr
+ADDR 0 4  # k addr
+ADDR 0 2  # i addr
 LOAD      # loads val of i
-ADDR 0 1  # j addr
+ADDR 0 3  # j addr
 LOAD      # loads val of j
 SUB
 STORE     # stores top to k
 
-#...
+# l := j * k					% 1-10
+ADDR 0 5 # l addr
+ADDR 0 3 # j addr
+LOAD	 # loads val of i
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+MUL
+STORE	 # stores top to l
+
+# m := k / l					% 1-11
+ADDR 0 6 # m addr
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+ADDR 0 5 # l addr
+LOAD	 # loads val of l
+DIV
+STORE	 # stores top to m
+
+# p := true					% 1-11
+ADDR 0 7 # p addr
+PUSH 1	 # hardware value for MACHINE_TRUE is 1 in memory
+STORE	 # stores true to p
+
+# q := false					% 1-12
+ADDR 0 8	# q addr
+PUSH 0		# hardware value for MACHINE_FALSE is 0 in memory
+STORE
 
 # r := not q                   % 1-13
 # AssignStmt > NotExpn > Expn
-ADDR 0 7  # r addr
+ADDR 0 9  # r addr
 PUSH 1
 ADDR 0 5  # q addr
 LOAD
 SUB       # top = 1 - q
 STORE     # stores top to r
 
+# s := p or q					% 1-14
+ADDR 0 10	# s addr
+ADDR 0 7	# p addr
+LOAD
+ADDR 0 8	# q addr
+LOAD
+OR			# top = p or q
+STORE		# stores top to s
+
+# t := s and p					% 1-15
+ADDR 0 11	# t addr
+PUSH 1
+PUSH 1
+ADDR 0 10	# s addr
+LOAD		# top = s
+SUB       	# top = neg(s)
+PUSH 1
+ADDR 0 7	# p addr
+LOAD
+SUB			# top = neg(p)
+OR			# top = neg(s) or neg(p)
+SUB			# top = neg(neg(s) or neg(p))
+STORE		# t = top
+
+# p := i < j					% 1-16
+ADDR 0 7	# p addr
+ADDR 0 2  # i addr
+LOAD
+ADDR 0 3  # j addr
+LOAD
+LT			# top = i < j
+STORE		# p = top
+
+# q := k <= l					% 1-17
+ADDR 0 8	# q addr
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+ADDR 0 5 # l addr
+LOAD	 # loads val of l
+LT		 # top = k < l
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+ADDR 0 5 # l addr
+LOAD	 # loads val of l
+EQ		 # top = k equals l
+OR		 # top = (k < l) or (k equals l)
+STORE	 # q = top
+
+# r := j = l					% 1-18
+ADDR 0 9  # r addr
+ADDR 0 3  # j addr
+LOAD
+ADDR 0 5 # l addr
+LOAD	 # loads val of l
+EQ		 # top = j equals l
+STORE	 # r = top
+
+# s := k not = m				% 1-19
+ADDR 0 10	# s addr
+PUSH 1
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+ADDR 0 6 # m addr
+LOAD	 # loads val of m
+EQ		 # top = k equals m
+SUB		 # top = neg (k equals m)
+STORE	 # s = top
+
+# t := j > k					% 1-20
+ADDR 0 11	# t addr
+PUSH 1
+ADDR 0 3  # j addr
+LOAD
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+LT		 # top = j < k
+ADDR 0 3  # j addr
+LOAD
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+EQ		 # top = j equals k
+OR		 # top = (j < k) or (j equals k)
+SUB		 # top = neg((j < k) or (j equals k))
+STORE	 # t = top
+
+# t := j >= k					% 1-21
+ADDR 0 11	# t addr
+PUSH 1
+ADDR 0 3  # j addr
+LOAD
+ADDR 0 4 # k addr
+LOAD	 # loads val of k
+LT		 # top = j < k
+SUB		 # top = neg(j < k)
+STORE	 # t = top
+
+# q := r = s					% 1-22
+ADDR 0 8	# q addr
+ADDR 0 9  # r addr
+LOAD 
+ADDR 0 10	# s addr
+LOAD		# top = s
+EQ			# top = r equals s
+STORE		# q = top
+
+# t := s not = r 				% 1-23
+ADDR 0 11	# t addr
+PUSH 1
+ADDR 0 10	# s addr
+LOAD		# top = s
+ADDR 0 9  	# r addr
+LOAD 
+EQ			# top = s equals r
+SUB 		# top = neg (s equals r)
+STORE		# t = top
 
 #...
 # A[5] := 5                    % 1-24
@@ -81,7 +224,7 @@ STORE     # stores top to r
 # We assume the compiler has already optimized this code
 # i.e. address of the subexpn has been calculated at
 # compile time
-ADDR 0 14  # A[5] addr
+ADDR 0 16  # A[5] addr
 PUSH 5
 STORE
 
@@ -89,9 +232,9 @@ STORE
 # translated: B[i+1+100] := A[j-2-1]
 #  AssignStmt > SubExpn
 #             > subExpn
-ADDR 0 17  # B base addr
+ADDR 0 19  # B base addr
            # evaluate subexpn
-ADDR 0 0   # i addr
+ADDR 0 2   # i addr
 LOAD
 PUSH 1
 ADD
@@ -100,9 +243,9 @@ SUB
 
 ADD        # adds (i+1+100) to base addr of B
 
-ADDR 0 10  # A base addr
+ADDR 0 12  # A base addr
            # evaluate subexpn
-ADDR 0 1   # j addr
+ADDR 0 3   # j addr
 LOAD
 PUSH 2
 SUB
@@ -113,3 +256,30 @@ ADD        # adds (j-2-1) to base addr of A
 LOAD       # Loads A[j-2-1]
 
 STORE      # stores A[j-2-1] to B[i+1+100]
+
+# C[-4] := p or q				% 1-26
+ADDR 0 170 # C base addr
+PUSH -4
+PUSH 7
+ADD		# offset = index + neg(lower bound)
+ADD		# adds (-4 + 7) to base address of C
+
+ADDR 0 7	# p addr
+LOAD
+ADDR 0 8	# q addr
+LOAD
+OR		# top = p or q
+STORE	# memory[C base addr + offset] = top
+
+# r := D[ i + 200 ]				% 1-27
+ADDR 0 9  # r addr
+ADDR 0 175	# D base addr
+ADDR 0 2	# i addr
+LOAD
+PUSH 200
+ADD			# top = i + 200
+PUSH 1
+SUB			# offset = i + 200 - 1
+ADD			# adds i + 200 - 1 to base address of D 
+LOAD		# top = memory[base addr of D + i + 200 - 1]
+STORE		# r = top
