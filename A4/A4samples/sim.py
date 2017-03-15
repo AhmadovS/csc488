@@ -56,10 +56,13 @@ class Machine:
 		self.PUSH(top)
 
 	def BR(self):
-		raise Exception("DID'T IMPLMENT BR YET")
+		a = int(self.POP())
+		return a
 
 	def BF(self):
-		raise Exception("DID'T IMPLMENT BF YET")
+		a = int(self.POP())
+		v = int(self.POP())
+		if v != 1: return a
 
 	def NEG(self):
 		t = int(self.POP()) * -1
@@ -111,45 +114,45 @@ class Machine:
 		# Execute instruction
 		S = inst[0]
 		if S.find("ADDR") > -1:
-			self.ADDR(int(inst[1]), int(inst[2]))
+			return self.ADDR(int(inst[1]), int(inst[2]))
 		elif S.find("LOAD") > -1:
-			self.LOAD()
+			return self.LOAD()
 		elif S.find("STORE") > -1:
-			self.STORE()
+			return self.STORE()
 		elif S.find("PUSHMT") > -1:
-			self.PUSHMT()
+			return self.PUSHMT()
 		elif S.find("PUSH") > -1:
-			self.PUSH(inst[1])
+			return self.PUSH(inst[1])
 		elif S.find("SETD") > -1:
-			self.SETD(int(inst[1]))
+			return self.SETD(int(inst[1]))
 		elif S.find("POPN") > -1:
-			self.POPN()
+			return self.POPN()
 		elif S.find("POP") > -1:
-			self.POP()
+			return self.POP()
 		elif S.find("DUPN") > -1:
-			self.DUPN()
+			return self.DUPN()
 		elif S.find("DUP") > -1:
-			self.DUP()
+			return self.DUP()
 		elif S.find("BR") > -1:
-			self.BR()
+			return self.BR()
 		elif S.find("BF") > -1:
-			self.BF()
+			return self.BF()
 		elif S.find("NEG") > -1:
-			self.NEG()
+			return self.NEG()
 		elif S.find("ADD") > -1:
-			self.ADD()
+			return self.ADD()
 		elif S.find("SUB") > -1:
-			self.SUB()
+			return self.SUB()
 		elif S.find("MUL") > -1:
-			self.MUL()
+			return self.MUL()
 		elif S.find("DIV") > -1:
-			self.DIV()
+			return self.DIV()
 		elif S.find("EQ") > -1:
-			self.EQ()
+			return self.EQ()
 		elif S.find("LT") > -1:
-			self.LT()
+			return self.LT()
 		elif S.find("OR") > -1:
-			self.OR()
+			return self.OR()
 
 	def print(self, bound):
 		L = len(self.memory)
@@ -187,24 +190,31 @@ if __name__ == '__main__':
 	# Get file
 	# ARGUMENT STYLE
 	# python sim.py [file] [run without prompt until line number] [number of memory to show]
-	if len(sys.argv) < 2:
-		raise Exception("Please specify a bytecode file!")
-	else:
-		M = Machine()
-		lineNumber = 1
-		f = open(sys.argv[1], "r")
-		runTill = int(sys.argv[2]) if 3<=len(sys.argv) else None
-		bound = int(sys.argv[3]) if 4<=len(sys.argv) else 20
-		stepByStep = True
-		for line in f:
-			instr = parse(line)
 
-			if (runTill is None or runTill < lineNumber) and instr != None:
-				u = input("->")
-				stepByStep = False if u is "r" else True
+	if len(sys.argv) < 2: raise Exception("Please specify a bytecode file!")
 
-			if instr != None:
-				print("\n#"+str(lineNumber)+": ", instr)
-				M.execute(instr)
-				M.print(bound)
-			lineNumber += 1
+	M = Machine()
+	f = open(sys.argv[1], "r")
+	lines = [l for l in f]
+	runTill = int(sys.argv[2]) if 3<=len(sys.argv) else None
+	bound = int(sys.argv[3]) if 4<=len(sys.argv) else 20
+	stepByStep = True
+
+	lineNumber = 0
+	while(lineNumber < len(lines)):
+		instr = parse(lines[lineNumber])
+
+		if (runTill is None or runTill < lineNumber+1) and instr != None:
+			u = input("->")
+			stepByStep = False if u is "r" else True
+
+		if instr != None:
+			print("\n#"+str(lineNumber+1)+": ", instr)
+			result = M.execute(instr)
+			M.print(bound)
+			if 0<=instr[0].find("BR") or 0<=instr[0].find("BF"):
+				if result != None:
+					lineNumber = result-1
+					print("\n\tBRANCHING TO: #" + str(result))
+
+		lineNumber += 1

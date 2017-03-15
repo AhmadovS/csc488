@@ -69,4 +69,31 @@ EQ
 STORE
 
 
-% 2-7 -> if p then a := 3
+# % 2-7 -> if p then a := 3
+ADDR 0 6	# This is the condition
+LOAD
+PUSH 79 	# This is the address of the else statement
+BF
+ADDR 0 2 	# This is the then statement
+PUSH 3
+STORE
+
+
+# % 2-8 -> if p or not p then b := 2 else b := 0
+ADDR 0 6	# This is the condition
+LOAD
+ADDR 0 6
+LOAD
+PUSH 0
+EQ
+OR
+PUSH 95 	# This is the address of the else statement
+BF
+ADDR 0 3	# This is the then statement
+PUSH 2
+STORE
+PUSH 100	# Branch away from if statement
+BR
+ADDR 0 3	# This is the else statement
+PUSH 0
+STORE
