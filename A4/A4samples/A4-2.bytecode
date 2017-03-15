@@ -97,3 +97,17 @@ BR
 ADDR 0 3	# This is the else statement
 PUSH 0
 STORE
+
+
+# % 2-9 -> while c < 7 do  c := 6
+ADDR 0 4
+LOAD
+PUSH 7
+LT
+PUSH 115	# If false, branch out of loop
+BF
+ADDR 0 4
+PUSH 1337		# In the original code this is "6" but this results in an infinite loop. For testing purpose we change it to "1337"
+STORE
+PUSH 102	# Go back to loop
+BR
