@@ -1,5 +1,3 @@
-WORK IN PROGRESS
-
 # 3. Functions and Procedures
 
 ## Overview
@@ -82,6 +80,27 @@ SETD 0
 ```
 
 ## Procedure and function exit code.
+After a routine reaches it's return statement, it sets the value for the `return value` if it's a function, cleans up all the stack values down to and including `ADDR $L 2` (so only return address and return value are on stack), and it then branches to it's caller.
 
+After function reaches `return with` statement.
+```
+# Assumming return value is now on top of the stack.
+ADDR $L 0  # addr of return value field
+SWAP       # STORE needs value to be on top of stack
+STORE
+```
 
+Now we cleanup and branch to caller.
+```
+# Calculate number of words to pop 
+# (from top of stack to and including static link)
+PUSHMT
+ADDR $L 2
+SUB
+POPN
+
+BR  # pops return address and branches to the caller.
+```
+
+After branching to the caller, if the caller doesn't use the `return value`, it needs to pop it. So in case of having called a procedure or a function whose return value we're not gonna use, we always need to call `POP`.
 
