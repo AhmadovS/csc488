@@ -139,3 +139,36 @@ PUSH 7
 STORE
 PUSH 130
 BR
+
+
+# % 2-12 -> while q or r and not p do  exit when b not= 10
+ADDR 0 7
+LOAD
+ADDR 0 8
+LOAD
+OR
+PUSH 0
+EQ
+ADDR 0 6
+LOAD
+PUSH 0
+EQ
+PUSH 0
+EQ
+OR
+PUSH 0
+EQ
+PUSH 176 	# Leave loop
+BF
+# BODY
+ADDR 0 3
+LOAD
+PUSH 10
+EQ
+PUSH 0
+EQ
+PUSH 176 	# Leave loop
+BF
+# Go back to loop
+PUSH 144
+BR

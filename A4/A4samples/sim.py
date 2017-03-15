@@ -159,7 +159,7 @@ class Machine:
 			return self.OR()
 		elif S.find("SWAP") > -1:
 			return self.SWAP()
-		elif S.find("PRINTC") > -1:
+		elif S.find("PRINTC") > -1 or S.find("WRITE") > -1:
 			return self.PRINTC()
 
 	def print(self, bound):
