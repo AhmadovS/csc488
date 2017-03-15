@@ -7,8 +7,7 @@ NOTES:
 - routine: either a function or a procedure.
 - In the byte codes below, variables prefixed with $ (e.g. $L) are computed at compile time.
 - All lexical levels and return addresses are computed at compile time.
-- for a lexical level $L, ADDR $L 0 points to the bottom of acivation record for that lexical leve.
-- For any routine at lexical level $L, ADDR $L 0 points to beginning of it's activation record (which is the address of return value).
+- For any routine at lexical level $L, `ADDR $L 0` points to beginning of it's activation record (which is the address of return value).
 
 Imagine we are currently executing routine P which calls routine Q. P has the responsibility to update the display only for the lexical level of P. It then creates the activation record for Q and evaluates its arguments, and then branches to the first instruction of the routine Q.
 
@@ -87,8 +86,8 @@ SETD $(L-3)
 ADDR 1 2
 SETD 0
 
-# Now we're done with updating the display
-# We now run first "actual" instruction of the callee.
+# We're done with updating the display
+# Now we run first "actual" instruction of the callee.
 ```
 
 ## Procedure and function exit code.
