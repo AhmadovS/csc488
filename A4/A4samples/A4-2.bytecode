@@ -1,0 +1,75 @@
+# % 2-1, 2-2 -> main initialization
+PUSHMT 		# push addr of main frame
+SETD 0 		# display[0] = 0
+PUSH 2
+DUPN 		# the return data and dynamic link portions of the main activation frame is null
+
+
+# % 2-3 -> var a, b, c, d : Integer
+# Memory: a(2), b(3), c(4), d(5)
+PUSH UNDEFINED  	# inital value of all vars
+PUSH 4  			# push number of variables 
+DUPN				# allocated space for 4 vars
+
+
+# % 2-4 -> var p, q, r : Boolean
+# Memory: p(6), q(7), r(8)
+PUSH UNDEFINED  	# inital value of all vars
+PUSH 3  			# push number of variables 
+DUPN				# allocated space for 3 vars
+
+
+# % 2-5 -> a := b + c - d*c + b/c
+ADDR 0 2
+ADDR 0 3
+LOAD
+ADDR 0 4
+LOAD
+ADD
+ADDR 0 5
+LOAD
+ADDR 0 4
+LOAD
+MUL
+SUB
+ADDR 0 3
+LOAD
+ADDR 0 4
+LOAD
+DIV
+ADD
+STORE
+
+
+# % 2-6 -> p := not false or not q and r
+	# We simulate "not" by using a simple comparison against 0
+	# 0 == 0 -> 1
+	# 0 == 1 -> 0
+	# For AND we use three consecutive NORs
+	# A and B = (A nor A) nor (B nor B)
+ADDR 0 6
+PUSH 0
+PUSH 0	
+EQ
+ADDR 0 7
+LOAD
+PUSH 0
+EQ
+OR
+DUP
+OR
+PUSH 0
+EQ
+ADDR 0 8
+LOAD
+DUP
+OR
+PUSH 0
+EQ
+OR
+PUSH 0
+EQ
+STORE
+
+
+% 2-7 -> if p then a := 3

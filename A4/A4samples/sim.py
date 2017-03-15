@@ -24,6 +24,8 @@ class Machine:
 		self.memory[a] = v
 
 	def PUSH(self, V):
+		if V == None:
+			V = sys.float_info.min
 		self.memory.append(V)
 
 	def PUSHMT(self):
@@ -81,9 +83,11 @@ class Machine:
 		self.PUSH(x * y)
 
 	def DIV(self):
-		(x,y) = self._OPP()
+		# (x,y) = self._OPP()
+		y = float(self.POP())
+		x = float(self.POP())	
 		if y == 0: raise Exception("Divide by 0")
-		self.PUSH(x / y)
+		self.PUSH(int(x / y))
 
 	def EQ(self):
 		(x,y) = self._OPP()
