@@ -110,6 +110,10 @@ class Machine:
 		self.PUSH(x)
 		self.PUSH(y)
 
+	def PRINTC(self):
+		c = int(self.POP())
+		print("\tPrinted Char: " + ord(c))
+
 	def execute(self, inst):
 		# Execute instruction
 		S = inst[0]
@@ -153,6 +157,10 @@ class Machine:
 			return self.LT()
 		elif S.find("OR") > -1:
 			return self.OR()
+		elif S.find("SWAP") > -1:
+			return self.SWAP()
+		elif S.find("PRINTC") > -1:
+			return self.PRINTC()
 
 	def print(self, bound):
 		L = len(self.memory)

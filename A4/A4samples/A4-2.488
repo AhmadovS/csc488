@@ -21,11 +21,18 @@
 
 	% 2-9
 	while c < 7 do  c := 6
-	
-	while true do  b := b + 1 				% 2-10
-	repeat { a := 3 exit b := 7 } until false		% 2-11
-	while q or r and not p do  exit when b not= 10 	% 2-12
+
+	% 2-10
+	while true do  b := b + 1
+
+	% 2-11
+	repeat { a := 3 exit b := 7 } until false
+
+	% 2-12
+	while q or r and not p do  exit when b not= 10
+
 	write "Value is " , a / b, " or not ", newline	% 2-13
+
 	read  a, c, b					% 2-14
 	{							% 2-15
 		 var a, b, c : Boolean				% 2-16
@@ -35,6 +42,7 @@
 				p := ( b ? q : r )				% 2-20
 		 }						% 2-21
 	}							% 2-22
+
 	while true do  {					% 2-23
 		 exit when p or r 				% 2-24
 		 repeat  {					% 2-25

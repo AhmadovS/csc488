@@ -111,3 +111,31 @@ PUSH 1337		# In the original code this is "6" but this results in an infinite lo
 STORE
 PUSH 102	# Go back to loop
 BR
+
+
+% 2-10 -> while true do  b := b + 1
+PUSH 0 		# In the original code this is "1" but this results in an infinite loop. For testing purpose we change it to "0"
+PUSH 130
+BF
+ADDR 0 3
+ADDR 0 3
+LOAD
+PUSH 1
+ADD
+STORE
+PUSH 116
+BR
+
+
+# % 2-11 -> repeat { a := 3 exit b := 7 } until false
+PUSH 0
+PUSH 143
+BF
+ADDR 0 2
+PUSH 3
+STORE
+ADDR 0 3
+PUSH 7
+STORE
+PUSH 130
+BR
