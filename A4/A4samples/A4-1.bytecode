@@ -1,5 +1,5 @@
 # main initialization	% 1-1, 1-2
-PUSH 0  # push addr of main frame
+PUSHMT  # push addr of main frame
 SETD 0  # display[0] = 0
 PUSH 2
 DUPN 	# the return data and dynamic link portions of the main activation frame is null

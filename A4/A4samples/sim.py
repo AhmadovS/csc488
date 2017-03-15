@@ -5,6 +5,7 @@ class Machine:
 	def __init__(self):
 		self.memory = []
 		self.display = []
+		self.msp = 0
 
 	def ADDR(self, LL, ON):
 		a = int(self.display[LL])
@@ -26,7 +27,7 @@ class Machine:
 		self.memory.append(V)
 
 	def PUSHMT(self):
-		raise Exception("DID'T IMPLMENT PUSHMT YET")
+		self.PUSH(self.msp)
 
 	def SETD(self, LL):
 		while len(self.display) <= LL: self.display.append(0)
@@ -111,6 +112,8 @@ class Machine:
 			self.LOAD()
 		elif S.find("STORE") > -1:
 			self.STORE()
+		elif S.find("PUSHMT") > -1:
+			self.PUSHMT()
 		elif S.find("PUSH") > -1:
 			self.PUSH(inst[1])
 		elif S.find("SETD") > -1:
