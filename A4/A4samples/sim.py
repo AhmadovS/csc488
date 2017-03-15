@@ -182,19 +182,20 @@ def parse(line):
 if __name__ == '__main__':
 	# Get file
 	# ARGUMENT STYLE
-	# python sim.py [file] [number of memory to show]
+	# python sim.py [file] [run without prompt until line number] [number of memory to show]
 	if len(sys.argv) < 2:
 		raise Exception("Please specify a bytecode file!")
 	else:
 		M = Machine()
 		lineNumber = 1
 		f = open(sys.argv[1], "r")
-		bound = int(sys.argv[2]) if 3<=len(sys.argv) else 20
+		runTill = int(sys.argv[2]) if 3<=len(sys.argv) else None
+		bound = int(sys.argv[3]) if 4<=len(sys.argv) else 20
 		stepByStep = True
 		for line in f:
 			instr = parse(line)
 
-			if stepByStep and instr != None:
+			if (runTill is None or runTill < lineNumber) and instr != None:
 				u = input("->")
 				stepByStep = False if u is "r" else True
 
