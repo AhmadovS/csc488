@@ -26,7 +26,6 @@ ACTIVATION RECORD:
 |static link (pointer to lexical parent acitvation record.)
 |return address (points to code segment to return to)
 |return value (procedures would leave return value as UNDEFINED)
-|--------------------
 
 ## Calling a routine
 Let $L be the lexical scope of the callee and $curL lexical scope of caller.
