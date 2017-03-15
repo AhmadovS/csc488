@@ -97,21 +97,29 @@ OR
 
 ## Boolean operations
 
-Since we do not have a AND instruction, we can use De Morgan's law to replace AND statement with OR.  A and B = neg(neg(A) or neg(B)). Again as above, we access the variables and place them on top of the stack and call appropriate instruction.
+Since we do not have a AND instruction, we can use De Morgan's law to replace AND statement with OR.  A and B = not(not(A) or not(B)). Again as above, we access the variables and place them on top of the stack and call appropriate instruction. Note, we have to also define "not" as it is not in our instruction set. We do this by a equivalence comparison to 0.
 
-A AND B
-
+For NOT:
+```
 PUSH A
+PUSH 0
+EQ
+```
+This gives us the result: ```1 == 0 -> 1``` and ```1 == 0 -> 0```.
 
-NEG
-
+Now for AND (example of loading two different variables):
+```
+PUSH A
+PUSH 0
+EQ
 PUSH B
+PUSH 0
+EQ
+OR
+PUSH 0
+EQ
+```
 
-NEG
-
-OR 
-
-NEG
 
 ## Conditional expressions
 
