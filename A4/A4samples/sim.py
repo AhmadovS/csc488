@@ -91,7 +91,7 @@ class Machine:
 
 	def LT(self):
 		(x,y) = self._OPP()
-		self.PUSH(x < y)
+		self.PUSH(1 if x < y else 0)
 
 	def OR(self):
 		(x,y) = self._OPP()
@@ -156,7 +156,7 @@ class Machine:
 		# Print last few if bound
 		if bound and bound < L:
 			print("\t...")
-			for i in range(max(0, L-3), L):
+			for i in range(max(0, L-5), L):
 				print("\t"+str(i)+": "+str(self.memory[i]))
 
 
@@ -181,12 +181,15 @@ def parse(line):
 
 if __name__ == '__main__':
 	# Get file
+	# ARGUMENT STYLE
+	# python sim.py [file] [number of memory to show]
 	if len(sys.argv) < 2:
 		raise Exception("Please specify a bytecode file!")
 	else:
 		M = Machine()
 		lineNumber = 1
 		f = open(sys.argv[1], "r")
+		bound = int(sys.argv[2]) if 3<=len(sys.argv) else 20
 		stepByStep = True
 		for line in f:
 			instr = parse(line)
@@ -198,5 +201,5 @@ if __name__ == '__main__':
 			if instr != None:
 				print("\n#"+str(lineNumber)+": ", instr)
 				M.execute(instr)
-				M.print(20)
+				M.print(bound)
 			lineNumber += 1
