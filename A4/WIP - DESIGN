@@ -1,0 +1,41 @@
+Diagram of activation record
+
+-------------------
+local variables
+-------------------
+nth parameter
+-------------------
+...
+-------------------
+1st parameter
+-------------------
+dynamic link (pointer to previous activation record.)
+-------------------
+return address (points to code segment)
+-------------------
+return value (if a function is called, no return value for procedures)
+-------------------
+
+
+
+# DESIGN DESCISION MADE HERE
+1. Length of arrays is determined at compile time for allocation storage:
+PUSH UNDEFINED
+PUSH $size
+DUPN
+
+# VARIABLE ASSIGNMENT TEMPLATE
+1. ADDR LL $baseAddr
+2. if array, follow array access template
+3. calculate assignment value
+4. STORE
+
+# ARRAY DESIGN
+Every array has a lower bound L_i, at compile time we convert every array access A[exp] to A[exp - L_A]
+
+Array access template:
+1. ADDR LL $baseAddr
+2. calculate expression inside
+3. PUSH $lowerBound
+4. SUB  % top := true index
+5. ADD  % adds subexpn to base address

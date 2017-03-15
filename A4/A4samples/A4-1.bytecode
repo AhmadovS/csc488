@@ -1,0 +1,115 @@
+# main initialization
+PUSH 0  # push addr of main frame
+SETD 0  # display[0] = 0
+
+# var i, j, k, l, m : Integer          % 1-3
+# Multideclaration > ScalarDeclPart
+PUSH UNDEFINED  # inital value of all vars
+PUSH 5  # push number of variables 
+DUPN    # allocated space for 5 vars
+
+# var p, q, r, s, t : Boolean          % 1-4
+# MultiDeclarations > ScalarDeclPart
+PUSH UNDEFINED
+PUSH 5
+DUPN
+
+# var A[7] , B[ -100 .. 50 ] : Integer     % 1-5
+#  MultiDeclarations > ArrayDeclPart
+#    A[7]
+PUSH UNDEFINED
+PUSH 7
+DUPN
+#    B[-100..50]
+PUSH UNDEFINED
+PUSH 151
+DUPN
+
+# var C[ -7 .. -3 ], D[ 400 ]  : Boolean   % 1-6
+#  MultiDeclarations > ArrayDeclPart
+#    C[-7..-3]
+PUSH UNDEFINED
+PUSH 5
+DUPN
+#    D[400]
+PUSH UNDEFINED
+PUSH 400
+DUPN
+
+# i := 1                  % 1-7
+#  AssignStmt
+ADDR 0 0
+PUSH 1
+STORE
+
+# j := i + 3                  % 1-8
+#  AssignStmt > ArithExpn
+ADDR 0 1  # j addr
+ADDR 0 0  # i addr
+LOAD      # load value of i
+PUSH 3
+ADD
+STORE     # stores top to j
+
+# k := i - j                   % 1-9
+#  AssignStmt > IdentExpn
+#             > ArithExpn
+ADDR 0 2  # k addr
+ADDR 0 0  # i addr
+LOAD      # loads val of i
+ADDR 0 1  # j addr
+LOAD      # loads val of j
+SUB
+STORE     # stores top to k
+
+#...
+
+# r := not q                   % 1-13
+# AssignStmt > NotExpn > Expn
+ADDR 0 7  # r addr
+PUSH 1
+ADDR 0 5  # q addr
+LOAD
+SUB       # top = 1 - q
+STORE     # stores top to r
+
+
+#...
+# A[5] := 5                    % 1-24
+#  AssigntStmt > SubsExpn
+#              > ConstExpn
+# We assume the compiler has already optimized this code
+# i.e. address of the subexpn has been calculated at
+# compile time
+ADDR 0 14  # A[5] addr
+PUSH 5
+STORE
+
+# B[i+1] := A[j-2]             % 1-25
+# translated: B[i+1+100] := A[j-2-1]
+#  AssignStmt > SubExpn
+#             > subExpn
+ADDR 0 17  # B base addr
+           # evaluate subexpn
+ADDR 0 0   # i addr
+LOAD
+PUSH 1
+ADD
+PUSH -100  # the lower bound
+SUB
+
+ADD        # adds (i+1+100) to base addr of B
+
+ADDR 0 10  # A base addr
+           # evaluate subexpn
+ADDR 0 1   # j addr
+LOAD
+PUSH 2
+SUB
+PUSH 1     # the lower bound
+SUB
+
+ADD        # adds (j-2-1) to base addr of A
+LOAD       # Loads A[j-2-1]
+
+STORE      # stores A[j-2-1] to B[i+1+100]
