@@ -116,7 +116,7 @@ class Machine:
 
 	def execute(self, inst):
 		# Execute instruction
-		S = inst[0]
+		S = inst[0].upper()
 		if S.find("ADDR") > -1:
 			return self.ADDR(int(inst[1]), int(inst[2]))
 		elif S.find("LOAD") > -1:
@@ -177,7 +177,7 @@ class Machine:
 
 def parse(line):
 	# If it's a comment, don't do anything
-	if line[0] == "#" or len(line) <= 1:
+	if line[0] == "#" or len(line) < 1:
 		return None
 	else:
 		# Parse out inline comments

@@ -158,7 +158,7 @@ EQ
 OR
 PUSH 0
 EQ
-PUSH 176 	# Leave loop
+PUSH 177 	# Leave loop
 BF
 # BODY
 ADDR 0 3
@@ -167,8 +167,11 @@ PUSH 10
 EQ
 PUSH 0
 EQ
-PUSH 176 	# Leave loop
+PUSH 177 	# Leave loop
 BF
 # Go back to loop
 PUSH 144
 BR
+
+
+# % 2-13 -> write "Value is " , a / b, " or not ", newline
