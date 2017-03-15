@@ -46,24 +46,21 @@ STORE
 	# 0 == 0 -> 1
 	# 0 == 1 -> 0
 	# For AND we use three consecutive NORs
-	# A and B = (A nor A) nor (B nor B)
+	# A and B = not(A) nor not(B) = not(not(A) or not(B))
+
 ADDR 0 6
 PUSH 0
-PUSH 0	
+PUSH 0
 EQ
 ADDR 0 7
 LOAD
 PUSH 0
 EQ
 OR
-DUP
-OR
 PUSH 0
 EQ
 ADDR 0 8
 LOAD
-DUP
-OR
 PUSH 0
 EQ
 OR
