@@ -16,8 +16,12 @@
 	% 2-7
 	if p then  a := 3
 
-	if p or not p then b := 2 else b := 0 		% 2-8
-	while c < 7 do  c := 6 			 	% 2-9
+	% 2-8
+	if p or not p then b := 2 else b := 0
+
+	% 2-9
+	while c < 7 do  c := 6
+	
 	while true do  b := b + 1 				% 2-10
 	repeat { a := 3 exit b := 7 } until false		% 2-11
 	while q or r and not p do  exit when b not= 10 	% 2-12
