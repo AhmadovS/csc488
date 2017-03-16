@@ -1,7 +1,7 @@
 # main initialization	% 1-1, 1-2
 PUSHMT  # push addr of main frame
 SETD 0  # display[0] = 0
-PUSH 2
+PUSH 2  # we just left first two words empty in case we need it in future.
 DUPN 	# the return data and dynamic link portions of the main activation frame is null
 
 # var i, j, k, l, m : Integer          % 1-3
