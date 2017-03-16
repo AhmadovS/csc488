@@ -91,7 +91,7 @@ class Machine:
 		y = float(self.POP())
 		x = float(self.POP())	
 		if y == 0: raise Exception("Divide by 0")
-		self.PUSH(int(x / y))
+		self.PUSH(x / y)
 
 	def EQ(self):
 		(x,y) = self._OPP()
@@ -112,7 +112,11 @@ class Machine:
 		self.PUSH(y)
 
 	def PRINTC(self):
-		self.buffer += chr(int(self.POP()))
+		c = self.POP()
+		if 1 <= int(c) and int(c) <= 126:
+			self.buffer += chr(int(c))
+		else:
+			self.buffer += str(c)
 
 	def execute(self, inst):
 		# Execute instruction
