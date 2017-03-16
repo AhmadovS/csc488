@@ -1,69 +1,107 @@
-# Introduction
+# 1. Storage
 
-Lorem ipsum
+## Overview
+Storage is divided into stack of activation records, with the display having a pointer to the base of each activation record. 
 
-# Storage
+Activation records are treated slightly different from major and minor scopes in the semantic phase of the compiler. In code generation only the program scope, and functions and procedures have their own activation record, and all other statements and minor scopes are not given any special treatment. ( We need to worry about declaration inside minor scopes and how storage is allocated for them. This will be discussed further below.)
 
-We will push activation records for each scope, procedure and function of the program into the runtime stack. Each activation record contains the following words: return data, return address, static link, dynamic link (pointer to the start of the previous record) and then the following arguments and/or variables in that specific scope. The records are in this specific order, meaning the first word in a record is the return data, followed by the return address, static link, dynamic link then the arguments and/or variables. Once the record needs to be used, you simply pop all but the bottom two words. Push the result into the return data and use the return value to go back to the previous record.
+In the rest of this document, major scope only refers to a lexical level, namely the main program scope, functions and procedures. And all other scopes are called minor scopes i.e. `{ declaration statement}` scopes, loop statements and if statements.
 
-ACTIVATION RECORD:
+### Important conventions:
+Each activation record has an associated lexical level, therefore main program scope is given lexical level(LL) of 0, and following that only functions and procedures are given their own lexical level, and each child function/procedure is going to have a lexical level 1 above its parent. Note that `display` is indexed using the lexical level.
+Let $L be the lexical level of an activation record, `ADDR $L 0`, will always point to the bottom of that activation record i.e. EMPTY_STORAGE_1 for program scope and `return value` for functions and procedures. Therefor for program scope, variables are allocated beginning `ADDR 0 2`, and for functions and procedures local variables are allocated at `ADDR $L (3 + number of params)`.
+In the byte code example below, any variable with a `$` prefix, is computed at compile time.
+
+Activation record of the main program is diagrammed below:
+| Program activation record
+|-------------------------------
+| global variables, ...
+| EMPTY_STORAGE_2
+| EMPTY_STORAGE_1
+
+The program activation record has two EMPTY_STORAGE fields which we have left there in case they might become useful later on, e.g. returning a exit status or errno. On top of these two words, we will allocated storage for the global program variables.
+
+Activation record of functions/procedures is diagrammed below:
+| Routine Activation Record
 |--------------------
 |local variables, ...
 |nth parameter
 |...
 |1st parameter
-|dynamic link (pointer to previous activation record - maynot be parent.)
-|static link (pointer to lexical parent acitvation record.)
+|dynamic link (pointer to previous activation record - may not be parent.)
+|static link (pointer to lexical parent activation record.)
 |return address (points to code segment to return to)
 |return value (procedures would leave return value as UNDEFINED)
 
+For all functions and procedures, the bottom four fields (return value, ... , dynamic link) are available in their activation record. If they have any parameters, then they are pushed on top of `dynamic link`, and storage for the local variables will be allocated on top of that.
 
-Each scope will have an associated lexical level (LL) in reference to the main scope. The main scope has a LL of 0. The display is initialized at display[0] pointing to the head of the main activation record. The activation record of the program scope is treated more specially, and explain further in section 5. Any initilized variables are also pushed in to the stack, these also act as the global variables within that program.
+## Variable storage 
+Whenever a declaration is reached, we will calculate the required storage at compile time and allocated that amount at run-time by using the schemes below. Since the storage requirements of all variables is known at compile time, the order number of each declared variable is well-defined.
 
-As our programs are sequential, it implies we can use the same activation record for all the minor scopes as they will only refere to variables in sequential order. We will create a record just like before, however, we will not increment the lexical level and thus not create a new display pointer. We will simply give it the same dynamic link as the main scope it is currently sitting in.
+However we also have to note that minor scopes can also contain declarations. Since minor scopes don’t have their own activation record, any declared variable inside of them is allocated on top of the stack, and their order number starts from 1 + the order number of last declaration in the containing lexical level (i.e. the containing major scope).
 
-## Scalar declaration
+Since, by the time we finish executing any statement, the top element of the stack is guaranteed to be the storage area for the last declared variable (or last array element) for the lexical level that we are in during program execution, we can just allocated storage on top of the stack for any declaration encountered in a minor scope, and be safe that its order number is well-defined, and that storage for the declared variables is not going to be allocated on top of any temporary values on the stack.
 
-When we declare the scalar variables (Integer, Boolean) we first '''PUSH UNDEFINED''' to allocate the memory for that variable. Program uses DUPN to allocate memory for multideclaration.
+### Scalar variable declaration and access
 
-Example: var a,b,c,d :Integer
+When we declare the scalar variables (Integer, Boolean) we first `PUSH UNDEFINED` to allocate the memory for that variable. Program uses DUPN to allocate memory for multideclaration.
 
+Example: `var a : Boolean`
+```
+PUSH UNDEFINED
+```
+
+Example: `var a,b,c,d : Integer`
 ```
 PUSH UNDEFINED
 PUSH 4
 DUPN
 ```
+Since, the order numbers are well-defined and hence known at compile time, scalar variables are simply accessed using the following template.
 
-## Array Declaration
+Scalar variable access template
+```
+ADDR $LL $ON
+LOAD
+```
 
-Our language only supports one dimensional arrays. And arrays will have lower and upper bounds, to calculate required memory slots for array we will subtract lower bound from upper bound and add 1 (since our in array declaration, first and last elements are inclusive) and allocate that many slots for arrays. Note: for arrays with only upper bound declaration we will take 1 as a lower bound. The lower bound of A[n] is 1 and lower bound of A[m..n] is m
+### Array Declaration and Indexing
+Our language only supports one dimensional arrays. And arrays will have lower and upper bounds, to calculate required memory slots for array we will subtract lower bound from upper bound during the compile time(since our in array declaration, first and last elements are inclusive) and allocate that many slots for arrays during run-time. Note: for arrays with only upper bound declaration we will take 1 as a lower bound. The lower bound of A[n] is 1 and lower bound of A[m..n] is m.
 
-Example: var A[7] :Integer
-
+Example array declaration:
+var A[7] :Integer
 ```
 PUSH UNDEFINED
-PUSH 7
-PUSH 1
-SUB
+PUSH 7  # length of array computed at compile time.
 DUPN
 ```
 
+Example array declaration:
 B[2..5]
-
 ```
 PUSH UNDEFINED
-PUSH 5
-PUSH 2
-SUB 
+PUSH 4  # length of array computed at compile time.
 DUPN
+```
+
+Array indexing template:
+```
+ADDR $LL $arrayBaseOrderNumber
+# then calculate the subexpression inside
+PUSH $lowerBound
+SUB   # subtract lower bound from the value of subexpression inside.
+ADD   # adds subexpn to base address to get the memory location
 ```
 
 ## Integer and Boolean Constants, Text Constants
 
-Integers will be stored in the word as is. As the integers have a bound of -32767 to +32767 and the memory is 16 bits, it will align. 
+Integers will be stored in the word as is. As the integers have a bound of -32767 to +32767 and the memory is 16 bits, it will align.
+Boolean constants are defined in `Machine.java`
+Text constants are pushed onto the stack as needed in reverse order.
 
+Since all values of the above each take a full word (16 bits), we don’t have alignment problems.
 
-# Expressions
+# 2. Expressions
 
 ## Constants
 
@@ -71,7 +109,7 @@ Since the constants have been pushed onto stack during parsing the execution. We
 
 ## Scalar variables
 
-Since the code genaration happens after the semantic analysis, we already have a symbol table created for this program. For each scalar variable in the program we can store the lexical level and offset. Then during code generation we can look up into our symbol table and get its lexical level and offset from the table and use ADDR operation to access the scalar variable.
+Since the code generation happens after the semantic analysis, we already have a symbol table created for this program. For each scalar variable in the program we can store the lexical level and offset. Then during code generation we can look up into our symbol table and get its lexical level and offset from the table and use ADDR operation to access the scalar variable.
 
 Example: let's say a has been declared as MACHINE_TRUE and stored in our symbol table where its lexical level is 0 and offset is 4. Then we want to execute a == False.
 
@@ -86,9 +124,6 @@ Our language only supports one-dimensional array. Then in order to declare an ar
 
 ```
 PUSH 3
-PUSH wordsize
-MULT
-
 PUSH base_addr
 ADD
 LOAD
@@ -96,7 +131,7 @@ LOAD
 
 ## Arithmetic operations
 
-To do the arithmetic operations, we have to first access the left and right handside of the expression and pop and push them onto the top of the stack. After that we call MULT,DIV,ADD,SUB operators respectively. Example: x declared as 5 and y declared as 2. x is located at address display[LL] + 2 and y is located at display[LL] + 3
+To do the arithmetic operations, we have to first access the left and right handside of the expression and pop and push them onto the top of the stack. After that we call MUL,DIV,ADD,SUB operators respectively. Example: x declared as 5 and y declared as 2. x is located at address display[LL] + 2 and y is located at display[LL] + 3
 
 x*y
 
@@ -105,23 +140,38 @@ ADDR 0 2
 LOAD
 ADDR 0 3
 LOAD
-MULT
+MUL
 ```
 
 ## Comparison operators
 
 We do the same thing as above in the arithmetic operations, access the variables and place them on the top of the stack. Then call LT, EQ to do comparisons. 
 
-3 >= 1
+3 <= 1
 
 ```
-push 3
-push 1
+PUSH 3
+PUSH 1
 LT
-push 3
-push 1
+PUSH 3
+PUSH 1
 EQ
 OR
+```
+
+3 > 1
+
+```
+PUSH 3
+PUSH 1
+LT
+
+PUSH 3
+PUSH 1
+EQ
+OR
+PUSH 0
+EQ
 ```
 
 ## Boolean operations
@@ -149,32 +199,49 @@ PUSH 0
 EQ
 ```
 
+For OR:
+```
+PUSH 1	
+PUSH 0
+OR		% top = true or false
+```
 
 ## Conditional expressions
 
 For conditional expression, we access the value of conditional expression and place it on top of the stack and compare it with True. If it is an if-else statement, push the address of first instruction in else block and do branch false. If it is an ordinary if statement with an else clause, then place first address of the first instruction after if statement on top of the stack and do branch false.
 
 ```
-	if a > 5:
+	if a < 5:
 	  b = 1
 	else:
 	  b = 2
 ```
 
-Let's assume value of a > 5 has been placed on top of the stack
+Suppose a is at display[0]+4. This gets translated to:
 
 ```
-PUSH MACHINE_TRUE
-EQ
-PUSH addr_else (the address of first instruction in else clause)
-BF
+1.ADDR 0 4
+2.LOAD
+3.PUSH 5
+4.LT
+5.PUSH 12
+6.BF
+7.ADDR 0 4
+8.PUSH 1
+9.STORE
+10.PUSH 15
+11.BR
+12.ADDR 0 4
+13.PUSH 2
+14.STORE
+15. // REST OF CODE
 ```
 
 # Statements
 
-## assignment statement
+## Assignment statement
 
-For each assignment statement, we will first need to calculate the address of the variable by looking at its enclosing scope's activation record. Each variable inside a scope is assigned an offset, so that inside a contiguous region of memory that contains the all of the scopeo's variables, the address of any given variable can be determined to be the starting address of the region of memory + the particular variable's offset. Since the scope's activation record has all of its variables stored in a contiguous region of memory, we can then easily determine the variable's address in the activation stack to be display[currentLL] + 2 * wordSize + variableOffset. Once that is done, the value (constant or variable) can be stored/pushed to the top of the stack, right before we store the value in the variable.
+For each assignment statement, we will first need to calculate the address of the variable by looking at its enclosing scope's activation record. Each variable inside a scope is assigned an offset, so that inside a contiguous region of memory that contains the all of the scope's variables, the address of any given variable can be determined to be the starting address of the region of memory + the particular variable's offset. Since the scope's activation record has all of its variables stored in a contiguous region of memory, we can then easily determine the variable's address in the activation stack to be display[currentLL] + 2 * wordSize + variableOffset. Once that is done, the value (constant or variable) can be stored/pushed to the top of the stack, right before we store the value in the variable.
 
 Example (Assume that variable x has already been declared as an Integer): ```x := 3```
 
@@ -195,7 +262,7 @@ STORE
 ## if statements
 
 Each if statement will be composed of 1) a conditional statement, 2) a "then clause" and 3) an "else clause" (in the case that the if statement is actually an if-else statement). In memory, the machine code for the conditional statement will be followed by the code for the "then clause", which will in turn be followed the machine code for the "else clause" (in the case of an if-else statement). 
-It is important to note that the address of each and every instruction in the program is known at compile time. During code generation every node in the AST tree will need to be traversed. Although the length of the "then clause" is unknown when the node for the enclosing if statement is first encountered, the generator will nevertheless proceed to examine the then clause's node in a depth first manner before coming back up to its parent node (i.e the if statment's node), at which point the length of the "then clause" will be known.
+It is important to note that the address of each and every instruction in the program is known at compile time. During code generation every node in the AST tree will need to be traversed. Although the length of the "then clause" is unknown when the node for the enclosing if statement is first encountered, the generator will nevertheless proceed to examine the then clause's node in a depth first manner before coming back up to its parent node (i.e the if statement's node), at which point the length of the "then clause" will be known.
 Therefore the length of the then clause will be known at compile time. If firstAddress is the address of the first instruction belonging to the "then clause" (which is also known at compile time), then we can calculate the address of the first instruction that follows the "then clause" to be firstAddress + length of "then clause"
 
 Example (Assume that variable b has already been declared as an Integer): 
@@ -398,3 +465,5 @@ STORE
 
 ## handling of minor scopes
     
+
+
