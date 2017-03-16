@@ -4,7 +4,7 @@ Lorem ipsum
 
 # Storage
 
-We will push activation records for each scope, preducure and function of the program into the runtime stack. Each activation record contains the following words: return data, return address, static link, dynamic link (pointer to the start of the previous record) and then the following arguments and/or variables in that specific scope. The records are in this specific order, meaning the first word in a record is the return data, followed by the return address, static link, dynamic link then the arguments and/or variables. Once the record needs to be used, you simply pop all but the bottom two words. Push the result into the return data and use the return value to go back to the previous record.
+We will push activation records for each scope, procedure and function of the program into the runtime stack. Each activation record contains the following words: return data, return address, static link, dynamic link (pointer to the start of the previous record) and then the following arguments and/or variables in that specific scope. The records are in this specific order, meaning the first word in a record is the return data, followed by the return address, static link, dynamic link then the arguments and/or variables. Once the record needs to be used, you simply pop all but the bottom two words. Push the result into the return data and use the return value to go back to the previous record.
 
 ACTIVATION RECORD:
 |--------------------
@@ -18,7 +18,7 @@ ACTIVATION RECORD:
 |return value (procedures would leave return value as UNDEFINED)
 
 
-Each scope will have an associated lexical level (LL) in reference to the main scope. The main scope has a LL of 0. The display is initialized at display[0] pointing to the head of the main activation record. Note that the dynamic link for this record will be null as it has nowhere to return to. Any initilized variables are also pushed in to the stack, these also act as the global variables within that program.
+Each scope will have an associated lexical level (LL) in reference to the main scope. The main scope has a LL of 0. The display is initialized at display[0] pointing to the head of the main activation record. The activation record of the program scope is treated more specially, and explain further in section 5. Any initilized variables are also pushed in to the stack, these also act as the global variables within that program.
 
 As our programs are sequential, it implies we can use the same activation record for all the minor scopes as they will only refere to variables in sequential order. We will create a record just like before, however, we will not increment the lexical level and thus not create a new display pointer. We will simply give it the same dynamic link as the main scope it is currently sitting in.
 
