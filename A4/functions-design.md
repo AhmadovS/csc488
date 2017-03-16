@@ -81,7 +81,7 @@ SETD 0
 We're gonna need to update the display after a routine call returns, this is explained in the section below.
 
 ## Procedure and function exit code.
-After a routine reaches it's return statement, it sets the value for the `return value` if it's a function, cleans up all the stack values down to, but excluding `ADDR $L 3` (so only return address, return value, static link and dynamic link are on stack), we then need to update the display to it's previous state before the routine call.
+After a routine reaches it's return statement, it sets the value for the `return value` if it's a function, cleans up all the stack values down to, but excluding `ADDR $L 3` (so only return address, return value, static link and dynamic link are on stack), we then update display[$callerL], where $callerL is lexic level of the caller, before branching to the caller's code. Once branched to the caller's code, the caller is responsible for update the rest of the display.
 
 After function reaches `return with` statement:
 ```
