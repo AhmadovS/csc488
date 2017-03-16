@@ -42,8 +42,8 @@ Example: var A[7] :Integer
 
 ```
 PUSH UNDEFINED
-PUSH 1
 PUSH 7
+PUSH 1
 SUB
 DUPN
 ```
@@ -52,8 +52,8 @@ B[2..5]
 
 ```
 PUSH UNDEFINED
-PUSH 2
 PUSH 5
+PUSH 2
 SUB 
 DUPN
 ```
