@@ -81,7 +81,7 @@ SETD 0
 We're gonna need to update the display after a routine call returns, this is explained in the section below.
 
 ## Procedure and function exit code.
-After a routine reaches it's return statement, it sets the value for the `return value` if it's a function, cleans up all the stack values down to, but excluding `ADDR $L 3` (so only return address, return value, static link and dynamic link are on stack), we then update display[$callerL], where $callerL is lexic level of the caller, before branching to the caller's code. Once branched to the caller's code, the caller is responsible for update the rest of the display.
+After a routine reaches it's return statement, it sets the value for the `return value` if it's a function, cleans up all the stack values down to, but excluding `ADDR $L 3` (so only return address, return value, static link and dynamic link are on stack), we then update display[$callerL], where $callerL is lexic level of the caller, before branching to the caller's code. Once branched to the caller's code, the caller is responsible for updating the rest of the display.
 
 After function reaches `return with` statement:
 ```
@@ -115,7 +115,7 @@ BR  # pops return address and branches to the caller.
  -->
 After branching to it's caller, 
 ```
-# We need to remember that only display[$curL] is valid,
+# We need to remember that only display[$curL]  (right now $curL == $callerL) is valid,
 # similar to the code above, we need to recursively examine
 # the static link of the current activation record and update display.
 
