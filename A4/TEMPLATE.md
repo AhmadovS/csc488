@@ -13,25 +13,25 @@ Let $L be the lexical level of an activation record, `ADDR $L 0`, will always po
 In the byte code example below, any variable with a `$` prefix, is computed at compile time.
 
 Activation record of the main program is diagrammed below:
-| Program activation record
-|-------------------------------
-| global variables, ...
-| EMPTY_STORAGE_2
-| EMPTY_STORAGE_1
+| Program activation record |
+|---|
+| global variables, ... |
+| EMPTY_STORAGE_2 |
+| EMPTY_STORAGE_1 |
 
 The program activation record has two EMPTY_STORAGE fields which we have left there in case they might become useful later on, e.g. returning a exit status or errno. On top of these two words, we will allocated storage for the global program variables.
 
 Activation record of functions/procedures is diagrammed below:
-| Routine Activation Record
-|--------------------
-|local variables, ...
-|nth parameter
-|...
-|1st parameter
-|dynamic link (pointer to previous activation record - may not be parent.)
-|static link (pointer to lexical parent activation record.)
-|return address (points to code segment to return to)
-|return value (procedures would leave return value as UNDEFINED)
+| Routine Activation Record |
+|---|
+|local variables, ... |
+|nth parameter |
+|...|
+|1st parameter|
+|dynamic link (pointer to previous activation record - may not be parent.)|
+|static link (pointer to lexical parent activation record.)|
+|return address (points to code segment to return to)|
+|return value (procedures would leave return value as UNDEFINED)|
 
 For all functions and procedures, the bottom four fields (return value, ... , dynamic link) are available in their activation record. If they have any parameters, then they are pushed on top of `dynamic link`, and storage for the local variables will be allocated on top of that.
 
