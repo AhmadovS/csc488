@@ -13,11 +13,11 @@ Let $L be the lexical level of an activation record, `ADDR $L 0`, will always po
 In the byte code example below, any variable with a `$` prefix, is computed at compile time.
 
 Activation record of the main program is diagrammed below:
-| Program activation record |
+|Program activation record|
 |---|
-| global variables, ... |
-| EMPTY_STORAGE_2 |
-| EMPTY_STORAGE_1 |
+|global variables, ...|
+|EMPTY_STORAGE_2 |
+|EMPTY_STORAGE_1 |
 
 The program activation record has two EMPTY_STORAGE fields which we have left there in case they might become useful later on, e.g. returning a exit status or errno. On top of these two words, we will allocated storage for the global program variables.
 
