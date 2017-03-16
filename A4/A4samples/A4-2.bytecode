@@ -175,3 +175,21 @@ BR
 
 
 # % 2-13 -> write "Value is " , a / b, " or not ", newline
+PUSH 10 	# 10 is the ASCII for newline
+PUSH 32
+PUSH 116
+PUSH 111
+PUSH 110
+PUSH 32
+PUSH 114
+PUSH 111
+PUSH 32
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC
+PRINTC

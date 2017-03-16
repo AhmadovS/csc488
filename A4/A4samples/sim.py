@@ -3,6 +3,7 @@ import sys
 class Machine:
 
 	def __init__(self):
+		self.buffer = ""
 		self.memory = []
 		self.display = []
 		self.msp = 0
@@ -111,8 +112,7 @@ class Machine:
 		self.PUSH(y)
 
 	def PRINTC(self):
-		c = int(self.POP())
-		print("\tPrinted Char: " + ord(c))
+		self.buffer += chr(int(self.POP()))
 
 	def execute(self, inst):
 		# Execute instruction
@@ -165,7 +165,7 @@ class Machine:
 	def print(self, bound):
 		L = len(self.memory)
 		print("\n\tDisplay:", self.display)
-		print("\tMemory:")
+		print("\n\tMemory:")
 		for i in range(0, min(bound, L)):
 			print("\t"+str(i)+": "+str(self.memory[i]))
 		# Print last few if bound
@@ -173,6 +173,7 @@ class Machine:
 			print("\t...")
 			for i in range(max(0, L-5), L):
 				print("\t"+str(i)+": "+str(self.memory[i]))
+		print("\n\tBuffer: " + self.buffer)
 
 
 def parse(line):
