@@ -6,7 +6,10 @@ Amir Hossein Heidari Zadi:
 - Translated part of A4-1.488 to byte code
 
 Samud Ahmadov:
--
+- Worked on design of function/procedure call
+- Worked on design and documentation of variable storage and access
+- Worked on design and documentation of expressions
+- Translated A4-3.488 to byte code
 
 Jathu Satkunarajah:
 - Design and documentation for storage, NOT & AND logic, if statement and loops
