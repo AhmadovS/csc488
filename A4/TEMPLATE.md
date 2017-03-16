@@ -22,7 +22,7 @@ Each scope will have an associated lexical level (LL) in reference to the main s
 
 As our programs are sequential, it implies we can use the same activation record for all the minor scopes as they will only refere to variables in sequential order. We will create a record just like before, however, we will not increment the lexical level and thus not create a new display pointer. We will simply give it the same dynamic link as the main scope it is currently sitting in.
 
-##Scalar declaration
+## Scalar declaration
 
 When we declare the scalar variables (Integer, Boolean) we first '''PUSH UNDEFINED''' to allocate the memory for that variable. Program uses DUPN to allocate memory for multideclaration.
 
@@ -34,7 +34,7 @@ PUSH 4
 DUPN
 ```
 
-##Array Declaration
+## Array Declaration
 
 Our language only supports one dimensional arrays. And arrays will have lower and upper bounds, to calculate required memory slots for array we will subtract lower bound from upper bound and add 1 (since our in array declaration, first and last elements are inclusive) and allocate that many slots for arrays. Note: for arrays with only upper bound declaration we will take 1 as a lower bound. The lower bound of A[n] is 1 and lower bound of A[m..n] is m
 
@@ -75,24 +75,24 @@ Since the code genaration happens after the semantic analysis, we already have a
 
 Example: let's say a has been declared as MACHINE_TRUE and stored in our symbol table where its lexical level is 0 and offset is 4. Then we want to execute a == False.
 
+```
 ADDR 0 4 (get the address of a)
 LOAD
+```
 
 ## Arrays
 
 Our language only supports one-dimensional array. Then in order to declare an array with bounds, we have to allocate memory for that array. Let's say we have a declared array A[5]. And we want to access A[3]. We already know the base address of the array and then program executes following commands to access A[3]
 
+```
 PUSH 3
-
 PUSH wordsize
-
 MULT
 
 PUSH base_addr
-
 ADD
-
 LOAD
+```
 
 ## Arithmetic operations
 
@@ -100,15 +100,13 @@ To do the arithmetic operations, we have to first access the left and right hand
 
 x*y
 
+```
 ADDR 0 2
-
 LOAD
-
 ADDR 0 3
-
 LOAD
-
 MULT
+```
 
 ## Comparison operators
 
@@ -116,19 +114,15 @@ We do the same thing as above in the arithmetic operations, access the variables
 
 3 >= 1
 
+```
 push 3
-
 push 1
-
 LT
-
 push 3
-
 push 1
-
 EQ
-
 OR
+```
 
 ## Boolean operations
 
@@ -169,13 +163,12 @@ For conditional expression, we access the value of conditional expression and pl
 
 Let's assume value of a > 5 has been placed on top of the stack
 
+```
 PUSH MACHINE_TRUE
-
 EQ
-
 PUSH addr_else (the address of first instruction in else clause)
-
 BF
+```
 
 # Statements
 
@@ -187,23 +180,17 @@ Example (Assume that variable x has already been declared as an Integer): ```x :
 
 can cause the following machine code to be generated (Note that currentLL will always be a constant/address of the currentLL value that is stored in the memory, and variableOffset is also a constant that determines the position of the given variable inside the variables region of the activation record):
 
+```
 ADDR currentLL 0
-
 PUSH 2
-
 PUSH 16
-
 MUL
-
 ADD 
-
 PUSH variableOffset
-
 ADD
-
 PUSH 3
-
 STORE
+```
 
 ## if statements
 
@@ -212,19 +199,23 @@ It is important to note that the address of each and every instruction in the pr
 Therefore the length of the then clause will be known at compile time. If firstAddress is the address of the first instruction belonging to the "then clause" (which is also known at compile time), then we can calculate the address of the first instruction that follows the "then clause" to be firstAddress + length of "then clause"
 
 Example (Assume that variable b has already been declared as an Integer): 
-```if (false) then b := 1 else b := 0```
+
+```
+if (false) 
+  then b := 1 
+else 
+  b := 0
+```
 
 can cause the following machine code to be generated (Note that thenLength is a constant representing the length of the "then clause" that is determined at compile time):
 
+```
 PUSH firstAddress
-
 PUSH thenLength
-
 ADD
-
 PUSH false
-
 BF
+```
 
 ## the while and repeat statements
 The repeat statement is somewhat similar to an if statement. As the address of each and every instruction in the program is known at compile time, a while statement can be translated to a sequence of instructions for the loop's body followed by a conditional branch that branches to the loop body if the conditional expression evaluates to false.
@@ -234,8 +225,8 @@ Example 1: ```repeat b := 1 until false```
 
 can cause the followiong code to be generated (Assume that firstAddr is the address of the first instruction, b has already been declared as an Integer, and the address of variable b has already been calculated and put on top of the stack):
 
+```
 PUSH 1
-
 STORE   % b := 1
 
 PUSH firstAddr % firstAddr is the address of the instruction PUSH 1
@@ -243,11 +234,13 @@ PUSH firstAddr % firstAddr is the address of the instruction PUSH 1
 PUSH 0
 
 BF
+```
 
 Example 2: ```while true do b := 100```
 
 causes the following code to be generated (Again assume that b has already been declared as an Integer):
 
+```
 PUSH nextStatementAddr      % Address of the first statement that immediately follows the current while statement
                             % is equal to the address of the instruction PUSH nextStatementAddr + total length of while
 PUSH 1
@@ -273,6 +266,7 @@ PUSH 100
 STORE           % b := 100
 
 BR firstAddr    % firstAddr is the address of PUSH nextStatementAddr
+```
 
 ## all forms of exit statements
 An exit statement will cause an uncoditional branch to be generated by the code generator. The address that will be branched to would be the address of the first statement that follows the enclosing loop/scope (which can be determined at compile time). Similarly, an exit i statement that exits from i loops (where i is an integer) will cause an unconditional branch statement to be generated. In this case, the address that will be branched to is the address of the first instruction that follows the n-th enclosing loop.
