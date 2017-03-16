@@ -218,14 +218,69 @@ PRINTC
 PRINTC
 PRINTC
 
+##
+## UNCOMMENT THIS OUT
+##
 
 # % 2-14 -> read  a, c, b
-ADDR 0 2
-READI
-STORE
-ADDR 0 4
-READI
-STORE
-ADDR 0 3
-READI
-STORE
+# ADDR 0 2
+# READI
+# STORE
+# ADDR 0 4
+# READI
+# STORE
+# ADDR 0 3
+# READI
+# STORE
+
+
+# % 2-15 -> {
+	# % 2-16 -> var a, b, c : Boolean
+	# a(9) b(10) c(11)
+	PUSH UNDEFINED
+	PUSH 3
+	DUPN
+
+	# % 2-17 -> a := not p or q
+	ADDR 0 9
+	ADDR 0 6
+	LOAD
+	PUSH 0
+	EQ
+	ADDR 0 7
+	LOAD
+	OR
+	STORE
+
+	# % 2-18 -> {
+
+		# % 2-19 -> var p, q, r : Integer
+		# p(12) q(13) r(14)
+		PUSH UNDEFINED
+		PUSH 3
+		DUPN
+
+		# % 2-20 -> p := ( b ? q : r )
+		ADDR 0 12 # P to be loaded
+		ADDR 0 10 # Load be to check
+		LOAD
+		PUSH 272
+		BF
+		ADDR 0 13
+		LOAD
+		PUSH 274
+		BR
+		ADDR 0 14
+		LOAD
+		STORE
+
+
+	# %2-21 -> }
+	PUSH 3
+	POPN
+
+
+# % 2-22 -> }
+PUSH 3
+POPN
+
