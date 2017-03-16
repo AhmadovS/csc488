@@ -6,23 +6,23 @@ SETD 0    % set main program display
 PUSH UNDEFINED  %3-3, 3-4
 PUSH 8
 DUPN
- 
-BR 30     % Branch to line 30
 
-
+% Next thing program runs is Q( not p or q , b * c , p not= q )	
 PUSHMT
 SETD 1    % set Q display level
 
 PUSH UNDEFINED             % return value
-PUSH $return address       % return address
+PUSH $return address       % return address (Comes from compiler)
 ADDR 0 0                   % Static link 
 ADDR 1 0                   % Dynamic link
  
 ADDR 1 4    
 ADDR 0 4  % load p
+LOAD
 PUSH 0
 EQ        % not P
 ADDR 0 5  % q
+LOAD
 OR        % not p or q 
 STORE     % Set the first argument of Q
 
@@ -48,14 +48,14 @@ PUSH UNDEFINED  % 3-18
 PUSH 3
 DUPN  
 
-BR 26    % if G < 7 then return  
+% Then program runs  if G < 7 then return  
 
 % function G 
 PUSHMT
 SETD 2   % set G display level 3-19
 
 PUSH UNDEFINED             % return value
-PUSH $return address       % return address
+PUSH $return address       % return address (Comes from compiler)
 ADDR 1 0                   % Static link 
 ADDR 2 0                   % Dynamic link
 
@@ -110,7 +110,7 @@ PUSHMT
 SETD 2   % set F display level 3-27
 
 PUSH UNDEFINED             % return value
-PUSH $return address       % return address
+PUSH $return address       % return address (Comes from compiler)
 ADDR 1 0                   % Static link 
 ADDR 2 0                   % Dynamic link
 
@@ -171,7 +171,7 @@ PUSHMT
 SETD 2   % set F display level 3-28
 
 PUSH UNDEFINED             % return value
-PUSH $return address       % return address
+PUSH $return address       % return address (Comes from compiler)
 ADDR 1 0                   % Static link 
 ADDR 2 0                   % Dynamic link
 
