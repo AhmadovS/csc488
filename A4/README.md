@@ -12,4 +12,6 @@ Jathu Satkunarajah:
 -
 
 Yang Song:
--
+- Tranalted A4-1.488 to byte code
+- Design and documentation of section 4 (statements)
+- Design and documentation of section 2 (expression)
