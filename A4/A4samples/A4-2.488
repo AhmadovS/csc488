@@ -47,19 +47,20 @@
 		 } % 2-21
 	} % 2-22
 
-	while true do  {					% 2-23
-		 exit when p or r 				% 2-24
-		 repeat  {					% 2-25
-				var w, x : Integer				% 2-26
-				if w <= a then exit 				% 2-27
-				while  p or q or r do				% 2-28
-					 {						% 2-29
-							var  t, u : Integer			% 2-30
-				p := not q 				% 2-31
-							t := ( p or q ? t + 1 : t - 1 )		% 2-32
-				exit 3 when t > 12			% 2-33
-					 }   % while				% 2-34
-					 exit 2					% 2-35
-			} until p and r  % repeat			% 2-36
-	}  % while						% 2-37
-}							% 2-38
+	while true do  { % 2-23
+		exit when p or r % 2-24
+		repeat  {	% 2-25
+			var w, x : Integer	% 2-26
+			if w <= a then exit	% 2-27
+			while  p or q or r do % 2-28
+				{	% 2-29
+					var  t, u : Integer	% 2-30
+					p := not q % 2-31
+					t := ( p or q ? t + 1 : t - 1 )	% 2-32
+					exit 3 when t > 12	% 2-33
+				}	% while	% 2-34
+			exit 2 % 2-35
+		} until p and r  % repeat % 2-36
+	}  % while % 2-37
+
+} % 2-38

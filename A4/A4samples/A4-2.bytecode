@@ -284,3 +284,131 @@ PRINTC
 PUSH 3
 POPN
 
+# % 2-23 -> while true do  {
+	# % 2-2 -> exit when p or r
+	ADDR 0 6
+	LOAD
+	ADDR 0 8
+	LOAD
+	OR
+	PUSH 0	# Negate first to do BF check
+	EQ
+	PUSH 411 # Exit main loop if satisfied
+	BF
+
+	# % 2-25 -> repeat  {
+		ADDR 0 6
+		LOAD
+		PUSH 0
+		EQ
+		ADDR 0 8
+		LOAD
+		PUSH 0
+		EQ
+		OR
+		PUSH 0
+		EQ
+		PUSH 407 # Exit repeat loop
+		BF
+
+		# % 2-26 -> var w, x : Integer
+		# w(9) x(10)
+		PUSH UNDEFINED
+		PUSH 2
+		DUPN
+
+		# % 2-27 -> if w <= a then exit
+		ADDR 0 10
+		LOAD
+		ADDR 0 2
+		LOAD
+		LT
+		ADDR 0 10
+		LOAD
+		ADDR 0 2
+		LOAD
+		EQ
+		OR
+		PUSH 407 # Exit repeat loop
+		BF
+
+		# % 2-28 -> while  p or q or r do
+			ADDR 0 6
+			LOAD
+			ADDR 0 7
+			LOAD
+			OR
+			ADDR 0 8
+			LOAD
+			OR
+			PUSH 398 # Exit deep while loop
+			BF
+
+			# % 2-30 -> var  t, u : Integer
+			# t(11) u(12)
+			PUSH UNDEFINED
+			PUSH 2
+			DUPN
+
+			# p := not q % 2-31
+			ADDR 0 6
+			ADDR 0 7
+			LOAD
+			PUSH 0
+			EQ
+			STORE
+
+			# t := ( p or q ? t + 1 : t - 1 )	% 2-32
+			ADDR 0 11
+			ADDR 0 6
+			LOAD
+			ADDR 0 7
+			LOAD
+			OR
+			PUSH 376 # Jump to then
+			BF
+			ADDR 0 11
+			LOAD
+			PUSH 1
+			ADD
+			PUSH 380
+			BR
+			ADDR 0 11
+			LOAD
+			PUSH 1
+			SUB
+			STORE
+
+			# exit 3 when t > 12	% 2-33
+			ADDR 0 11
+			LOAD
+			PUSH 12
+			LT
+			PUSH 0
+			EQ
+			PUSH 394
+			BF
+			PUSH 3
+			PUSH 399
+			BF
+
+		# % 2-34 -> }	% while
+		PUSH 334 # Repeat deep while loop
+		BR
+
+		# % 2-35 -> exit 2
+		PUSH 2
+		PUSH 407 # Exit repeat loop
+		BF
+
+	#->  % 2-36} until p and r  % repeat
+	PUSH 298 # Repeat repeat loop
+	BR
+
+# % while % 2-37 -> } End while
+PUSH 286 # Repeat loop
+BR
+
+# Pop of all the remaining vars: a,b,c,d,p,q,r
+PUSH 7
+POPN
