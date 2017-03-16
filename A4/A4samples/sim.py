@@ -118,6 +118,10 @@ class Machine:
 		else:
 			self.buffer += str(c)
 
+	def READI(self):
+		i = int(input("Integer input: "))
+		self.PUSH(i)
+
 	def execute(self, inst):
 		# Execute instruction
 		S = inst[0].upper()
@@ -165,6 +169,8 @@ class Machine:
 			return self.SWAP()
 		elif S.find("PRINTC") > -1 or S.find("WRITE") > -1:
 			return self.PRINTC()
+		elif S.find("READI") > -1:
+			return self.READI()
 
 	def print(self, bound):
 		L = len(self.memory)

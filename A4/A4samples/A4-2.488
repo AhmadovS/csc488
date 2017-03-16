@@ -31,17 +31,21 @@
 	% 2-12
 	while q or r and not p do  exit when b not= 10
 
-	write "Value is " , a / b, " or not ", newline	% 2-13
+	% 2-13
+	write "Value is " , a / b, " or not ", newline
 
-	read  a, c, b					% 2-14
-	{							% 2-15
-		 var a, b, c : Boolean				% 2-16
-		 a := not p or q					% 2-17
-		 {						% 2-18
-				var p, q, r : Integer				% 2-19
-				p := ( b ? q : r )				% 2-20
-		 }						% 2-21
-	}							% 2-22
+	% 2-14
+	read a, c, b
+
+
+	{	% 2-15
+		 var a, b, c : Boolean % 2-16
+		 a := not p or q % 2-17
+		 { % 2-18
+				var p, q, r : Integer % 2-19
+				p := ( b ? q : r ) % 2-20
+		 } % 2-21
+	} % 2-22
 
 	while true do  {					% 2-23
 		 exit when p or r 				% 2-24
