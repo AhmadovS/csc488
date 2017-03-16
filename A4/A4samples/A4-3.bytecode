@@ -1,0 +1,210 @@
+
+ADDR 0 0  % Main initialization
+PUSHMT
+SETD 0    % set main program display
+
+PUSH UNDEFINED  %3-3, 3-4
+PUSH 8
+DUPN
+ 
+BR 30     % Branch to line 30
+
+
+PUSHMT
+SETD 1    % set Q display level
+
+PUSH UNDEFINED             % return value
+PUSH $return address       % return address
+ADDR 0 0                   % Static link 
+ADDR 1 0                   % Dynamic link
+ 
+ADDR 1 4    
+ADDR 0 4  % load p
+PUSH 0
+EQ        % not P
+ADDR 0 5  % q
+OR        % not p or q 
+STORE     % Set the first argument of Q
+
+ADDR 1 5  % second parameter of Q
+ADDR 0 1  % load b
+LOAD
+ADDR 0 2  % load c
+LOAD
+MUL       % b*c
+STORE     % set second parameter
+
+ADDR 1 6  % third parameter of Q
+ADDR 0 4  % load p
+LOAD
+ADDR 0 5  % load q
+LOAD
+EQ
+PUSH 0
+EQ        % p not= q
+STORE
+
+PUSH UNDEFINED  % 3-18 
+PUSH 3
+DUPN  
+
+BR 26    % if G < 7 then return  
+
+% function G 
+PUSHMT
+SETD 2   % set G display level 3-19
+
+PUSH UNDEFINED             % return value
+PUSH $return address       % return address
+ADDR 1 0                   % Static link 
+ADDR 2 0                   % Dynamic link
+
+PUSH UNDEFINED             % 3-21 w,x 
+PUSH 2
+DUPN
+
+ADDR 2 0                  % set return value
+
+% False instructions
+ADDR 2 6                  % store result
+ADDR 1 8                  % load u
+LOAD
+ADDR 0 1                  % load b
+LOAD
+SUB
+STORE
+
+ADDR 1 4                  % access first parameter of Q
+ADDR 1 6                  % access third parameter of Q
+OR
+
+ADDR 2 6
+BF 
+
+% TRUE instructiosn
+ADDR 1 9                  % load v
+LOAD
+ADDR 1 5                  % load n
+LAOD
+ADD 
+
+STORE                     % STORE return value
+
+PUSH 5
+POPN                      % POP ALL EXCEPT return value
+
+PUSH 7                    % We have return value of G and 7 on top of stack
+PUSH LT
+
+ADDR 2 0                  
+LOAD                     % LOAD RETURN value of G
+PUSH 7
+EQ
+OR                       % if 7 <= G false (used negation of G > 7) go to return address of Q
+
+ADDR 1 0                  % PUSH return value of Q
+BF                        
+
+% function F 
+PUSHMT
+SETD 2   % set F display level 3-27
+
+PUSH UNDEFINED             % return value
+PUSH $return address       % return address
+ADDR 1 0                   % Static link 
+ADDR 2 0                   % Dynamic link
+
+ADDR 2 4                   % first parameter of F
+ADDR 1 7                   % load t
+LOAD
+STORE                      % Set the first parameter of F
+
+ADDR 2 5                   % Second parameter of F
+LOAD
+ADDR 0 6                   % load r
+LOAD
+PUSH 0
+PUSH EQ                    % not r
+STORE                      % set the second parameter of F
+
+ADDR 2 5                   % n - the second parameter of F
+LOAD
+PUSH MACHINE_FALSE
+EQ                         % if not n is False (n is true) go to m + b 
+
+% True instructions
+ADDR 2 0                   % store m + b
+ADDR 2 4                   % m - the first parameter of F
+LOAD
+ADDR 0 1                   % load b
+LOAD
+ADD
+STORE                      % store m + b
+BF
+
+ADDR 2 5                   % n - the second parameter of F
+LOAD
+PUSH MACHINE_TRUE
+EQ                         % if n is false go to c - m 
+
+ADDR 2 0                   % store c-m in return value
+ADDR 0 2                   % load c
+LOAD
+ADDR 2 4                   % m - the first parameter of F
+LOAD
+SUB
+STORE                      % store c - m in return value
+
+PUSH 3
+POPN                       % POP everything except return value from F
+
+PUSH 17                    % we have return value from F and 17 on top of stack now
+EQ
+PUSH MACHINE_FALSE         % BF will return if f() != 17 is false (f = 17 is True)
+EQ
+ADDR 1 0
+
+BF
+
+% procedure P 
+PUSHMT
+SETD 2   % set F display level 3-28
+
+PUSH UNDEFINED             % return value
+PUSH $return address       % return address
+ADDR 1 0                   % Static link 
+ADDR 2 0                   % Dynamic link
+
+PUSH 2
+DUPN                       % 3-7 e,f
+
+ADDR 0 5                   % load q
+LOAD
+PUSH 0                     % if not q is false (q is true) BF will return
+EQ
+PUSH 0
+EQ 
+
+ADDR 2 0                   
+
+BF
+
+ADDR 2 3                  % address of e
+ADDR 0 1                  % address of a
+LOAD
+STORE
+
+PUSH 6
+POPN                      % POP everything in P
+
+HALT                       
+
+
+
+
+ 
+
+                                     
+
+
+
