@@ -28,11 +28,11 @@ When we declare the scalar variables (Integer, Boolean) we first '''PUSH UNDEFIN
 
 Example: var a,b,c,d :Integer
 
-'''
+```
 PUSH UNDEFINED
 PUSH 4
 DUPN
-'''
+```
 
 ##Array Declaration
 
@@ -40,29 +40,27 @@ Our language only supports one dimensional arrays. And arrays will have lower an
 
 Example: var A[7] :Integer
 
-'''
+```
 PUSH UNDEFINED
 PUSH 1
 PUSH 7
 SUB
 DUPN
-'''
+```
 
 B[2..5]
 
-'''
+```
 PUSH UNDEFINED
 PUSH 2
 PUSH 5
 SUB 
 DUPN
-'''
+```
 
 ## Integer and Boolean Constants, Text Constants
 
-I'm not too sure what they are really asking here. The machine itself tells us how they are represented. Maybe something like this?
-
->Integers will be stored in the word as is. As the integers have a bound of -32767 to +32767 and the memory is 16 bits, it will align. 
+Integers will be stored in the word as is. As the integers have a bound of -32767 to +32767 and the memory is 16 bits, it will align. 
 
 
 # Expressions
