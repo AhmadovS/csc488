@@ -502,27 +502,18 @@ PUSH 72
 ```
 `read` statements only read in Integers, so no ASCII conversions are used for this particular statement. A sequence of inputs will be read in using multiple READI instructions, as shown below. 
 
-Example 2 (Assume a, b have already been declared as Integer variables): `read a, b`
+Example 2 (Assume a, b have already been declared as Integer variables): `read a, b, c`
 Generates:
 ```
-ADDR currentLL 0
-PUSH 2
-PUSH 16
-MUL
-ADD 
-PUSH aOffset 
-ADD             % address of a = display[currentLL] + 2 * wordSize + aOffset
+ADDR $LLofA $ONofA
 READI
-STORE 
-ADDR currentLL 0
-PUSH 2
-PUSH 16
-MUL
-ADD 
-PUSH bOffset 
-ADD             % address of b = display[currentLL] + 2 * wordSize + bOffset
+STORE
+ADDR $LLofB $ONofB
 READI
-STORE 
+STORE
+ADDR $LLofC $ONofC
+READI
+STORE
 ```
 
 ## Gandling of minor scopes
@@ -544,4 +535,5 @@ DUPN
 ```
 
 ## Program termination
-All programs are terminated by the `HALT` instruction.
+All programs are terminated by the `HALT` instruction, after executing the last statement.
+
