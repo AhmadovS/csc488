@@ -1,0 +1,716 @@
+// Package and import specifications section.
+
+package compiler488.parser;
+
+import java_cup.runtime.*;		// Must always import this.
+import compiler488.ast.*;		// import all the AST classes (might be a bit overkill)
+import compiler488.ast.decl.*;
+import compiler488.ast.expn.*;
+import compiler488.ast.stmt.*;
+import compiler488.ast.type.*;
+
+/* User code components 1: action code components.
+ * Code to be used inside the actions triggered when productions are matched.
+ * If any common code is needed for more than one action , put it here.
+ */
+// action code {:
+// :};
+
+/* User code components 2: parser code components. 
+ * Modifications to the default generated parser
+ */
+parser code {:
+
+	String lastError;
+	
+	/* Override the report_error method so it will display the line and
+	 * column of where the error occurred in the input as well as the
+	 * reason for the error which is passed into the method in the
+	 * String 'message'.
+	 * @param message  error message to print
+	 * @param info	 symbol containing line/column numbers
+	 */
+	public void report_error(String message, Object info) {
+		String st =  "Error";
+   
+		if (info instanceof java_cup.runtime.Symbol) {
+			java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+
+			/* s.left is supposed to hold the line number of the error.
+			 * s.right is supposed to hold the column number.
+				 * If either is < 0 the parser may have run off the end of the program
+				 * and a Syntax Error message without line number may be printed.
+			 */
+	   
+			if (s.left >= 0) {				// Check line number.
+				st += " in line " + (s.left + 1);
+				if (s.right >= 0) {			// Check column number.
+					st += ", column " + (s.right + 1);
+				}
+			}
+			else
+			   st += " at end of input " ;
+		}
+		st += ": " + message;
+		System.err.println (st);
+		lastError = st;
+	}
+   
+	// Override the report_fatal_error method to use the report_error method.
+	/** @throws SyntaxErrorException						*/
+	public void report_fatal_error (String message, Object info) throws SyntaxErrorException {
+		report_error (message, info);
+		throw new SyntaxErrorException (lastError);
+	}
+   
+	// version string for printing version in Main
+	public static final String version = "Winter 2017" ;
+
+:};
+
+/* User code components 3: initialization code.
+ * If you want some code to be executed before the parser asks for the first
+ * token, add it here.
+ */
+// init with {:
+// :};
+
+/* User code components 4: scanner specification code.
+ * If you need to override the way the parser asks the scanner for the
+ * next token, put your preferred method here.  Uncomment the line following
+ * this comment, replace the line after that with your code, and uncomment
+ * the line after that.
+ */
+// scan with {:
+// :};
+
+/* Symbol lists section.
+ * The names of terminals and non-terminals are not allowed to be CUP
+ * reserved words.  These include "code", "action", "parser", "terminal",
+ * "non", "nonterminal", "init", "scan", "with", "start", "precedence",
+ * "left", "right", "nonassoc", "import", and "package".
+ */
+
+// DEFINITIONS for CSC488S Source Language  Winter  2017 
+
+// Terminals returned by the scanner with no value attached.  
+terminal	AND,	OR,	NOT,	TRUE,	FALSE	;
+terminal 	BOOLEAN,INTEGER,FUNCTION,PROCEDURE	;
+terminal	DO,	ELSE,	EXIT,   IF	;
+terminal	READ, 	REPEAT,	RETURN,	NEWLINE,THEN,	UNTIL	;
+terminal	VAR,	WHEN,	WHILE,	WITHX,	WRITE 	;
+
+// Special-character terminals, no value attached
+terminal	L_PAREN	,R_PAREN,L_SQUARE, R_SQUARE, L_CURLEY, R_CURLEY	;
+terminal	EQUAL,	GREATER,LESS,	COMMA,  DOT, QUESTION, COLON	;
+terminal	PLUS,	MINUS,	TIMES,  DIVIDE	;
+
+// Terminals returned by the scanner with a value.
+terminal String  IDENT	;
+terminal Integer INTCONST	;
+terminal String  TEXTCONST	;
+
+// Non-terminals that have no value.
+// nonterminal xxx
+
+nonterminal	program,	statement,	declaration,	scope	;
+nonterminal	statements,	declarations,	matchedStatement, unmatchedStatement ;
+nonterminal	variablenames,		output			;
+nonterminal	type,  	arguments,	parameters,	variable	;
+nonterminal 	expression,	variablename 			;
+
+nonterminal	inputs, outputs, bound ;
+nonterminal	procedureCall, parameter, conjunction, negation, compareExpn ;
+nonterminal	arithExpn, term, factor, primary, constant ;
+
+// Non-terminals that have a value.
+// nonterminal type  nameList ;
+
+// PLEASE NOTE: your grammar can not use the 'precedence'
+// feature of java-cup. The lines below should remain
+// commented out.
+//
+//precedence left PLUS, MINUS;
+//precedence left TIMES, DIVIDE;		// Higher precedence.
+precedence   left ELSE ;
+
+// The grammar section.
+
+// This specifies the initial symbol of the grammar.
+start with program;
+
+/* Notice that sometimes the action must be inside the production rule,
+ * not after it.  This is a subtle yet significant difference from YACC.
+ * This is because the CUP parser is looking ahead one token.  It ALWAYS
+ * reads one more token before it will act on the production.
+ */
+
+program		::=	scope:s	
+				{:
+					Scope scope = (Scope) s;
+					Program r = new Program(scope.getDeclarations(), scope.getStatements());
+					r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+					RESULT = r;
+				:}
+				;								// the main program
+
+scope		::=	L_CURLEY  declarations:d statements:s  R_CURLEY  	// scope with declarations and statements
+			{:
+				Scope r = new Scope((ASTList<Declaration>) d, (ASTList<Stmt>) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		|	L_CURLEY statements:s  R_CURLEY 		// scope with statments only
+			{:
+				Scope r = new Scope((ASTList<Stmt>) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		|	L_CURLEY  R_CURLEY			// empty scope
+			{:
+				Scope r = new Scope();
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = new Scope();
+			:}
+		;
+
+statements	::=	statement:s						// sequence of statements
+			{:
+				ASTList<Stmt> r = new ASTList<Stmt>((Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	statements:ss statement:s
+			{:
+				ASTList<Stmt> r = (ASTList<Stmt>) ss;
+				r.addLast((Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+declarations	::=	declaration:d						// sequence of declarations
+			{:
+				ASTList<Declaration> r =  new ASTList<Declaration>((Declaration) d);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	declarations:ds declaration:d
+			{:
+				ASTList<Declaration> r = (ASTList<Declaration>) ds;
+				r.addLast((Declaration) d);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+statement	::=	matchedStatement:m
+			{: 
+				AST r = (AST) m;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+				// RESULT = m;
+			:}
+		|	unmatchedStatement:u
+			{: 
+				AST r = (AST) u;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+				// RESULT = u;
+			:}
+		;
+
+matchedStatement::=	variable:v COLON EQUAL expression:e				// assignment statement
+			{:
+				AssignStmt r = new AssignStmt((Expn) v, (Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	IF expression:e THEN matchedStatement:m1 ELSE matchedStatement:m2 // if statements
+			{:
+				IfStmt r = new IfStmt((Expn) e, (Stmt) m1, (Stmt) m2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	WHILE expression:e DO statement:s				// while statement
+			{:
+				WhileDoStmt r = new WhileDoStmt((Expn) e, (Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	REPEAT statement:s  UNTIL expression:e			// repeat statement
+			{:
+				RepeatUntilStmt r = new RepeatUntilStmt((Expn) e, (Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	EXIT							// exit statements
+			{:
+				ExitStmt r = new ExitStmt();
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	EXIT INTCONST:i
+			{:
+				ExitStmt r = new ExitStmt((Integer) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	EXIT WHEN expression:e
+			{:
+				ExitStmt r = new ExitStmt((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	EXIT INTCONST:i WHEN expression:e
+			{:
+				ExitStmt r = new ExitStmt((Expn) e, (Integer) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	RETURN WITHX  expression:e 
+			{:
+				ReturnStmt r = new ReturnStmt((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	RETURN 							// return statements
+			{:
+				ReturnStmt r = new ReturnStmt();
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	WRITE outputs:o						// input/output statments
+			{: 
+				WriteStmt r = new WriteStmt((ASTList<Printable>) o);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	READ  inputs:i
+			{:
+				ReadStmt r = new ReadStmt((ASTList<compiler488.ast.Readable>) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	procedureCall:p						// procedure call
+			{: 
+				AST r = (AST) p;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	scope:s							// embedded scope
+			{: 
+				AST r = (AST) s;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+unmatchedStatement::=	IF expression:e THEN statement:s	
+			{:
+				IfStmt r = new IfStmt((Expn) e, (Stmt) s);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	IF expression:e THEN matchedStatement:m ELSE unmatchedStatement:u
+			{:
+				IfStmt r = new IfStmt((Expn) e, (Stmt) m, (Stmt) u);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+procedureCall	::=	IDENT:i 							// call procedure with no parameters
+			{:
+				ProcedureCallStmt r = new ProcedureCallStmt(i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	IDENT:i L_PAREN arguments:a R_PAREN  			// call procedure with parameters
+			{:
+				ProcedureCallStmt r = new ProcedureCallStmt(i, (ASTList<Expn>) a);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+declaration	::=	VAR variablenames:vs COLON type:t			// declare scalar/array variables
+			{:
+				MultiDeclarations r = new MultiDeclarations((Type) t, (ASTList<DeclarationPart>) vs);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	FUNCTION IDENT:i COLON type:t scope:s			// declare function
+			{:
+				RoutineBody body = new RoutineBody((Scope) s);
+				RoutineDecl r = new RoutineDecl(i, (Type) t, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	FUNCTION  IDENT:i L_PAREN parameters:p R_PAREN COLON type:t scope:s
+			{:
+				RoutineBody body = new RoutineBody((ASTList<ParameterDecl>) p, (Scope) s);
+				RoutineDecl r = new RoutineDecl(i, (Type) t, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	PROCEDURE IDENT:i scope:s			//  declare procedure
+			{:
+				RoutineBody body = new RoutineBody((Scope) s);
+				RoutineDecl r = new RoutineDecl(i, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	PROCEDURE IDENT:i L_PAREN parameters:p R_PAREN scope:s
+			{:
+				RoutineBody body = new RoutineBody((ASTList<ParameterDecl>) p, (Scope) s);;
+				RoutineDecl r = new RoutineDecl(i, body);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+variablenames	::=	variablename:v  				// list of variables being declared
+			{:
+				ASTList<DeclarationPart> r = new ASTList<DeclarationPart>((DeclarationPart) v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	variablenames:vs COMMA variablename:v 
+			{:
+				ASTList<DeclarationPart> r = (ASTList<DeclarationPart>) vs;
+				r.addLast((DeclarationPart) v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+variablename	::=	IDENT:i 						// scalar variable
+			{:
+				ScalarDeclPart r = new ScalarDeclPart(i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	IDENT:i1 L_SQUARE INTCONST:i2 R_SQUARE		// array variable with upper bound
+			{:
+				ArrayDeclPart r = new ArrayDeclPart(i1, (int) 1, (int) i2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		|	IDENT:i1 L_SQUARE bound:i2 DOT DOT bound:i3  R_SQUARE	// array variable with upper/lower bounds
+			{:
+				ArrayDeclPart r = new ArrayDeclPart(i1, (int) i2, (int) i3);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		;
+
+bound		::=	INTCONST:i					// positive array bound
+			{:
+				RESULT = i;
+			:}
+		|	MINUS INTCONST:i					// negative array bound
+			{:
+				RESULT = -1 * i;
+			:}
+		;
+
+type		::=	INTEGER			// integer type
+			{:
+				RESULT = new IntegerType();
+			:}
+		|	BOOLEAN			// boolean type
+			{:
+				RESULT = new BooleanType();
+			:}
+		;
+
+outputs		::=	output:o			// list of output expressions
+			{:
+				ASTList<Printable> r = new ASTList<Printable>((Printable) o);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	outputs:os COMMA output:o
+			{:
+				ASTList<Printable> r = (ASTList<Printable>) os;
+				r.addLast((Printable) o);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;				
+			:}
+		;
+
+output		::=	expression:e		// integer expression
+			{:
+				AST r = (AST) e;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	TEXTCONST:t		// text constant
+			{: 
+				TextConstExpn r = new TextConstExpn((String) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	NEWLINE			// newline constant
+			{:
+				RESULT = new SkipConstExpn();
+			:}
+		;
+
+inputs		::=	variable:v		// list of variables being read into
+			{:
+				ASTList<compiler488.ast.Readable> r = new ASTList<compiler488.ast.Readable>((compiler488.ast.Readable) v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	inputs:i COMMA variable:v
+			{:	
+				ASTList<compiler488.ast.Readable> r = (ASTList<compiler488.ast.Readable>) i;
+				r.addLast((compiler488.ast.Readable)v);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+arguments	::=	expression:e			// list of function/procedure arguments
+			{:
+				ASTList<Expn> r = new ASTList<Expn>((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arguments:a COMMA expression:e
+			{:
+				ASTList<Expn> r = (ASTList<Expn>) a;
+				r.addLast((Expn) e);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+parameters	::=	parameter:p			// list of function/procedure formal parameters
+			{:
+				ASTList<ParameterDecl> r = new ASTList<ParameterDecl>((ParameterDecl) p);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	parameters:ps COMMA parameter:p
+			{:
+				ASTList<ParameterDecl> r = (ASTList<ParameterDecl>) ps;
+				r.addLast((ParameterDecl) p);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+parameter	::=	IDENT:i COLON type:t 		// declare one parameter
+			{:
+				ParameterDecl r = new ParameterDecl(i, (Type) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+expression	::=	conjunction:c			// disjunctions, associate left-to-right
+			{:
+				AST r = (AST) c;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	expression:e OR conjunction:c
+			{:
+				BoolExpn r = new BoolExpn(OPSYMBOL.OR, (Expn) e, (Expn) c);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+conjunction	::=	negation:n			// conjunctions, associate left-to-right
+			{:
+				AST r = (AST) n;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	conjunction:c AND negation:n
+			{:
+				BoolExpn r = new BoolExpn(OPSYMBOL.AND, (Expn) c, (Expn) n);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+negation	::=	compareExpn:e 			// negations
+			{:
+				AST r = (AST) e;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	NOT negation:n
+			{:
+				NotExpn r = new NotExpn((Expn) n);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+compareExpn	::=	arithExpn:a			// comparisons, do not associate
+			{:
+				AST r = (AST) a;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a1 EQUAL arithExpn:a2
+			{:
+				CompareExpn r = new CompareExpn(OPSYMBOL.EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		| 	arithExpn:a1 NOT EQUAL arithExpn:a2
+			{:
+				CompareExpn r = new CompareExpn(OPSYMBOL.NOT_EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a1 LESS arithExpn:a2
+			{:
+				CompareExpn r = new CompareExpn(OPSYMBOL.LESS_THAN, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a1 LESS EQUAL arithExpn:a2
+			{:
+				CompareExpn r = new CompareExpn(OPSYMBOL.LESS_THAN_EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a1 GREATER arithExpn:a2
+			{:
+				CompareExpn r = new CompareExpn(OPSYMBOL.GREATER_THAN, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a1 GREATER EQUAL arithExpn:a2
+			{:
+				CompareExpn r = new CompareExpn(OPSYMBOL.GREATER_THAN_EQUALS, (Expn) a1, (Expn) a2);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+arithExpn	::=	term:t				// expressions, associate + , - left-to-right
+			{:
+				AST r = (AST) t;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a  PLUS  term:t
+			{:
+				ArithExpn r = new ArithExpn(OPSYMBOL.PLUS, (Expn) a, (Expn) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	arithExpn:a  MINUS term:t
+			{:
+				ArithExpn r = new ArithExpn(OPSYMBOL.MINUS, (Expn) a, (Expn) t);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+term		::=	factor:f				// terms, associate * , /   left-to-right
+			{:
+				AST r = (AST) f;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	term:t TIMES factor:f
+			{:
+				ArithExpn r = new ArithExpn(OPSYMBOL.TIMES, (Expn) t, (Expn) f);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	term:t DIVIDE factor:f
+			{:
+				ArithExpn r = new ArithExpn(OPSYMBOL.DIVIDE, (Expn) t, (Expn) f);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+factor		::=	primary:p				// unary minus
+			{:
+				AST r = (AST) p;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	MINUS factor:f
+			{:
+				UnaryMinusExpn r = new UnaryMinusExpn((Expn) f);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		;
+
+primary		::=	constant:c				// integer or boolean constant
+			{:
+				AST r = (AST) c;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	variable:v				// scalar, array variable or function call
+			{:
+				AST r = (AST) v;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	IDENT:i L_PAREN arguments:a R_PAREN 	// function call
+			{:
+				FunctionCallExpn r = new FunctionCallExpn(i, (ASTList<Expn>) a);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		| 	L_PAREN  expression:e  R_PAREN		// parenthesized expression
+			{:
+				AST r = (AST) e;
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		|	L_PAREN  expression:e1 QUESTION expression:e2 COLON expression:e3 R_PAREN
+			{:
+				ConditionalExpn r = new ConditionalExpn((Expn) e1, (Expn) e2, (Expn) e3);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		;
+
+constant	::=	INTCONST:i	// integer constant
+			{:
+				IntConstExpn r = new IntConstExpn((Integer) i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	TRUE		// constant true
+			{:
+				RESULT = new BoolConstExpn(true);
+			:}
+		|	FALSE		// constant false
+			{:
+				RESULT = new BoolConstExpn(false);
+			:}
+		;
+
+variable	::=	IDENT:i					// scalar variable or function call
+			{:
+				IdentExpn r = new IdentExpn(i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.peek()));
+				RESULT = r;
+			:}
+		|	IDENT:i L_SQUARE expression:e R_SQUARE	// element of an array
+			{:
+				SubsExpn r = new SubsExpn((Expn) e, i);
+				r.setLOC(new LOC((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)));
+				RESULT = r;
+			:}
+		;
+
+
