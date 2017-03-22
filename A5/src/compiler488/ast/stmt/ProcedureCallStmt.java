@@ -74,8 +74,9 @@ public class ProcedureCallStmt extends Stmt {
 
         if (routineSym != null) {
 
+	    	// S41 - routineSym needs to be declared as a procedure
             if (routineSym.isFunction()) {
-                SemanticError.addIdentNotDeclaredError(40, this);
+                SemanticError.addIdentNotDeclaredError(41, this);
             }
 
             // part of S43 - checks if any arguments are passed.
