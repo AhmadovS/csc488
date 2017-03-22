@@ -1,8 +1,10 @@
 package compiler488.ast.expn;
 
+import compiler488.DebugTool;
 import compiler488.ast.type.*;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.*;
+import jdk.nashorn.internal.runtime.Debug;
 
 /** Represents a conditional expression (i.e., x>0?3:4). */
 public class ConditionalExpn extends Expn {
@@ -58,14 +60,23 @@ public class ConditionalExpn extends Expn {
 		this.getTrueValue().checkSemantics(symbols);
 		this.getFalseValue().checkSemantics(symbols);
 
-		// S30 - check that type of expression is boolean
-		if (!(this.getCondition().getType() instanceof BooleanType)){
-			SemanticError.add(30, this, "The condition of conditional expression must be boolean");
-		}
+		if (this.getCondition().getType() == null) {
+			SemanticError.add(this, "ConditionalExpn condition has null type");
+		} else if (this.getTrueValue().getType() == null) {
+			SemanticError.add(this, "ConditionalExpn true value has null type");
+		} else if (this.getFalseValue() != null && this.getFalseValue().getType() == null) {
+			SemanticError.add(this, "ConditionalExpn false value has null type");
+		} else {
 
-		// S33 - check both conditional expression have same type
-		if (this.getFalseValue().getType().getClass() != this.getTrueValue().getType().getClass()) {
-			SemanticError.add(30, this, "Both side of conditional expression must be the same type");
+			// S30 - check that type of expression is boolean
+			if (!(this.getCondition().getType() instanceof BooleanType)) {
+				SemanticError.add(30, this, "The condition of conditional expression must be boolean");
+			}
+
+			// S33 - check both conditional expression have same type
+			if (this.getFalseValue().getType().getClass() != this.getTrueValue().getType().getClass()) {
+				SemanticError.add(30, this, "Both side of conditional expression must be the same type");
+			}
 		}
 
 		// S24 - Set result type to type of conditional expression
