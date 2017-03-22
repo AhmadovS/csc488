@@ -123,6 +123,7 @@
          name="Main-Class" value="compiler488.compiler.Main"
         />
       </manifest>
+      <fileset dir="${src}" includes="**/*.java" />
     </jar>
   </target>
 
