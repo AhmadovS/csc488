@@ -27,7 +27,7 @@ public class SymbolTable {
 		// function, to guarantee iteration is ordered by insertion order.
 		LinkedHashMap<String, Symbol> map;
 
-		public ScopeTable(RoutineSymbol owner) {
+		ScopeTable(RoutineSymbol owner) {
 			this.owner = owner;
 			this.map = new LinkedHashMap<>();
 		}
@@ -47,16 +47,20 @@ public class SymbolTable {
 	public SymbolTable (){
 		symbolTable = new Stack<>();
 	}
-	
+
+	/**
+	 * starts scope for main program and other ordinary scopes.
+	 */
 	public void startScope(){
 		symbolTable.push(new ScopeTable(null));
 	}
 
 	/**
+	 * Only use this function to start scope for a routine.
 	 * Creates a new scope with an owner.
 	 * @param owner
 	 */
-	public void startScope(RoutineSymbol owner) {
+	public void startRoutineScope(RoutineSymbol owner) {
 		symbolTable.push(new ScopeTable(owner));
 	}
 	
@@ -130,14 +134,27 @@ public class SymbolTable {
 		// values of symbol table in order of insertion.
 		int scopeAllocCount = 0;
 
-		for (Symbol sym : currentScope.map.values()) {
-			if (sym instanceof ArraysSymbol) {
-				// Increment by storage requirement of the array
-				scopeAllocCount += ((ArraysSymbol) sym).getSize();
-			} else if (sym instanceof VariablesSymbol) {
-				scopeAllocCount ++;
+		ListIterator<ScopeTable> sli = symbolTable.listIterator(symbolTable.size());
+		while(sli.hasPrevious()) {
+			ScopeTable scopeTable = sli.previous();
+
+			for (Symbol sym : scopeTable.map.values()) {
+				if (sym instanceof ArraysSymbol) {
+					// Increment by storage requirement of the array
+					scopeAllocCount += ((ArraysSymbol) sym).getSize();
+				} else if (sym instanceof VariablesSymbol) {
+					scopeAllocCount ++;
+				}
 			}
+
+			// Since only the main scope and a function/procedure scope have their own
+			// activation records, we will stop counting allocation storage of declarations
+			// if current scopeTable has an owner (if main scope, sli.hasPrevious() fails anyways).
+			if (scopeTable.owner != null)
+				break;
 		}
+
+
 		if (isMainScope) {
 			// Main scope has the legacy of starting it's order number from 2.
 			return 2 + scopeAllocCount;

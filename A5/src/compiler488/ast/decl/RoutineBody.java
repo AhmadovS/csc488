@@ -79,7 +79,7 @@ public class RoutineBody extends Indentable {
 		// S04, S08 - Starts function/procedure scope, and
 		// and S13 - associates scope with function/procedure.
         RoutineSymbol sym = (RoutineSymbol) ((RoutineDecl) getParent()).getSymbol();
-		symbols.startScope(sym);
+		symbols.startRoutineScope(sym);
 
             // Adds parameters to the scope
             ListIterator<ParameterDecl> typeli = this.parameters.getIterator();
