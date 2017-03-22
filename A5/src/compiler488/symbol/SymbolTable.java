@@ -114,10 +114,20 @@ public class SymbolTable {
 	}
 
 	/**
-	 * Calculates lexic level of top scope.
+	 * Calculates lexic-level of top scope.
 	 */
 	private int calculateLexicLevel() {
-		return symbolTable.size() - 1;
+		int lexicLevel = 0;
+		ListIterator<ScopeTable> sli = symbolTable.listIterator(symbolTable.size());
+		while(sli.hasPrevious()) {
+			ScopeTable scopeTable = sli.previous();
+			if (scopeTable.owner != null) {
+				// Increments lexic-level only for functions/procedures.
+				lexicLevel++;
+			}
+		}
+
+		return lexicLevel;
 	}
 
 	/**
