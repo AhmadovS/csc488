@@ -1,5 +1,6 @@
 package compiler488.ast.expn;
 
+import compiler488.ast.OPSYMBOL;
 import compiler488.ast.type.*;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
@@ -20,14 +21,27 @@ public class CompareExpn extends BinaryExpn {
         this.getLeft().checkSemantics(symbols);
 		this.getRight().checkSemantics(symbols);
 
-		// S31 - checks left expression is integer
-		if(!(this.getLeft().getType() instanceof IntegerType)){
-			SemanticError.add(31, this, "Left side of arithmetic operation must be integer");
-		}
+		if (getOpSymbol().equals(OPSYMBOL.EQUALS)) {
+		    // S32
+			if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
+				SemanticError.add(32, this, "LHS and RHS must have same type");
+			}
+		} else if (getOpSymbol().equals(OPSYMBOL.NOT_EQUALS)) {
+			// S32
+			if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
+				SemanticError.add(32, this, "LHS and RHS must have same type");
+			}
+		} else{
 
-		// S31 - checks right expression is integer
-		if(!(this.getRight().getType() instanceof IntegerType)){
-			SemanticError.add(31, this, "Right side of arithmetic operation must be integer");
+			// S31 - checks left expression is integer
+			if (!(this.getLeft().getType() instanceof IntegerType)) {
+				SemanticError.add(31, this, "Left side of arithmetic operation must be integer");
+			}
+
+			// S31 - checks right expression is integer
+			if (!(this.getRight().getType() instanceof IntegerType)) {
+				SemanticError.add(31, this, "Right side of arithmetic operation must be integer");
+			}
 		}
 
 		// S20 - sets result type to boolean
