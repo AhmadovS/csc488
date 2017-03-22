@@ -1,0 +1,4 @@
+{
+    var i : Integer
+    i := 55
+}

@@ -1,0 +1,9 @@
+{
+    var i,j : Integer
+    var a,b,c : Boolean
+    i := 55
+    j := 234
+    a := true
+    c := false
+
+}

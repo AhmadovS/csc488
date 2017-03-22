@@ -1,6 +1,6 @@
 package compiler488.ast;
 
-import compiler488.DebugTool;
+import compiler488.codegen.MachineWriter;
 import compiler488.symbol.SymbolTable;
 
 import java.io.PrintStream;
@@ -69,6 +69,15 @@ public class ASTList<E> extends AST {
 	    while(li.hasNext()) {
 	      	AST item = (AST) li.next();
 	      	item.setParent(parent);
+		}
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	    ListIterator li = this.getIterator();
+	    while(li.hasNext()) {
+	    	AST item = (AST) li.next();
+	    	item.doCodeGen(symbols, writer);
 		}
 	}
 

@@ -1,6 +1,8 @@
 package compiler488.ast.expn;
 
 import compiler488.ast.type.BooleanType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -32,5 +34,10 @@ public class BoolConstExpn extends ConstExpn {
 	@Override
     public void checkSemantics(SymbolTable symbols) {
     	// Nothing to do here
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+		writer.add(Machine.PUSH, value ? Machine.MACHINE_TRUE : Machine.MACHINE_FALSE);
 	}
 }

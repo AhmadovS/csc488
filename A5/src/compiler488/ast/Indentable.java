@@ -2,6 +2,7 @@ package compiler488.ast;
 
 import java.io.PrintStream;
 
+import compiler488.codegen.MachineWriter;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -67,7 +68,12 @@ public class Indentable extends AST {
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
-		// TODO Auto-generated method stub
+		// TODO : make class abstract and remove this
 		
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+		// TODO: make class abstract and remove this
 	}
 }

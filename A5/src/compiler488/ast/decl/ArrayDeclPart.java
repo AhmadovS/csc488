@@ -1,10 +1,8 @@
 package compiler488.ast.decl;
 
-import compiler488.DebugTool;
 import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Holds the declaration part of an array.

@@ -106,9 +106,9 @@ public class MultiDeclarations extends Declaration {
 	    	if (decl instanceof ScalarDeclPart) {
 	    		// Emits code that allocated storage for a scalar variable
 				writer.add(Machine.PUSH, Machine.UNDEFINED);
+
 			} else if (decl instanceof ArrayDeclPart) {
 	    		int size = ((ArrayDeclPart) decl).getSize();
-
 	    		// Emits code to allocated storage for the array
 				writer.add(Machine.PUSH, Machine.UNDEFINED);
 				writer.add(Machine.PUSH, size);

@@ -4,6 +4,9 @@ import compiler488.runtime.ExecutionException;
 import compiler488.runtime.Machine;
 import compiler488.runtime.MemoryAddressException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 
 public final class MachineWriter {
 
@@ -53,12 +56,6 @@ public final class MachineWriter {
         }
     }
 
-    public void allocateMemory(int size) {
-        if (size == 1) {
-        } else {
-        }
-    }
-
     /**
      * Have to call this function when finished writing the program
      * to the memory.
@@ -72,6 +69,5 @@ public final class MachineWriter {
 
         // Do other finalization tasks here
     }
-
 
 }

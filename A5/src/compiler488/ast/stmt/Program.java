@@ -35,15 +35,20 @@ public class Program extends Scope {
 	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
 
 		// Program initialization
-        writer.add(Machine.PUSHMT); // base address of main scope activation record.
-        writer.add(Machine.SETD, 0); // sets display[0] = MSP pointer.
-        writer.add(Machine.PUSH, 2); // legacy two free words.
+        writer.add(Machine.PUSHMT);    // base address of main scope activation record.
+        writer.add(Machine.SETD, 0);   // sets display[0] = MSP pointer.
+		writer.add(Machine.PUSH, Machine.UNDEFINED); // legacy two free words.
+        writer.add(Machine.PUSH, 2);
         writer.add(Machine.DUPN);
 
-		// Codegen for declrations
+		// Codegen for declarations
 		getDeclarations().doCodeGen(symbols, writer);
 
 		// Codegen for statements
 		getStatements().doCodeGen(symbols, writer);
+
+		// Halt.
+		writer.add(Machine.HALT);
+
 	}
 }

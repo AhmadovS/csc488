@@ -1,6 +1,9 @@
 package compiler488.ast.expn;
 
+import compiler488.DebugTool;
 import compiler488.ast.type.IntegerType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -32,5 +35,10 @@ public class IntConstExpn extends ConstExpn {
 	@Override
     public void checkSemantics(SymbolTable symbols) {
         // Nothing to do here.
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+        writer.add(Machine.PUSH, value);
 	}
 }

@@ -1,8 +1,14 @@
 package compiler488.ast.stmt;
 
+import compiler488.DebugTool;
 import compiler488.ast.expn.Expn;
+import compiler488.ast.expn.IdentExpn;
+import compiler488.ast.expn.SubsExpn;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
+import compiler488.symbol.VariablesSymbol;
 
 /**
  * Holds the assignment of an expression to a variable.
@@ -13,6 +19,8 @@ public class AssignStmt extends Stmt {
 	 * assigned.
 	 */
 	private Expn lval, rval;
+
+	private VariablesSymbol lVarSym;
 	
 	public AssignStmt(Expn lval, Expn rval) {
 		this.lval = lval;
@@ -59,5 +67,38 @@ public class AssignStmt extends Stmt {
 		} else {
             SemanticError.add(this, "RHS or LHS has null type");
         }
+
+        // Store LHS var sym
+        String symbolName;
+        if (lval instanceof IdentExpn) {
+            symbolName = ((IdentExpn) lval).getIdent();
+        } else if (lval instanceof SubsExpn) {
+            symbolName = ((SubsExpn) lval).getVariable();
+        } else {
+            throw new IllegalStateException("AssignStmt LHS is not IdentExpn or SubsExpn");
+        }
+        DebugTool.print("AssignStmt LHS symbol name: " + symbolName);
+        lVarSym = (VariablesSymbol) symbols.getSymbol(symbolName);
 	}
+
+    @Override
+    public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+
+        // Emit code for address of LHS
+        writer.add(Machine.ADDR, lVarSym.getLexicLevel(), lVarSym.getOrderNumber());
+
+	    // Emit the code for rval
+	    rval.doCodeGen(symbols, writer);
+
+	    // Stacks should looks like following
+        //  ------------
+        //  |    msp   |
+        //  | rhs val  |
+        //  | lhs addr |
+        //  |   ...    |
+        //  ------------
+        writer.add(Machine.STORE);
+
+
+    }
 }
