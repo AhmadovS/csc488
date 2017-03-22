@@ -1,7 +1,9 @@
 package compiler488.ast.expn;
 
+import compiler488.DebugTool;
 import compiler488.ast.Readable;
 import compiler488.semantics.SemanticError;
+import compiler488.symbol.ArraysSymbol;
 import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
 
@@ -34,6 +36,7 @@ public class IdentExpn extends Expn implements Readable {
 	@Override
 	public void checkSemantics(SymbolTable symbols) {
 		// S25, S26 - set result type to type of variablename
+		DebugTool.print("IdentExpn: " + ident);
 		Symbol sym = symbols.getSymbol(this.getIdent());
 		if (sym != null) {
 			this.setType(sym.getType());

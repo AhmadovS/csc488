@@ -1,7 +1,9 @@
 package compiler488.ast.expn;
 
+import compiler488.DebugTool;
 import compiler488.ast.OPSYMBOL;
 import compiler488.ast.Readable;
+import compiler488.ast.type.ArrayType;
 import compiler488.ast.type.IntegerType;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ArraysSymbol;
@@ -39,6 +41,9 @@ public class SubsExpn extends UnaryExpn implements Readable {
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
+
+		DebugTool.print("SubsExpn: variable: " + variable);
+
 	    // S31 - check return type of operand is integer.
 		this.getOperand().checkSemantics(symbols);
 		if (!(this.getOperand().getType() instanceof IntegerType)) {
@@ -54,7 +59,7 @@ public class SubsExpn extends UnaryExpn implements Readable {
                 SemanticError.addIdentNotDeclaredError(38, this);
             }
             // S27 - Set result type to type of the array element.
-            this.setType(sm.getType());
+            this.setType(((ArrayType) sm.getType()).getElementType());
         }
 	}
 }
