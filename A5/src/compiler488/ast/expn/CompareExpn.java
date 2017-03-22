@@ -21,26 +21,31 @@ public class CompareExpn extends BinaryExpn {
         this.getLeft().checkSemantics(symbols);
 		this.getRight().checkSemantics(symbols);
 
-		if (getOpSymbol().equals(OPSYMBOL.EQUALS)) {
-		    // S32
-			if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
-				SemanticError.add(32, this, "LHS and RHS must have same type");
-			}
-		} else if (getOpSymbol().equals(OPSYMBOL.NOT_EQUALS)) {
-			// S32
-			if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
-				SemanticError.add(32, this, "LHS and RHS must have same type");
-			}
-		} else{
+		if (this.getLeft().getType() == null || this.getRight().getType() == null) {
+			SemanticError.add(this, "RHS or LHS of CompareExpn has null type");
+		} else {
 
-			// S31 - checks left expression is integer
-			if (!(this.getLeft().getType() instanceof IntegerType)) {
-				SemanticError.add(31, this, "Left side of arithmetic operation must be integer");
-			}
+			if (getOpSymbol().equals(OPSYMBOL.EQUALS)) {
+				// S32
+				if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
+					SemanticError.add(32, this, "LHS and RHS must have same type");
+				}
+			} else if (getOpSymbol().equals(OPSYMBOL.NOT_EQUALS)) {
+				// S32
+				if (this.getLeft().getType().getClass() != this.getRight().getType().getClass()) {
+					SemanticError.add(32, this, "LHS and RHS must have same type");
+				}
+			} else {
 
-			// S31 - checks right expression is integer
-			if (!(this.getRight().getType() instanceof IntegerType)) {
-				SemanticError.add(31, this, "Right side of arithmetic operation must be integer");
+				// S31 - checks left expression is integer
+				if (!(this.getLeft().getType() instanceof IntegerType)) {
+					SemanticError.add(31, this, "Left side of arithmetic operation must be integer");
+				}
+
+				// S31 - checks right expression is integer
+				if (!(this.getRight().getType() instanceof IntegerType)) {
+					SemanticError.add(31, this, "Right side of arithmetic operation must be integer");
+				}
 			}
 		}
 
