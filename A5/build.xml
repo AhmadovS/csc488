@@ -12,7 +12,7 @@
   <property name="doc"  location="doc"/>
 
   <!-- true if this is a debug build -->
-  <property name="debug_build" value="false"/>
+  <property name="debug_build" value="true"/>
 
   <property name="jflex.jar" value="${lib}/JFlex.jar" />
   <property name="cup.jar" value="${lib}/java-cup-v11a.jar" />
