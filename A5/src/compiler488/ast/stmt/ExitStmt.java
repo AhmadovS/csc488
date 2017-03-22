@@ -2,6 +2,7 @@ package compiler488.ast.stmt;
 
 import compiler488.DebugTool;
 import compiler488.ast.AST;
+import compiler488.ast.decl.RoutineDecl;
 import compiler488.ast.expn.*;
 import compiler488.ast.type.BooleanType;
 import compiler488.semantics.SemanticError;
@@ -81,13 +82,15 @@ public class ExitStmt extends Stmt {
         AST parentNode = this.getParent();
 
         if (parentNode == null) {
-            DebugTool.print("exit parent node is null");
+            SemanticError.add(this, "Exit parent node is null");
         }
 
         while (parentNode != null && parentLoopsCount < this.getLevel()) {
             // For each parent loop node found, increment parentLoopsCount
             if (parentNode instanceof LoopingStmt) {
                 parentLoopsCount++;
+            } else if (parentNode instanceof RoutineDecl) {
+                SemanticError.add(this, "Exit statement must be contained inside a looping statement");
             }
             // Go up the tree!
             parentNode = parentNode.getParent();

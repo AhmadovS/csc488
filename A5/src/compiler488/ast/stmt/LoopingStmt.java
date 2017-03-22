@@ -10,7 +10,7 @@ import compiler488.symbol.SymbolTable;
  * Represents the common parts of loops.
  */
 public abstract class LoopingStmt extends Stmt {
-    protected Stmt body;	  // body of ther loop
+    protected Stmt body;	  // body of the loop
     protected Expn expn;          // Loop condition
     
     public LoopingStmt(Expn expn, Stmt body) {
