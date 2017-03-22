@@ -1,8 +1,10 @@
 package compiler488.compiler;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
+import compiler488.codegen.MachineWriter;
 import compiler488.parser.*;
 import compiler488.ast.AST ;
 import compiler488.ast.stmt.Program;
@@ -454,13 +456,13 @@ public class Main {
           }
       }
 
+      SymbolTable symbolTable = new SymbolTable();
+
       /*
        * Semantic checking
        */
       try {
-          SymbolTable symbols = new SymbolTable();
-
-          programAST.checkSemantics(symbols);
+          programAST.checkSemantics(symbolTable);
 
           List<String> errors = SemanticError.getErrors();
 
@@ -514,12 +516,15 @@ public class Main {
 	    System.exit( 140 );
 	    }
 
+	// Code generation
 	try{
-	   // INSERT CODE HERE TO DO CODE GENERATION
-           // e.g.
-	   // programAST.doCodeGen() ;
-	   // or
-	   // codeGen.doIt( programAST );
+
+      	// AST performs the code generations.
+        MachineWriter writer = MachineWriter.getInstance();
+		programAST.doCodeGen(symbolTable, writer);
+		writer.finishedWriting();
+
+
 	}
         catch( Exception e) 
 	    {

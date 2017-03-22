@@ -3,6 +3,7 @@ package compiler488.ast.expn;
 import compiler488.ast.AST;
 import compiler488.ast.Printable;
 import compiler488.ast.type.Type;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -12,7 +13,6 @@ import compiler488.symbol.SymbolTable;
 public class Expn extends AST implements Printable {
 	
 	public Type type;
-	
 
 	public void setType(Type type){
 		this.type = type;
@@ -27,5 +27,10 @@ public class Expn extends AST implements Printable {
         if (this.type == null) {
 			SemanticError.add(this, "Expression has 'null' type");
 		}
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+
 	}
 }

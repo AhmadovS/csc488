@@ -7,11 +7,13 @@ public class ArraysSymbol extends VariablesSymbol{
 
 	private int lowerBound;
 	private int upperBound;
+	private int size;
 
-	public ArraysSymbol(String name, Type elementType, int lb1, int up1) {
+	public ArraysSymbol(String name, Type elementType, int lb, int up, int size) {
 		super(name, new ArrayType(elementType));
-		this.lowerBound = lb1;
-		this.upperBound = up1;
+		this.lowerBound = lb;
+		this.upperBound = up;
+		this.size = size;
 	}
 
 	public int getLowerBound() {
@@ -20,6 +22,10 @@ public class ArraysSymbol extends VariablesSymbol{
 
 	public int getUpperBound() {
 		return this.upperBound;
+	}
+
+	public int getSize() {
+		return this.size;
 	}
 	
 }

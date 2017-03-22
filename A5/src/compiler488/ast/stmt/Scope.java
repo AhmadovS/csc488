@@ -6,6 +6,7 @@ import java.util.*;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.decl.Declaration;
+import compiler488.codegen.MachineWriter;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -101,6 +102,11 @@ public class Scope extends Stmt {
             }
         }
 
+
+    }
+
+    @Override
+    public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
 
     }
 

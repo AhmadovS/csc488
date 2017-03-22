@@ -1,5 +1,6 @@
 package compiler488.ast;
 
+import compiler488.codegen.MachineWriter;
 import compiler488.symbol.SymbolTable;
 import java.util.ArrayList;
 
@@ -43,5 +44,7 @@ public abstract class AST {
 	}
 
 	abstract public void checkSemantics(SymbolTable symbols);
+
+	abstract public void doCodeGen(SymbolTable symbols, MachineWriter writer);
 
 }

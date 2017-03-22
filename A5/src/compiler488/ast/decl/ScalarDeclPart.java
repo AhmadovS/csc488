@@ -1,5 +1,6 @@
 package compiler488.ast.decl;
 
+import compiler488.codegen.MachineWriter;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -23,5 +24,10 @@ public class ScalarDeclPart extends DeclarationPart {
 	@Override
     public void checkSemantics(SymbolTable symbols) {
 	    // Nothing to do here.
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+		// Nothing to do here.
 	}
 }

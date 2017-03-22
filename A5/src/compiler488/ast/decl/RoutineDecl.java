@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
@@ -83,7 +84,9 @@ public class RoutineDecl extends Declaration {
 		    Declaration param = (Declaration) li.next();
 		    paramsTypes.addLast(param.getType());
 		}
+
 		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsTypes);
+		setSymbol(sym);
 
 		// S11, S12, S15, S16 S17, S18 (All implicit) - Adding routine symbol to symbol table
 		if (!symbols.addSymbol(sym)) {
@@ -92,5 +95,10 @@ public class RoutineDecl extends Declaration {
 
         // Calls semantics check on the body
         this.routineBody.checkSemantics(symbols);
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	    // not implemented yet
 	}
 }

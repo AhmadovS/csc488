@@ -3,6 +3,8 @@ package compiler488.ast.stmt;
 import compiler488.ast.AST;
 import compiler488.ast.ASTList;
 import compiler488.ast.decl.Declaration;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -27,5 +29,21 @@ public class Program extends Scope {
 		super.checkSemantics(symbols);
 		// S01 - end program scope.
 		symbols.exitScope();
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+
+		// Program initialization
+        writer.add(Machine.PUSHMT); // base address of main scope activation record.
+        writer.add(Machine.SETD, 0); // sets display[0] = MSP pointer.
+        writer.add(Machine.PUSH, 2); // legacy two free words.
+        writer.add(Machine.DUPN);
+
+		// Codegen for declrations
+		getDeclarations().doCodeGen(symbols, writer);
+
+		// Codegen for statements
+		getStatements().doCodeGen(symbols, writer);
 	}
 }

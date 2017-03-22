@@ -6,6 +6,8 @@ import java.util.ListIterator;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ArraysSymbol;
 import compiler488.symbol.SymbolTable;
@@ -82,12 +84,36 @@ public class MultiDeclarations extends Declaration {
 			} else if (decl instanceof ArrayDeclPart) {
 			    // S19, S48 - Declare array varialbe with specified lower and upper bounds.
 			    ArrayDeclPart arrayDecl = (ArrayDeclPart) decl;
-				ArraysSymbol sm = new ArraysSymbol(arrayDecl.getName(), this.getType(), arrayDecl.getLowerBoundary(), arrayDecl.getLowerBoundary());
+				ArraysSymbol sm = new ArraysSymbol(arrayDecl.getName(), this.getType(), arrayDecl.getLowerBoundary(), arrayDecl.getLowerBoundary(), arrayDecl.getSize());
 				if (!symbols.addSymbol(sm)) {
                     SemanticError.addIdentAlreadyDeclaredError(this);
                 }
 			}
 		}
 		
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	    ListIterator<DeclarationPart> li = getElements().getIterator();
+
+	    // Iterates over all the declarations.
+	    while(li.hasNext()) {
+
+	    	DeclarationPart decl = li.next();
+
+	    	// Calls to emit codes that allocated memory depending on size.
+	    	if (decl instanceof ScalarDeclPart) {
+	    		// Emits code that allocated storage for a scalar variable
+				writer.add(Machine.PUSH, Machine.UNDEFINED);
+			} else if (decl instanceof ArrayDeclPart) {
+	    		int size = ((ArrayDeclPart) decl).getSize();
+
+	    		// Emits code to allocated storage for the array
+				writer.add(Machine.PUSH, Machine.UNDEFINED);
+				writer.add(Machine.PUSH, size);
+				writer.add(Machine.DUPN);
+			}
+		}
 	}
 }

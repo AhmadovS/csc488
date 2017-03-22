@@ -8,6 +8,7 @@ import compiler488.ast.Indentable;
 import compiler488.ast.stmt.Scope;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ParamsSymbol;
+import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
 
 /**
@@ -75,8 +76,10 @@ public class RoutineBody extends Indentable {
 
 		// Note: Parameters don't need semantic check.
 
-		// S04, S08 - Starts function and procedure scope.
-		symbols.startScope();
+		// S04, S08 - Starts function/procedure scope, and
+		// and S13 - associates scope with function/procedure.
+        RoutineSymbol sym = (RoutineSymbol) ((RoutineDecl) getParent()).getSymbol();
+		symbols.startScope(sym);
 
             // Adds parameters to the scope
             ListIterator<ParameterDecl> typeli = this.parameters.getIterator();

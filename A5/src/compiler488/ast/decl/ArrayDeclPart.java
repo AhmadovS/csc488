@@ -1,8 +1,10 @@
 package compiler488.ast.decl;
 
 import compiler488.DebugTool;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Holds the declaration part of an array.
@@ -12,9 +14,6 @@ public class ArrayDeclPart extends DeclarationPart {
 	/* The lower and upper boundaries of the array. */
     private Integer lb, ub;
 
-	/* The number of objects the array holds. */
-	private Integer size;
-	
 	public ArrayDeclPart(String name, int lb, int up){
 		super(name);
 		
@@ -31,8 +30,10 @@ public class ArrayDeclPart extends DeclarationPart {
 	}
 
 	public Integer getSize() {
-		return size;
+		return ub - lb + 1;
 	}
+
+
 
 	public Integer getLowerBoundary() {
 		return lb;
@@ -50,9 +51,6 @@ public class ArrayDeclPart extends DeclarationPart {
     	this.ub = ub;
 	}
 
-	public void setSize(Integer size) {
-		this.size = size;
-	}
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
@@ -61,5 +59,10 @@ public class ArrayDeclPart extends DeclarationPart {
 			SemanticError.add(46, this, "The lower bound must be smaller than upper bound");
 		}
 
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	    // Nothing to do here.
 	}
 }
