@@ -120,4 +120,12 @@ public class ASTList<E> extends AST {
 			return result.toString();
 		}
 	}
+
+	/**
+	 * Returns same lexic-level as parent.
+	 */
+	@Override
+	protected final int calculateLexicLevel() {
+	    return getParent().getLexicLevel();
+	}
 }

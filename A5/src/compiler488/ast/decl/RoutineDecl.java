@@ -20,6 +20,8 @@ public class RoutineDecl extends Declaration {
 	 * statements to execute when the procedure is called.
 	 */
 	private RoutineBody routineBody;
+
+	private RoutineSymbol routineSym;
 	
 	public RoutineDecl(String name, Type type, RoutineBody routineBody) {
 		super(name, type);
@@ -74,7 +76,14 @@ public class RoutineDecl extends Declaration {
 		this.routineBody = routineBody;
 	}
 
-	@Override
+    /**
+     * Retruns the symbol-table RoutineSymbol associated with this declaration.
+     */
+	protected RoutineSymbol getRoutineSym() {
+	    return this.routineSym;
+    }
+
+    @Override
     public void checkSemantics(SymbolTable symbols) {
 
 		// Iterates through the parameters of the body and gets their type
@@ -85,11 +94,10 @@ public class RoutineDecl extends Declaration {
 		    paramsTypes.addLast(param.getType());
 		}
 
-		RoutineSymbol sym = new RoutineSymbol(this.name, this.type, paramsTypes);
-		setSymbol(sym);
+		routineSym = new RoutineSymbol(this.name, this.type, paramsTypes);
 
 		// S11, S12, S15, S16 S17, S18 (All implicit) - Adding routine symbol to symbol table
-		if (!symbols.addSymbol(sym)) {
+		if (!symbols.addSymbol(routineSym)) {
 			SemanticError.addIdentAlreadyDeclaredError(this);
 		}
 

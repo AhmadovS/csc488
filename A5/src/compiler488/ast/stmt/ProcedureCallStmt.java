@@ -7,6 +7,7 @@ import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.Type;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
@@ -113,6 +114,10 @@ public class ProcedureCallStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-	    writer.add();
+	    writer.add(Machine.PUSHMT);
+	    writer.add(Machine.SETD, routineSym.getLexicLevel());
+
+	    //caller lexic level
+
 	}
 }

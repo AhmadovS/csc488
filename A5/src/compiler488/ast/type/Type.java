@@ -17,4 +17,12 @@ public abstract class Type extends AST {
     public void doCodeGen(MachineWriter writer) {
         // Nothing to do here.
     }
+
+    /**
+     * All types have the same lexic-level as their parents.
+     */
+    @Override
+    protected int calculateLexicLevel() {
+        return getParent().getLexicLevel();
+    }
 }

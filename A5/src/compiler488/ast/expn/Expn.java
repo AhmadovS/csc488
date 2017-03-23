@@ -10,7 +10,7 @@ import compiler488.symbol.SymbolTable;
 /**
  * A placeholder for all expressions.
  */
-public class Expn extends AST implements Printable {
+public abstract class Expn extends AST implements Printable {
 	
 	public Type type;
 
@@ -32,5 +32,14 @@ public class Expn extends AST implements Printable {
 	@Override
 	public void doCodeGen(MachineWriter writer) {
 
+	}
+
+	/**
+	 * All expression have the same lexic level as their parents.
+	 * @return Returns lexic-level associated with this node.
+	 */
+	@Override
+	protected final int calculateLexicLevel() {
+		return getParent().getLexicLevel();
 	}
 }

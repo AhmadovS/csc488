@@ -1,5 +1,6 @@
 package compiler488.ast.decl;
 
+import compiler488.codegen.MachineWriter;
 import compiler488.symbol.SymbolTable;
 import compiler488.ast.type.Type;
 
@@ -25,5 +26,10 @@ public class ParameterDecl extends Declaration {
 	@Override
     public void checkSemantics(SymbolTable symbols) {
 	    // Nothing to do here.
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+
 	}
 }

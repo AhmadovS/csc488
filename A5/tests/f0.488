@@ -1,0 +1,6 @@
+{
+    var i : Integer
+    procedure Q {
+        i := 666
+    }
+}

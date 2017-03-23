@@ -22,6 +22,11 @@ public class Program extends Scope {
 	}
 
 	@Override
+	protected final int calculateLexicLevel() {
+	    return 0;
+	}
+
+	@Override
 	public void checkSemantics(SymbolTable symbols) {
 		// S00 - start program scope.
 		symbols.startScope();

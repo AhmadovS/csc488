@@ -9,7 +9,7 @@ import compiler488.symbol.SymbolTable;
  * Generic features of constructs that cannot be expected to print on a single
  * line.
  */
-public class Indentable extends AST {
+public abstract class Indentable extends AST {
 	/**
 	 * Print the whitespace that should appear at the start of the line when
 	 * indenting to this depth.
@@ -66,14 +66,4 @@ public class Indentable extends AST {
 		Indentable.printIndentOnLn(out, depth, this.toString());
 	}
 
-	@Override
-    public void checkSemantics(SymbolTable symbols) {
-		// TODO : make class abstract and remove this
-		
-	}
-
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-		// TODO: make class abstract and remove this
-	}
 }

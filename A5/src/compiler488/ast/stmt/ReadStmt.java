@@ -5,6 +5,7 @@ import compiler488.ast.Readable;
 import compiler488.ast.expn.IdentExpn;
 import compiler488.ast.expn.SubsExpn;
 import compiler488.ast.type.IntegerType;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -59,5 +60,10 @@ public class ReadStmt extends Stmt {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// not implemented yet
 	}
 }

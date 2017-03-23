@@ -12,6 +12,7 @@ public class RoutineSymbol extends Symbol{
 	private Type type;
 	private ASTList<Type> params;
 	private int paramCount;
+	private int lexicLevel;
 	
 	public RoutineSymbol(String name, Type type, ASTList<Type> params){
 		this.name = name;
@@ -62,4 +63,11 @@ public class RoutineSymbol extends Symbol{
 
 	}
 
+	public int getLexicLevel() {
+		return lexicLevel;
+	}
+
+	public void setLexicLevel(int lexicLevel) {
+		this.lexicLevel = lexicLevel;
+	}
 }

@@ -23,4 +23,13 @@ public abstract class DeclarationPart extends AST {
 		this.name = name;
 	}
 
+
+	/**
+	 * All declarations have the same lexic level as their parents.
+	 * @return Returns lexic-level associated with this node.
+	 */
+	@Override
+	protected final int calculateLexicLevel() {
+		return getParent().getLexicLevel();
+	}
 }

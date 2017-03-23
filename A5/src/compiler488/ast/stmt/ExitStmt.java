@@ -5,6 +5,7 @@ import compiler488.ast.AST;
 import compiler488.ast.decl.RoutineDecl;
 import compiler488.ast.expn.*;
 import compiler488.ast.type.BooleanType;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -115,4 +116,8 @@ public class ExitStmt extends Stmt {
 
     }
 
+    @Override
+    public void doCodeGen(MachineWriter writer) {
+        // not implemented yet
+    }
 }

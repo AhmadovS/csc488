@@ -2,8 +2,6 @@ package compiler488.symbol;
 
 import java.util.*;
 import compiler488.DebugTool;
-import compiler488.semantics.SemanticError;
-import org.omg.CORBA.DynAnyPackage.InvalidValue;
 
 /** Symbol Table
  *  This almost empty class is a framework for implementing
@@ -102,10 +100,15 @@ public class SymbolTable {
             return false;
         }
 
+        // if sm is type VariablesSymbols (scalar/array/parameter)
+        // or if it is of type RoutineSymbol, we need to set the lexic-level
+        // and/or order number here.
         if (sm instanceof VariablesSymbol) {
-			((VariablesSymbol) sm).setLexicLevel(calculateLexicLevel());
+			((VariablesSymbol) sm).setLexicLevel(calculateTopScopeLexicLevel());
 			((VariablesSymbol) sm).setOrderNumber(calculateOrderNumber());
-		}
+		} else if (sm instanceof RoutineSymbol) {
+            ((RoutineSymbol) sm).setLexicLevel(calculateTopScopeLexicLevel() + 1);
+        }
 
 		DebugTool.print("Adding symbol: " + sm.toString());
 
@@ -116,7 +119,7 @@ public class SymbolTable {
 	/**
 	 * Calculates lexic-level of top scope.
 	 */
-	private int calculateLexicLevel() {
+	private int calculateTopScopeLexicLevel() {
 		int lexicLevel = 0;
 		ListIterator<ScopeTable> sli = symbolTable.listIterator(symbolTable.size());
 		while(sli.hasPrevious()) {

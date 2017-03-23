@@ -4,6 +4,7 @@ import java.io.PrintStream;
 
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
+import compiler488.codegen.MachineWriter;
 
 /**
  * Represents a loop in which the exit condition is evaluated after each pass.
@@ -32,4 +33,10 @@ public class RepeatUntilStmt extends LoopingStmt {
 		Indentable.printIndentOnLn(out, depth, " until "  + expn );
 
 	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// not implemented yet
+	}
+
 }

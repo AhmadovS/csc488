@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.stmt.Scope;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ParamsSymbol;
 import compiler488.symbol.RoutineSymbol;
@@ -72,13 +73,18 @@ public class RoutineBody extends Indentable {
 	}
 
 	@Override
+	protected final int calculateLexicLevel() {
+	    return getParent().getLexicLevel() + 1;
+	}
+
+	@Override
     public void checkSemantics(SymbolTable symbols) {
 
 		// Note: Parameters don't need semantic check.
 
 		// S04, S08 - Starts function/procedure scope, and
 		// and S13 - associates scope with function/procedure.
-        RoutineSymbol sym = (RoutineSymbol) ((RoutineDecl) getParent()).getSymbol();
+        RoutineSymbol sym = ((RoutineDecl) getParent()).getRoutineSym();
 		symbols.startRoutineScope(sym);
 
             // Adds parameters to the scope
@@ -97,4 +103,9 @@ public class RoutineBody extends Indentable {
 		symbols.exitScope();
 
 	}
+
+    @Override
+    public void doCodeGen(MachineWriter writer) {
+        // not implemented yet
+    }
 }
