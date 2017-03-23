@@ -16,8 +16,6 @@ public abstract class AST {
 	private AST parent = null;
 	private ArrayList<AST> children = new ArrayList<AST>();
 	private LOC loc = new LOC();
-
-	private int lexicLevel = -1;
 	
 	// Getters & Setters
 	
@@ -49,10 +47,7 @@ public abstract class AST {
      * Returns nodes lexic-level.
      */
     public int getLexicLevel() {
-        if (this.lexicLevel == -1) {
-            throw new IllegalStateException("Lexical level is not set");
-        }
-        return this.lexicLevel;
+    	return calculateLexicLevel();
     }
 
     protected abstract int calculateLexicLevel();

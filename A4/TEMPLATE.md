@@ -40,7 +40,7 @@ For all functions and procedures, the bottom four fields (return value, ... , dy
 ## Variable storage 
 Whenever a declaration is reached, we will calculate the required storage at compile time and allocated that amount at run-time by using the schemes below. Since the storage requirements of all variables is known at compile time, the order number of each declared variable is well-defined.
 
-However we also have to note that minor scopes can also contain declarations. Since minor scopes don’t have their own activation record, any declared variable inside of them is allocated on top of the stack, and their order number starts from 1 + the order number of last declaration in the containing lexical level (i.e. the containing major scope).
+However we also have to note that minor scopes can also contain declarations. Since minor scopes don???t have their own activation record, any declared variable inside of them is allocated on top of the stack, and their order number starts from 1 + the order number of last declaration in the containing lexical level (i.e. the containing major scope).
 
 Since, by the time we finish executing any statement, the top element of the stack is guaranteed to be the storage area for the last declared variable (or last array element) for the lexical level that we are in during program execution, we can just allocated storage on top of the stack for any declaration encountered in a minor scope, and be safe that its order number is well-defined, and that storage for the declared variables is not going to be allocated on top of any temporary values on the stack.
 
@@ -101,7 +101,7 @@ Integers will be stored in the word as is. As the integers have a bound of -3276
 Boolean constants are defined in `Machine.java`
 Text constants are pushed onto the stack as needed in reverse order.
 
-Since all values of the above each take a full word (16 bits), we don’t have alignment problems.
+Since all values of the above each take a full word (16 bits), we don???t have alignment problems.
 
 # 2. Expressions
 
