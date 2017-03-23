@@ -3,6 +3,7 @@ package compiler488.ast.expn;
 import compiler488.ast.ASTList;
 import compiler488.ast.type.Type;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
@@ -15,6 +16,7 @@ import java.util.ListIterator;
 public class FunctionCallExpn extends Expn {
 	private String ident; // The name of the function.
 	private ASTList<Expn> arguments; // The arguments passed to the function.
+	private RoutineSymbol routineSymbol;
 	
 	public FunctionCallExpn(String ident, ASTList<Expn> arguments) {
 		this.ident = ident;		
@@ -103,7 +105,37 @@ public class FunctionCallExpn extends Expn {
 
 			// S28 - Set result type to declared function type.
 			this.setType(routineSym.getType());
+			routineSymbol = routineSym;
 		}
 	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		
+		// Emits codes to set display[$L] to starting word of it's (soob to be) activation record
+	    writer.add(Machine.PUSHMT);
+	    writer.add(Machine.SETD, routineSymbol.getLexicLevel());
 
+	    // Emits codes for the four fields of callee's activation record.
+        writer.add(Machine.PUSH, Machine.UNDEFINED); // return value
+        writer.add(Machine.PUSH, Machine.UNDEFINED); // return address
+
+        //
+        short retAddrLoc = writer.startCountingInstruction();
+
+        writer.add(Machine.ADDR, routineSymbol.getLexicLevel() - 1, 0);
+        writer.add(Machine.ADDR, getLexicLevel(), 0);
+
+        // Emits codes for the arguments
+        getArguments().doCodeGen(writer);
+
+        // Emits code to branch to the callee.
+        writer.add(Machine.PUSH, routineSymbol.getBaseAddr());
+        writer.add(Machine.BR);
+
+        // Replaces the return address with the calculated value.
+        short numInstructions = writer.stopCountingInstruction();
+        writer.replace(retAddrLoc, numInstructions + retAddrLoc + 1);
+		
+	}
 }

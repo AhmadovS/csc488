@@ -12,6 +12,7 @@ public class RoutineSymbol extends Symbol {
     private Type type;
     private ASTList<Type> params;
     private int paramCount;
+    private short baseAddr;
 
     public RoutineSymbol(String name, Type type, ASTList<Type> params, int lexicLevel) {
         super(lexicLevel);
@@ -19,6 +20,7 @@ public class RoutineSymbol extends Symbol {
         this.type = type;
         this.params = params;
         this.paramCount = params.size();
+        this.baseAddr = baseAddr;
     }
 
     /**
@@ -28,7 +30,15 @@ public class RoutineSymbol extends Symbol {
     public boolean isFunction() {
         return this.type != null;
     }
-
+    
+    public void setBaseAddr(short baseAddr){
+    	this.baseAddr = baseAddr;
+    }
+    
+    public short getBaseAddr(){
+    	return this.baseAddr;
+    }
+    
     public ASTList<Type> getParams() {
         return this.params;
     }
