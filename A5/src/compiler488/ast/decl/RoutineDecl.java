@@ -94,7 +94,7 @@ public class RoutineDecl extends Declaration {
 		    paramsTypes.addLast(param.getType());
 		}
 
-		routineSym = new RoutineSymbol(this.name, this.type, paramsTypes);
+		routineSym = new RoutineSymbol(this.name, this.type, paramsTypes, getRoutineBody().getLexicLevel());
 
 		// S11, S12, S15, S16 S17, S18 (All implicit) - Adding routine symbol to symbol table
 		if (!symbols.addSymbol(routineSym)) {

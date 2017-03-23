@@ -91,7 +91,7 @@ public class RoutineBody extends Indentable {
             ListIterator<ParameterDecl> typeli = this.parameters.getIterator();
             while (typeli.hasNext()) {
                 ParameterDecl param = typeli.next();
-                if (!symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType()))) {
+                if (!symbols.addSymbol(new ParamsSymbol(param.getName(), param.getType(), getLexicLevel()))) {
 					SemanticError.addIdentAlreadyDeclaredError(this);
 				}
             }
