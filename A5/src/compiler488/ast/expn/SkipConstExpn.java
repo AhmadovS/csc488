@@ -1,6 +1,8 @@
 package compiler488.ast.expn;
 
 import compiler488.ast.Printable;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 
 /**
  * Represents the special literal constant associated with writing a new-line
@@ -11,5 +13,10 @@ public class SkipConstExpn extends ConstExpn implements Printable {
 	@Override
 	public String toString() {
 		return "\n";
+	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+        writer.add(Machine.PUSH, 10);
 	}
 }
