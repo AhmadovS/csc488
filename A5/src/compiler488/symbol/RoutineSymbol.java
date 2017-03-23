@@ -6,68 +6,60 @@ import compiler488.ast.type.Type;
 import java.util.ListIterator;
 
 
-public class RoutineSymbol extends Symbol{
-	
-	private String name;
-	private Type type;
-	private ASTList<Type> params;
-	private int paramCount;
-	private int lexicLevel;
-	
-	public RoutineSymbol(String name, Type type, ASTList<Type> params){
-		this.name = name;
-		this.type = type;
-		this.params = params;
-		this.paramCount = params.size();
-	}
+public class RoutineSymbol extends Symbol {
 
-	/**
-	 * Returns true of identifier is a function
-	 * false otherwise.
-	 */
-	public boolean isFunction() {
-		return this.type != null;
-	}
-	
-	public ASTList<Type> getParams(){
-		return this.params;
-	}
+    private String name;
+    private Type type;
+    private ASTList<Type> params;
+    private int paramCount;
 
-	public int getParamCount() {
-		return this.paramCount;
-	}
-	
-	public void setParams(ASTList<Type> params){
-		this.params = params;
-		this.paramCount = params.size();
-	}
+    public RoutineSymbol(String name, Type type, ASTList<Type> params) {
+        this.name = name;
+        this.type = type;
+        this.params = params;
+        this.paramCount = params.size();
+    }
 
-	@Override
-	public String getName() {
-		return this.name;
-	}
+    /**
+     * Returns true of identifier is a function
+     * false otherwise.
+     */
+    public boolean isFunction() {
+        return this.type != null;
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    public ASTList<Type> getParams() {
+        return this.params;
+    }
 
-	@Override
-	public Type getType() {
-		return this.type;
-	}
+    public int getParamCount() {
+        return this.paramCount;
+    }
 
-	@Override
-	public void setType(Type type) {
-		this.type = type;
+    public void setParams(ASTList<Type> params) {
+        this.params = params;
+        this.paramCount = params.size();
+    }
 
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	public int getLexicLevel() {
-		return lexicLevel;
-	}
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setLexicLevel(int lexicLevel) {
-		this.lexicLevel = lexicLevel;
-	}
+    @Override
+    public Type getType() {
+        return this.type;
+    }
+
+    @Override
+    public void setType(Type type) {
+        this.type = type;
+
+    }
 }
+

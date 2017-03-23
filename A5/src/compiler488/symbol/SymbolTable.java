@@ -100,15 +100,15 @@ public class SymbolTable {
             return false;
         }
 
-        // if sm is type VariablesSymbols (scalar/array/parameter)
-        // or if it is of type RoutineSymbol, we need to set the lexic-level
-        // and/or order number here.
-        if (sm instanceof VariablesSymbol) {
-			((VariablesSymbol) sm).setLexicLevel(calculateTopScopeLexicLevel());
-			((VariablesSymbol) sm).setOrderNumber(calculateOrderNumber());
-		} else if (sm instanceof RoutineSymbol) {
-            ((RoutineSymbol) sm).setLexicLevel(calculateTopScopeLexicLevel() + 1);
-        }
+//        // if sm is type VariablesSymbols (scalar/array/parameter)
+//        // or if it is of type RoutineSymbol, we need to set the lexic-level
+//        // and/or order number here.
+//        if (sm instanceof VariablesSymbol) {
+//			((VariablesSymbol) sm).setLexicLevel(calculateTopScopeLexicLevel());
+//			((VariablesSymbol) sm).setOrderNumber(calculateOrderNumber());
+//		} else if (sm instanceof RoutineSymbol) {
+//            ((RoutineSymbol) sm).setLexicLevel(calculateTopScopeLexicLevel() + 1);
+//        }
 
 		DebugTool.print("Adding symbol: " + sm.toString());
 
@@ -116,22 +116,22 @@ public class SymbolTable {
         return true;
 	}
 
-	/**
-	 * Calculates lexic-level of top scope.
-	 */
-	private int calculateTopScopeLexicLevel() {
-		int lexicLevel = 0;
-		ListIterator<ScopeTable> sli = symbolTable.listIterator(symbolTable.size());
-		while(sli.hasPrevious()) {
-			ScopeTable scopeTable = sli.previous();
-			if (scopeTable.owner != null) {
-				// Increments lexic-level only for functions/procedures.
-				lexicLevel++;
-			}
-		}
-
-		return lexicLevel;
-	}
+//	/**
+//	 * Calculates lexic-level of top scope.
+//	 */
+//	private int calculateTopScopeLexicLevel() {
+//		int lexicLevel = 0;
+//		ListIterator<ScopeTable> sli = symbolTable.listIterator(symbolTable.size());
+//		while(sli.hasPrevious()) {
+//			ScopeTable scopeTable = sli.previous();
+//			if (scopeTable.owner != null) {
+//				// Increments lexic-level only for functions/procedures.
+//				lexicLevel++;
+//			}
+//		}
+//
+//		return lexicLevel;
+//	}
 
 	/**
 	 * Calculates the order number of new {@link VariablesSymbol}.
