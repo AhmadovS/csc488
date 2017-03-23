@@ -1,6 +1,9 @@
 package compiler488.ast.expn;
 
+import compiler488.ast.OPSYMBOL;
 import compiler488.ast.type.*;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -13,6 +16,20 @@ public class EqualsExpn extends BinaryExpn {
 	public EqualsExpn(String opSymbol, Expn left, Expn right) {
     	super(opSymbol, left, right);
     }
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		this.getLeft().doCodeGen(writer);
+		this.getRight().doCodeGen(writer);
+		writer.add(Machine.EQ);
+
+		switch(this.getOpSymbol()) {
+			case OPSYMBOL.NOT_EQUALS:
+				writer.add(Machine.MACHINE_FALSE);
+				writer.add(Machine.EQ);
+				break;
+		}
+	}
 	
 	public void checkSemantics(SymbolTable symbols) {
 

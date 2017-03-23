@@ -1,0 +1,13 @@
+{
+	var a, b, c: Integer
+	var r[4]: Boolean
+
+	a := 416
+	b := 905
+	c := -416
+
+	r[1] := (a = b)			% false
+	r[2] := (a not = b)		% true
+	r[3] := (a = c)			% false
+	r[4] := (a = -c)		% true
+}

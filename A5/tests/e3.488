@@ -1,0 +1,12 @@
+{
+    var a, b : Integer
+    var c, d, e, f : Integer
+
+    a := 416
+    b := 10
+
+    c := a + b % 426
+    d := a - b % 406
+    e := a * b % 4160
+    f := a / b % 41
+}

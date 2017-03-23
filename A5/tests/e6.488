@@ -1,0 +1,13 @@
+{
+	var a, b: Integer
+	var r[5]: Boolean
+
+	a := 416
+	b := 400
+
+	r[1] := a < b 			% false
+	r[2] := b < a 			% true
+	r[3] := a <= (b+16)		% true
+	r[4] := (b+16) >= a		% true
+	r[5] := (b+10) >= a		% false
+}

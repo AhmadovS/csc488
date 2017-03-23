@@ -2,6 +2,8 @@ package compiler488.ast.expn;
 
 import compiler488.ast.OPSYMBOL;
 import compiler488.ast.type.*;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -15,6 +17,29 @@ public class CompareExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// Get operation symbol
+		String op = this.getOpSymbol();
+		// Order the memory load based on operator
+		if(op.equals(OPSYMBOL.LESS_THAN) || op.equals(OPSYMBOL.LESS_THAN_EQUALS)) {
+			this.getLeft().doCodeGen(writer);
+			this.getRight().doCodeGen(writer);			
+		} else {
+			this.getRight().doCodeGen(writer);
+			this.getLeft().doCodeGen(writer);
+		}
+		// Perform less than
+		writer.add(Machine.LT);
+		// If also equal too, then also check for it
+		if(op.equals(OPSYMBOL.LESS_THAN_EQUALS) || op.equals(OPSYMBOL.GREATER_THAN_EQUALS)) {
+			this.getLeft().doCodeGen(writer);
+			this.getRight().doCodeGen(writer);
+			writer.add(Machine.EQ);
+			writer.add(Machine.OR);
+		}
+	}
+	
 	public void checkSemantics(SymbolTable symbols) {
 
 		// Semantics check on children must be performed before getting their type.

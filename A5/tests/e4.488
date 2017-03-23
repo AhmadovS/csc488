@@ -1,0 +1,14 @@
+{
+	var a[4]: Boolean
+	var b[4]: Boolean
+
+	a[1] := true and true		% true
+	a[2] := true and false		% false
+	a[3] := false and true		% false
+	a[4] := false and false		% false
+
+	b[1] := true or true		% true
+	b[2] := true or false		% true
+	b[3] := false or true		% true
+	b[4] := false or false		% false
+}

@@ -1,6 +1,9 @@
 package compiler488.ast.expn;
 
+import compiler488.ast.OPSYMBOL;
 import compiler488.ast.type.IntegerType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -13,6 +16,27 @@ public class ArithExpn extends BinaryExpn {
 	public ArithExpn(String opSymbol, Expn left, Expn right) {
     	super(opSymbol, left, right);
     }
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		this.getLeft().doCodeGen(writer);
+		this.getRight().doCodeGen(writer);
+		
+		switch(this.getOpSymbol()) {
+			case OPSYMBOL.PLUS:
+				writer.add(Machine.ADD);
+				break;
+			case OPSYMBOL.MINUS:
+				writer.add(Machine.SUB);
+				break;
+			case OPSYMBOL.TIMES:
+				writer.add(Machine.MUL);
+				break;
+			case OPSYMBOL.DIVIDE:
+				writer.add(Machine.DIV);
+				break;
+		}
+	}
 	
 	public void checkSemantics(SymbolTable symbols) {
 
