@@ -106,6 +106,8 @@ public class RoutineBody extends Indentable {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
-        // not implemented yet
+        // update the display
+
+        body.doCodeGen(writer);
     }
 }

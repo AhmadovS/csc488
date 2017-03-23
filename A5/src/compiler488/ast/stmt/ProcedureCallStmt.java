@@ -122,11 +122,13 @@ public class ProcedureCallStmt extends Stmt {
         writer.add(Machine.PUSH, Machine.UNDEFINED); // return value
         writer.add(Machine.PUSH, Machine.UNDEFINED); // return address
 
-        //
+        // start counting how many instructions are added,
+        // in order to calculate where to branch to when the
+        // called procedure returns
         short retAddrLoc = writer.startCountingInstruction();
 
-        writer.add(Machine.ADDR, routineSym.getLexicLevel() - 1, 0);
-        writer.add(Machine.ADDR, getLexicLevel(), 0);
+        writer.add(Machine.ADDR, routineSym.getLexicLevel() - 1, 0); // static link
+        writer.add(Machine.ADDR, getLexicLevel(), 0); // dynamic link
 
         // Emits codes for the arguments
         getArguments().doCodeGen(writer);

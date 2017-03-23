@@ -59,9 +59,17 @@ public final class MachineWriter {
     }
 
     /**
+     *
+     * @return
+     */
+    public short getNextAddr() {
+        return nextAddr;
+    }
+
+    /**
      * Simple method for writing instructions to the next
      * available free memory slot.
-     * @param values values to write to the memory.
+     * @param values values to write to the memory (from left to right).
      */
     public void add(short... values) {
         if (values.length == 0) {
@@ -85,7 +93,7 @@ public final class MachineWriter {
     /**
      * Convenience method.
      * Same as add(short... values), but casts ints to shorts.
-     * @param values
+     * @param values values to write to memory (from left to right).
      */
     public void add(int... values) {
         for (int val : values) {
