@@ -7,6 +7,7 @@ import compiler488.ast.expn.SubsExpn;
 import compiler488.codegen.MachineWriter;
 import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
+import compiler488.symbol.ArraysSymbol;
 import compiler488.symbol.SymbolTable;
 import compiler488.symbol.VariablesSymbol;
 
@@ -84,13 +85,26 @@ public class AssignStmt extends Stmt {
     @Override
     public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
 
+	    // NOTE: we don't need to call doCodeGen on lval.
+        // we only need to be able to get the address of symbol
+        // it's referring to.
+
         // Emit code for address of LHS
         writer.add(Machine.ADDR, lVarSym.getLexicLevel(), lVarSym.getOrderNumber());
+        if (lval instanceof SubsExpn) {
+			// Emits the code for index expression
+			((SubsExpn) lval).getOperand().doCodeGen(symbols, writer);
+			writer.add(Machine.PUSH, ((ArraysSymbol) lVarSym).getLowerBound());
+			writer.add(Machine.SUB);
+			writer.add(Machine.ADD);
+            // at this point variable element addr should be on
+            // top of the run-time stack.
+		}
 
 	    // Emit the code for rval
 	    rval.doCodeGen(symbols, writer);
 
-	    // Stacks should looks like following
+	    // Stacks should look like following at this point.
         //  ------------
         //  |    msp   |
         //  | rhs val  |

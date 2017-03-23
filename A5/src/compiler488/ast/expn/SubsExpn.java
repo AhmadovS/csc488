@@ -5,6 +5,8 @@ import compiler488.ast.OPSYMBOL;
 import compiler488.ast.Readable;
 import compiler488.ast.type.ArrayType;
 import compiler488.ast.type.IntegerType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ArraysSymbol;
 import compiler488.symbol.Symbol;
@@ -19,6 +21,7 @@ import compiler488.symbol.SymbolTable;
 public class SubsExpn extends UnaryExpn implements Readable {
 	
 	private String variable; // name of the array variable
+    private ArraysSymbol arraySym;
 	
     public SubsExpn(Expn operand, String variable) {
     	super(OPSYMBOL.SUB, operand);
@@ -60,6 +63,25 @@ public class SubsExpn extends UnaryExpn implements Readable {
             }
             // S27 - Set result type to type of the array element.
             this.setType(((ArrayType) sm.getType()).getElementType());
+
+            // Store arraySym for code-generation
+            arraySym = (ArraysSymbol) sm;
         }
+	}
+
+	@Override
+	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	    // follows array indexing template
+		writer.add(Machine.ADDR, arraySym.getLexicLevel(), arraySym.getOrderNumber());
+
+		// Emits the code for index expression
+        getOperand().doCodeGen(symbols, writer);
+
+        writer.add(Machine.PUSH, arraySym.getLowerBound());
+        writer.add(Machine.SUB);
+        writer.add(Machine.ADD);
+        writer.add(Machine.LOAD);
+
+        // Value of SubsExpn should now be on top of stack.
 	}
 }
