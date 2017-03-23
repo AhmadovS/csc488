@@ -1,0 +1,6 @@
+{
+  var i,j : Integer
+  j := 	2
+  i := j
+  
+} 

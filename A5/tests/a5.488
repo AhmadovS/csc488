@@ -1,0 +1,6 @@
+{
+  var a, b[2] : Boolean
+  a := true
+  b[1] := a
+  b[2] :=false
+} 

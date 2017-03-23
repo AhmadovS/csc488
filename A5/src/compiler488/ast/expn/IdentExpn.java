@@ -2,16 +2,20 @@ package compiler488.ast.expn;
 
 import compiler488.DebugTool;
 import compiler488.ast.Readable;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ArraysSymbol;
 import compiler488.symbol.Symbol;
 import compiler488.symbol.SymbolTable;
+import compiler488.symbol.VariablesSymbol;
 
 /**
  *  References to a scalar variable.
  */
 public class IdentExpn extends Expn implements Readable {
     private String ident;  	// name of the identifier
+    private VariablesSymbol varSym;
     
     public IdentExpn(String ident) {
     	this.ident = ident;
@@ -40,9 +44,17 @@ public class IdentExpn extends Expn implements Readable {
 		Symbol sym = symbols.getSymbol(this.getIdent());
 		if (sym != null) {
 			this.setType(sym.getType());
+			varSym = (VariablesSymbol)sym;
 		} else {
 			SemanticError.addIdentNotDeclaredError(this);
 		}
 //		DebugTool.print("IdentExpn: " + sym.toString());
+	}
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		
+		writer.add(Machine.ADDR, varSym.getLexicLevel(), varSym.getOrderNumber());
+		writer.add(Machine.LOAD);
+
 	}
 }
