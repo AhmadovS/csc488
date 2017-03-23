@@ -13,7 +13,9 @@ public final class MachineWriter {
     private static MachineWriter _instance;
 
     // Next available free memory address on the machine to write to.
-    private static short nextAddr = 0;
+    private short nextAddr = 0;
+    private boolean isCountingInstructions;
+    private short instructionCounter;
 
     private MachineWriter() {}
 
@@ -22,6 +24,40 @@ public final class MachineWriter {
             _instance = new MachineWriter();
         }
         return _instance;
+    }
+
+    /**
+     *
+     * @return Returns the address of last instruction written to memory.
+     */
+    public short startCountingInstruction() {
+        if (isCountingInstructions) {
+            throw new IllegalStateException("Already called startCountingInstructions");
+        }
+        isCountingInstructions = true;
+        instructionCounter = 0;
+        return (short) (nextAddr - 1);
+    }
+
+    public short stopCountingInstruction() {
+        if (!isCountingInstructions) {
+            throw new IllegalStateException("Instruction counting has not beed started");
+        }
+        isCountingInstructions = false;
+        return instructionCounter;
+    }
+
+    /**
+     * Replaces 
+     * @param address
+     * @param value
+     */
+    public void replace(int address, int value) {
+        try {
+            Machine.writeMemory((short) address, (short) value);
+        } catch (MemoryAddressException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -37,6 +73,9 @@ public final class MachineWriter {
         // Writes all the values to the machine memory
         for (short val : values) {
             try {
+                if (isCountingInstructions) {
+                    instructionCounter++;
+                }
                 Machine.writeMemory(nextAddr, val);
             } catch (MemoryAddressException e) {
                 e.printStackTrace();

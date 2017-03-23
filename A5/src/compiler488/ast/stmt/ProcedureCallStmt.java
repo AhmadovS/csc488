@@ -119,8 +119,12 @@ public class ProcedureCallStmt extends Stmt {
 	    writer.add(Machine.SETD, routineSym.getLexicLevel());
 
 	    // Emits codes for the four fields of callee's activation record.
-        writer.add(Machine.PUSH, Machine.UNDEFINED);
-//        writer.add(Machine.PUSH, $returnAddresss);
+        writer.add(Machine.PUSH, Machine.UNDEFINED); // return value
+        writer.add(Machine.PUSH, Machine.UNDEFINED); // return address
+
+        //
+        short retAddrLoc = writer.startCountingInstruction();
+
         writer.add(Machine.ADDR, routineSym.getLexicLevel() - 1, 0);
         writer.add(Machine.ADDR, getLexicLevel(), 0);
 
@@ -128,7 +132,12 @@ public class ProcedureCallStmt extends Stmt {
         getArguments().doCodeGen(writer);
 
         // Emits code to branch to the callee.
-//        writer.add(Machine.BR, $calleCodeSegment);
+        writer.add(Machine.PUSH, routineSym.getBaseAddr());
+        writer.add(Machine.BR);
+
+        // Replaces the return address with the calculated value.
+        short numInstructions = writer.stopCountingInstruction();
+        writer.replace(retAddrLoc, numInstructions + retAddrLoc + 1);
 
 
 	}
