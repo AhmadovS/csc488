@@ -91,7 +91,12 @@ public class AssignStmt extends Stmt {
 
         // Emit code for address of LHS
         writer.add(Machine.ADDR, lVarSym.getLexicLevel(), lVarSym.getOrderNumber());
+
         if (lval instanceof SubsExpn) {
+        	// Since we only want the address of lval, if it is of type SubsExpn
+			// we calcuate the addr of SubExpn here.
+			// Calling codegen on SubsExpn loads the values for that SubsExpn onto stack.
+			// So we don't call it here.
 			// Emits the code for index expression
 			((SubsExpn) lval).getOperand().doCodeGen(symbols, writer);
 			writer.add(Machine.PUSH, ((ArraysSymbol) lVarSym).getLowerBound());
