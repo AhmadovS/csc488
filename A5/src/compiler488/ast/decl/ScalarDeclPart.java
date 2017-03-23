@@ -27,7 +27,7 @@ public class ScalarDeclPart extends DeclarationPart {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 		// Nothing to do here.
 	}
 }

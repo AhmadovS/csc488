@@ -98,7 +98,7 @@ public class RoutineDecl extends Declaration {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 	    // not implemented yet
 	}
 }

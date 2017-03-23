@@ -70,12 +70,12 @@ public class SubsExpn extends UnaryExpn implements Readable {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 	    // follows array indexing template
 		writer.add(Machine.ADDR, arraySym.getLexicLevel(), arraySym.getOrderNumber());
 
 		// Emits the code for index expression
-        getOperand().doCodeGen(symbols, writer);
+        getOperand().doCodeGen(writer);
 
         writer.add(Machine.PUSH, arraySym.getLowerBound());
         writer.add(Machine.SUB);

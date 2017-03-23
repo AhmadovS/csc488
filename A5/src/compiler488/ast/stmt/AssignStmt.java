@@ -83,11 +83,13 @@ public class AssignStmt extends Stmt {
 	}
 
     @Override
-    public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+    public void doCodeGen(MachineWriter writer) {
 
 	    // NOTE: we don't need to call doCodeGen on lval.
         // we only need to be able to get the address of symbol
         // it's referring to.
+        // The proper pay would be for SubsExpn to walk the AST to understand
+        // which if its RHS or LHS. The 488 language is too simple to bother with that.
 
         // Emit code for address of LHS
         writer.add(Machine.ADDR, lVarSym.getLexicLevel(), lVarSym.getOrderNumber());
@@ -98,7 +100,7 @@ public class AssignStmt extends Stmt {
 			// Calling codegen on SubsExpn loads the values for that SubsExpn onto stack.
 			// So we don't call it here.
 			// Emits the code for index expression
-			((SubsExpn) lval).getOperand().doCodeGen(symbols, writer);
+			((SubsExpn) lval).getOperand().doCodeGen(writer);
 			writer.add(Machine.PUSH, ((ArraysSymbol) lVarSym).getLowerBound());
 			writer.add(Machine.SUB);
 			writer.add(Machine.ADD);
@@ -107,7 +109,7 @@ public class AssignStmt extends Stmt {
 		}
 
 	    // Emit the code for rval
-	    rval.doCodeGen(symbols, writer);
+	    rval.doCodeGen(writer);
 
 	    // Stacks should look like following at this point.
         //  ------------

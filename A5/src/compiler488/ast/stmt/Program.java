@@ -32,7 +32,7 @@ public class Program extends Scope {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 
 		// Program initialization
         writer.add(Machine.PUSHMT);    // base address of main scope activation record.
@@ -42,10 +42,10 @@ public class Program extends Scope {
         writer.add(Machine.DUPN);
 
 		// Codegen for declarations
-		getDeclarations().doCodeGen(symbols, writer);
+		getDeclarations().doCodeGen(writer);
 
 		// Codegen for statements
-		getStatements().doCodeGen(symbols, writer);
+		getStatements().doCodeGen(writer);
 
 		// Halt.
 		writer.add(Machine.HALT);

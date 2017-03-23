@@ -1,6 +1,5 @@
 package compiler488.ast.expn;
 
-import compiler488.DebugTool;
 import compiler488.ast.type.IntegerType;
 import compiler488.codegen.MachineWriter;
 import compiler488.runtime.Machine;
@@ -38,7 +37,7 @@ public class IntConstExpn extends ConstExpn {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
         writer.add(Machine.PUSH, value);
 	}
 }

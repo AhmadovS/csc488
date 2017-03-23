@@ -37,7 +37,7 @@ public class BoolConstExpn extends ConstExpn {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 		writer.add(Machine.PUSH, value ? Machine.MACHINE_TRUE : Machine.MACHINE_FALSE);
 	}
 }

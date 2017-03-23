@@ -1,7 +1,6 @@
 package compiler488.compiler;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import compiler488.codegen.MachineWriter;
@@ -13,8 +12,6 @@ import compiler488.semantics.Semantics;
 import compiler488.symbol.SymbolTable;
 import compiler488.codegen.CodeGen;
 import compiler488.runtime.*;
-
-import javax.sound.midi.SysexMessage;
 
 /** This class serves as the main driver for the CSC488S compiler.<BR>
  *  It accepts user options and coordinates overall control flow.
@@ -521,7 +518,7 @@ public class Main {
 
       	// AST performs the code generations.
         MachineWriter writer = MachineWriter.getInstance();
-		programAST.doCodeGen(symbolTable, writer);
+		programAST.doCodeGen(writer);
 		writer.finishedWriting();
 
 

@@ -106,7 +106,7 @@ public class Scope extends Stmt {
     }
 
     @Override
-    public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+    public void doCodeGen(MachineWriter writer) {
 
     }
 

@@ -45,6 +45,6 @@ public abstract class AST {
 
 	abstract public void checkSemantics(SymbolTable symbols);
 
-	abstract public void doCodeGen(SymbolTable symbols, MachineWriter writer);
+	abstract public void doCodeGen(MachineWriter writer);
 
 }

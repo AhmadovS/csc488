@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import compiler488.ast.ASTList;
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.Type;
+import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
@@ -17,6 +18,8 @@ public class ProcedureCallStmt extends Stmt {
 	private String name; // The name of the procedure being called.
 
 	private ASTList<Expn> arguments; // The arguments passed to the procedure.
+
+	private RoutineSymbol routineSym;
 
 	public ProcedureCallStmt(String name, ASTList<Expn> arguments){
 		this.name = name;
@@ -59,8 +62,6 @@ public class ProcedureCallStmt extends Stmt {
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
-
-	    RoutineSymbol routineSym = null;
 
 	    try {
 	        routineSym = (RoutineSymbol) symbols.getSymbol(this.getName());
@@ -108,5 +109,10 @@ public class ProcedureCallStmt extends Stmt {
             }
         }
 
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+	    writer.add();
 	}
 }

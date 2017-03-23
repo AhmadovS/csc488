@@ -73,11 +73,11 @@ public class ASTList<E> extends AST {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 	    ListIterator li = this.getIterator();
 	    while(li.hasNext()) {
 	    	AST item = (AST) li.next();
-	    	item.doCodeGen(symbols, writer);
+	    	item.doCodeGen(writer);
 		}
 	}
 

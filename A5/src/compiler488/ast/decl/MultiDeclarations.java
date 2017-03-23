@@ -94,7 +94,7 @@ public class MultiDeclarations extends Declaration {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 	    ListIterator<DeclarationPart> li = getElements().getIterator();
 
 	    // Iterates over all the declarations.

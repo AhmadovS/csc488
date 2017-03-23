@@ -73,7 +73,7 @@ public class Indentable extends AST {
 	}
 
 	@Override
-	public void doCodeGen(SymbolTable symbols, MachineWriter writer) {
+	public void doCodeGen(MachineWriter writer) {
 		// TODO: make class abstract and remove this
 	}
 }
