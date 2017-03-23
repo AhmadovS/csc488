@@ -2,6 +2,8 @@ package compiler488.ast.expn;
 
 import compiler488.ast.OPSYMBOL;
 import compiler488.ast.type.IntegerType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -12,6 +14,13 @@ public class UnaryMinusExpn extends UnaryExpn {
 
 	public UnaryMinusExpn(Expn operand) {
 		super(OPSYMBOL.MINUS, operand);
+	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		this.getOperand().doCodeGen(writer);
+		writer.add(Machine.PUSH, -1);
+		writer.add(Machine.MUL);
 	}
 
 	@Override

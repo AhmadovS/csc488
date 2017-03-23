@@ -1,0 +1,5 @@
+{
+    var a : Boolean
+    a := true
+    a := not a
+}

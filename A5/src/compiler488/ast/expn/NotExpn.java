@@ -2,6 +2,8 @@ package compiler488.ast.expn;
 
 import compiler488.ast.OPSYMBOL;
 import compiler488.ast.type.BooleanType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -13,6 +15,13 @@ public class NotExpn extends UnaryExpn {
     public NotExpn(Expn operand) {
     	super(OPSYMBOL.NOT, operand);
     }
+    
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		this.getOperand().doCodeGen(writer);
+		writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+		writer.add(Machine.EQ);
+	}
 
     @Override
     public void checkSemantics(SymbolTable symbols) {
