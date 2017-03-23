@@ -108,8 +108,6 @@ public class RoutineDecl extends Declaration {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-	    // Sets the base address of the routine instructions
-	    routineSym.setBaseAddr(writer.getNextAddr());
 
 	    writer.add(Machine.PUSH, Machine.UNDEFINED);
 
@@ -117,6 +115,9 @@ public class RoutineDecl extends Declaration {
 	    
 	    writer.add(Machine.BR);
 
+	    // Sets the base address of the routine instructions
+	    routineSym.setBaseAddr(writer.getNextAddr());
+	    
 	    // Nothing else to do here, just call routine body
 	    getRoutineBody().doCodeGen(writer);
 

@@ -107,6 +107,11 @@ public class Scope extends Stmt {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
+    	// Codegen for declarations
+    	getDeclarations().doCodeGen(writer);
+
+    	// Codegen for statements
+    	getStatements().doCodeGen(writer);
 
     }
 
