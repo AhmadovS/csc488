@@ -77,14 +77,14 @@ public class MultiDeclarations extends Declaration {
 
 			if (decl instanceof ScalarDeclPart) {
 				// S10, S47 - Declare scalar variable, Associate type with variable
-				VariablesSymbol sm = new VariablesSymbol(decl.getName(), this.getType());
+				VariablesSymbol sm = new VariablesSymbol(decl.getName(), this.getType(), this.getLexicLevel());
 				if (!symbols.addSymbol(sm)) {
 				    SemanticError.addIdentAlreadyDeclaredError(this);
                 }
 			} else if (decl instanceof ArrayDeclPart) {
 			    // S19, S48 - Declare array varialbe with specified lower and upper bounds.
 			    ArrayDeclPart arrayDecl = (ArrayDeclPart) decl;
-				ArraysSymbol sm = new ArraysSymbol(arrayDecl.getName(), this.getType(), arrayDecl.getLowerBoundary(), arrayDecl.getLowerBoundary(), arrayDecl.getSize());
+				ArraysSymbol sm = new ArraysSymbol(arrayDecl.getName(), this.getType(), arrayDecl.getLowerBoundary(), arrayDecl.getLowerBoundary(), arrayDecl.getSize(), this.getLexicLevel());
 				if (!symbols.addSymbol(sm)) {
                     SemanticError.addIdentAlreadyDeclaredError(this);
                 }
