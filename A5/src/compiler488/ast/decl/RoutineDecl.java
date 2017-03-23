@@ -107,6 +107,6 @@ public class RoutineDecl extends Declaration {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-	    // not implemented yet
+	    // generate the code for routine
 	}
 }

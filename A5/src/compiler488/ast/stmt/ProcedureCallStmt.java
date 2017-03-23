@@ -114,10 +114,22 @@ public class ProcedureCallStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+	    // Emits codes to set display[$L] to starting word of it's (soob to be) activation record
 	    writer.add(Machine.PUSHMT);
 	    writer.add(Machine.SETD, routineSym.getLexicLevel());
 
-	    //caller lexic level
+	    // Emits codes for the four fields of callee's activation record.
+        writer.add(Machine.PUSH, Machine.UNDEFINED);
+//        writer.add(Machine.PUSH, $returnAddresss);
+        writer.add(Machine.ADDR, routineSym.getLexicLevel() - 1, 0);
+        writer.add(Machine.ADDR, getLexicLevel(), 0);
+
+        // Emits codes for the arguments
+        getArguments().doCodeGen(writer);
+
+        // Emits code to branch to the callee.
+//        writer.add(Machine.BR, $calleCodeSegment);
+
 
 	}
 }
