@@ -10,14 +10,22 @@ import compiler488.ast.type.Type;
  *
  */
 public abstract class Symbol{
+
+	private int lexicLevel;
 	
-	public Symbol(){}
+	public Symbol(int lexicLevel){
+		this.lexicLevel = lexicLevel;
+	}
 	
 	public abstract String getName();
 	public abstract Type getType();
 	
 	public abstract void setName(String name);
 	public abstract void setType(Type type);
+
+	public int getLexicLevel() {
+		return lexicLevel;
+	}
 
 	@Override
 	public String toString() {

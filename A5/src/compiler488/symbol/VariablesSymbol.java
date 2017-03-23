@@ -8,7 +8,8 @@ public class VariablesSymbol extends Symbol{
 	private Type type;
 	private int orderNumber;
 
-	public VariablesSymbol(String name, Type type){
+	public VariablesSymbol(String name, Type type, int lexicLevel){
+		super(lexicLevel);
 		this.name = name;
 		this.type = type;
 	}

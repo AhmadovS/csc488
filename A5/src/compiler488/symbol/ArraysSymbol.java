@@ -9,8 +9,8 @@ public class ArraysSymbol extends VariablesSymbol{
 	private int upperBound;
 	private int size;
 
-	public ArraysSymbol(String name, Type elementType, int lb, int up, int size) {
-		super(name, new ArrayType(elementType));
+	public ArraysSymbol(String name, Type elementType, int lb, int up, int size, int lexicLevel) {
+		super(name, new ArrayType(elementType), lexicLevel);
 		this.lowerBound = lb;
 		this.upperBound = up;
 		this.size = size;

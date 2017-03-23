@@ -13,7 +13,8 @@ public class RoutineSymbol extends Symbol {
     private ASTList<Type> params;
     private int paramCount;
 
-    public RoutineSymbol(String name, Type type, ASTList<Type> params) {
+    public RoutineSymbol(String name, Type type, ASTList<Type> params, int lexicLevel) {
+        super(lexicLevel);
         this.name = name;
         this.type = type;
         this.params = params;
