@@ -5,5 +5,28 @@
         i := 666
     }
 
+    var j : Integer
+
     Q
 }
+
+% // very beginnig
+% SETD0
+% PUSH UNDEFINED
+% PUSH2
+% DUPN
+% PUSH UNDEFINED i
+
+% PUSH line 8
+% BR
+
+% i := 666 // code for Q
+% // BR back to returnaddR
+
+% // start acivation record
+% PUSH addr of Q
+% BR
+
+% PUSH addr of Q
+% BR
+

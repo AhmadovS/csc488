@@ -7,6 +7,7 @@ import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.type.Type;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
@@ -110,7 +111,16 @@ public class RoutineDecl extends Declaration {
 	    // Sets the base address of the routine instructions
 	    routineSym.setBaseAddr(writer.getNextAddr());
 
+	    writer.add(Machine.PUSH, Machine.UNDEFINED);
+
+	    short undefinedAddr = writer.startCountingInstruction();
+	    
+	    writer.add(Machine.BR);
+
 	    // Nothing else to do here, just call routine body
 	    getRoutineBody().doCodeGen(writer);
+
+	    short routineBodyLength = writer.stopCountingInstruction();
+        writer.replace(undefinedAddr, undefinedAddr + routineBodyLength + 1);
 	}
 }
