@@ -7,6 +7,7 @@ import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
 import compiler488.ast.stmt.Scope;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.ParamsSymbol;
 import compiler488.symbol.RoutineSymbol;
@@ -106,7 +107,13 @@ public class RoutineBody extends Indentable {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
-        // update the display
+        // runs the rest of the display update algorithm
+        int L = getLexicLevel();
+        while (L > 0) {
+            writer.add(Machine.ADDR, L, 2);
+            writer.add(Machine.SETD, L - 1);
+            L--;
+        }
 
         body.doCodeGen(writer);
     }

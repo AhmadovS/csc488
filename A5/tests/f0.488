@@ -1,10 +1,9 @@
 {
     var i : Integer
 
-    % procedure Q {
-    %     i := 666
-    % }
+    procedure Q {
+        i := 666
+    }
 
-    % Q
-    i := 666
+    Q
 }
