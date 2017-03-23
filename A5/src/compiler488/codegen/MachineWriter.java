@@ -48,9 +48,7 @@ public final class MachineWriter {
     }
 
     /**
-     * Replaces 
-     * @param address
-     * @param value
+     * Replaces current value at memory 'address' with provided value.
      */
     public void replace(int address, int value) {
         try {
