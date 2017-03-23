@@ -2,13 +2,20 @@ package compiler488.ast.stmt;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Printable;
+import compiler488.ast.expn.ConstExpn;
 import compiler488.ast.expn.Expn;
+import compiler488.ast.expn.IntConstExpn;
 import compiler488.ast.expn.SkipConstExpn;
 import compiler488.ast.expn.TextConstExpn;
+import compiler488.ast.type.BooleanType;
 import compiler488.ast.type.IntegerType;
+import compiler488.ast.type.Type;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
@@ -36,6 +43,28 @@ public class WriteStmt extends Stmt {
 
 	public void setOutputs(ASTList<Printable> outputs) {
 		this.outputs = outputs;
+	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		ASTList<Printable> rev = this.outputs.reverse();
+		rev.doCodeGen(writer);
+		ListIterator<Printable> it = this.outputs.getIterator();
+
+		while(it.hasNext()) {
+			Printable output = it.next();
+			
+			if(output instanceof TextConstExpn) {
+				TextConstExpn t = (TextConstExpn) output;
+				for(int i = 0; i < t.getLength(); i++) {
+					writer.add(Machine.PRINTC);
+				}
+			} else if(output instanceof SkipConstExpn) {
+				writer.add(Machine.PRINTC);
+			} else {
+				writer.add(Machine.PRINTI);
+			}
+		}
 	}
 
 	@Override

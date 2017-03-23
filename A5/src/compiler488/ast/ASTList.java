@@ -53,6 +53,14 @@ public class ASTList<E> extends AST {
 	public ListIterator<E> getIterator(){
 		return ll.listIterator();
 	}
+	
+	public ASTList<E> reverse() {
+		ASTList<E> r = new ASTList<E>();
+		for(int i = this.size()-1; 0 <= i; i--) {
+			r.addLast(this.ll.get(i));
+		}		
+		return r;
+	}
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
