@@ -103,7 +103,6 @@ public class ReturnStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-
 		// Only functions have a return value.
 		// Procedures don't store a return value
 		if (value != null) {

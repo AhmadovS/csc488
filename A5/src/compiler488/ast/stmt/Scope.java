@@ -112,7 +112,6 @@ public class Scope extends Stmt {
 
     	// Codegen for statements
     	getStatements().doCodeGen(writer);
-
     }
 
 }

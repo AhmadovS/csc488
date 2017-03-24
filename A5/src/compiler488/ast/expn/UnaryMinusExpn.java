@@ -32,7 +32,6 @@ public class UnaryMinusExpn extends UnaryExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// TODO: add documentation
 		this.getOperand().doCodeGen(writer);
 		writer.add(Machine.PUSH, -1);
 		writer.add(Machine.MUL);

@@ -39,7 +39,6 @@ public class BoolExpn extends BinaryExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		//TODO: add documentation
 		switch(this.getOpSymbol()) {
 			case OPSYMBOL.AND:
 				this.getLeft().doCodeGen(writer);

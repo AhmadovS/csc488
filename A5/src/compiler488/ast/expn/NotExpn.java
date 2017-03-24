@@ -32,7 +32,6 @@ public class NotExpn extends UnaryExpn {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
-        // TODO: add documentation
         this.getOperand().doCodeGen(writer);
         writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
         writer.add(Machine.EQ);

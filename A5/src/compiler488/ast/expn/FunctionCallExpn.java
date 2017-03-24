@@ -116,7 +116,6 @@ public class FunctionCallExpn extends Expn {
 	
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		
 		// Emits codes to set display[$L] to starting word of it's (soob to be) activation record
 	    writer.add(Machine.PUSHMT);
 	    writer.add(Machine.SETD, routineSymbol.getLexicLevel());

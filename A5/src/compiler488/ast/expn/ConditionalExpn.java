@@ -52,7 +52,6 @@ public class ConditionalExpn extends Expn {
 	}
 	
 	public void checkSemantics(SymbolTable symbols) throws Exception {
-
 	    // Note: do semantic check on children before checking their type.
         this.getCondition().checkSemantics(symbols);
         this.getTrueValue().checkSemantics(symbols);

@@ -58,7 +58,6 @@ public class CompareExpn extends BinaryExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		//TODO: add documentation
 		// Get operation symbol
 		String op = this.getOpSymbol();
 		// Order the memory load based on operator

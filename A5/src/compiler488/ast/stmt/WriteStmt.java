@@ -64,7 +64,6 @@ public class WriteStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// TODO: add documentation
 		ASTList<Printable> rev = this.outputs.reverse();
 		rev.doCodeGen(writer);
 		ListIterator<Printable> it = this.outputs.getIterator();

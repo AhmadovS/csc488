@@ -35,7 +35,6 @@ public class EqualsExpn extends BinaryExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// TODO: add documentation
 		this.getLeft().doCodeGen(writer);
 		this.getRight().doCodeGen(writer);
 		writer.add(Machine.EQ);

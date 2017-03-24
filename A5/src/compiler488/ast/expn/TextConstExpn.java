@@ -35,7 +35,6 @@ public class TextConstExpn extends ConstExpn implements Printable {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// TODO: add documentation
 		for(int i = this.value.length()-1; 0 <= i; i--) {
 			writer.add(Machine.PUSH, (short) this.value.charAt(i));
 		}

@@ -71,7 +71,7 @@ public class SubsExpn extends UnaryExpn implements Readable {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-	    // follows array indexing template
+	    // Follows array indexing template
 		writer.add(Machine.ADDR, arraySym.getLexicLevel(), arraySym.getOrderNumber());
 
 		// Emits the code for index expression
