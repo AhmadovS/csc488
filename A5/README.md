@@ -1,46 +1,46 @@
 # Progress
 
-[x] ASTList
-[ ] Expn
-	[x] IdentExpn
-	[x] BinaryExpn
-		[x] ArithExpn
-		[x] BoolExpn
-		[x] EqualsExpn
-		[x] CompareExpn
-	[ ] ConditionalExpn
-	[x] ConstExpn
-		[x] BoolConstExpn
-		[x] IntConstExpn
-		[x] SkipConstExpn
-		[x] TextConstExpn
-	[x] FunctionalCallExpn
-	[x] UnaryExpn
-		[x] NotExpn
-		[x] SubsExpn
-		[x] UnaryMinusExpn
-[ ] Indentable
-	[x] Declaration
-		[x] RoutineDecl
-		[x] MultiDeclarations
-		[x] ScalarDecl
-		[x] DeclarationPart
-			[x] ScalarDeclPart
-			[x] ArrayDeclPart
-	[x] RoutineBody
-	[ ] Stmt
-		[x] AssignStmt
-		[ ] ExitStmt
-		[x] IfStmt
-		[x] LoopingStmt
-			[x] RepeatUntilStmt
-			[x] WhileDoStmt
-		[x] ProcedureCallStmt
-		[ ] ReadStmt
-		[x] ReturnStmt
-		[x] Scope
-			[x] Program
-		[x] WriteStmt
+* [x] ASTList
+* [ ] Expn
+	* [x] IdentExpn
+	* [x] BinaryExpn
+		* [x] ArithExpn
+		* [x] BoolExpn
+		* [x] EqualsExpn
+		* [x] CompareExpn
+	* [ ] ConditionalExpn
+	* [x] ConstExpn
+		* [x] BoolConstExpn
+		* [x] IntConstExpn
+		* [x] SkipConstExpn
+		* [x] TextConstExpn
+	* [x] FunctionalCallExpn
+	* [x] UnaryExpn
+		* [x] NotExpn
+		* [x] SubsExpn
+		* [x] UnaryMinusExpn
+* [ ] Indentable
+	* [x] Declaration
+		* [x] RoutineDecl
+		* [x] MultiDeclarations
+		* [x] ScalarDecl
+		* [x] DeclarationPart
+			* [x] ScalarDeclPart
+			* [x] ArrayDeclPart
+	* [x] RoutineBody
+	* [ ] Stmt
+		* [x] AssignStmt
+		* [ ] ExitStmt
+		* [x] IfStmt
+		* [x] LoopingStmt
+			* [x] RepeatUntilStmt
+			* [x] WhileDoStmt
+		* [x] ProcedureCallStmt
+		* [ ] ReadStmt
+		* [x] ReturnStmt
+		* [x] Scope
+			* [x] Program
+		* [x] WriteStmt
 
 # Notations
 - Stack :: a -> b -> c
