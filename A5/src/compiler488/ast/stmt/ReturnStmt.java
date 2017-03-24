@@ -7,6 +7,7 @@ import compiler488.ast.Indentable;
 import compiler488.ast.decl.RoutineDecl;
 import compiler488.ast.expn.Expn;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -100,6 +101,18 @@ public class ReturnStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// not implemented yet
+		// Only functions have a return value.
+		// Procedures don't store a return value
+		if (value != null) {
+		    // First we push the address of 'return value' field of the activation record.
+			writer.add(Machine.ADDR, getLexicLevel(), 0);
+
+			// Evaluates the return expression
+			value.doCodeGen(writer);
+
+			// Stack :: return address -> return value
+			// Emits code to store returned value.
+			writer.add(Machine.STORE);
+		}
 	}
 }

@@ -1,3 +1,7 @@
+# Notations
+- Stack :: a -> b -> c
+  This shows state of the top of the stack, with c being on top, followed by b and then a.
+
 # Documentation of changes made
 
 - Each AST node's lexic-level is now calculated during semanticCheck phase.
