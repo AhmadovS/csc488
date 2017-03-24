@@ -2,15 +2,12 @@
     var a : Integer
 
     function add2(n : Integer, sum : Integer) : Integer {
-        % if n = 0 then {
-        %     return with sum
-        % }
-        % else {
-        %     sum := sum + 2
-            % var i : Integer
-            % i := add2(n-1, sum)
-            return with add(n - 1, sum)
-        % }
+        if n = 0 then {
+            return with sum
+        }
+        else {
+            return with add(n - 1, sum + 2)
+        }
     }
 
     a := add2(5, 0)
