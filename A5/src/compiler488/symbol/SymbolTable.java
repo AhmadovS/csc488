@@ -161,7 +161,7 @@ public class SymbolTable {
 
 			// Routine activation records' local variables ON starts after parameters.
 			RoutineSymbol sym = currentScope.owner;
-			return 4 + sym.getParamCount() + scopeAllocCount;
+			return 3 + sym.getParamCount() + scopeAllocCount;
 		}
 	}
 }

@@ -1,0 +1,14 @@
+{
+    var i : Integer
+
+    function F(n : Integer) :Integer{
+
+        return with n
+    }
+
+    %var j : Integer
+
+    i := F(1007)
+
+
+}
