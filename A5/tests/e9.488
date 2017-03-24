@@ -1,0 +1,5 @@
+{
+    var i : Integer
+    
+    if false then i:=1 else i:=2
+}

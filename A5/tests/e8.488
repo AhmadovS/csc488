@@ -1,0 +1,6 @@
+{
+  var i :Integer
+  
+  if true then i := 5
+
+} 

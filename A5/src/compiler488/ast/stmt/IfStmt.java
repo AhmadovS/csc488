@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
 import compiler488.ast.type.BooleanType;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -102,5 +104,47 @@ public class IfStmt extends Stmt {
 			this.getWhenFalse().checkSemantics(symbols);
 		}
 		
+	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		
+		// Evaluates the condition
+		this.condition.doCodeGen(writer);
+		
+		// At this point the condition values is on top of the stack
+		// Push the address where to branch if conditions is false
+		writer.add(Machine.PUSH, Machine.UNDEFINED);
+		
+		short brAddr = writer.startCountingInstruction();
+		writer.add(Machine.BF);
+		
+		// Do code gen on children
+		this.whenTrue.doCodeGen(writer);
+		
+		// Count the number of instructions
+		short numInstructions = writer.stopCountingInstruction();
+						
+		// Replace the brAddr + 2 (number of else clause instruction and BR instruction)
+		writer.replace(brAddr, numInstructions + brAddr +3);
+	
+		// If there is else statement do code gen on
+		if (this.whenFalse != null){
+			
+			// The address to jump over else instructions
+			writer.add(Machine.PUSH, Machine.UNDEFINED);
+			
+			// Count the number of else instructions
+			short brTrueAddr = writer.startCountingInstruction();
+			
+			writer.add(Machine.BR);
+			this.whenFalse.doCodeGen(writer);
+			
+			// Count the number of instructions
+			numInstructions = writer.stopCountingInstruction();
+			
+			// Replace the brAddr + 1
+			writer.replace(brTrueAddr, numInstructions + brTrueAddr +1);
+		}
 	}
 }
