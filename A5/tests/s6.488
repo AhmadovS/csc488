@@ -1,0 +1,7 @@
+{
+	var a,b : Integer
+	a := 0
+	b := 4
+	repeat a := a+1 until a < 5
+	repeat b := b-1 until 0 < b
+}

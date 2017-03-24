@@ -39,6 +39,7 @@ s2.488			Simple if statement with true condtion
 s3.488			Simple if else statement with false condition
 s4.488			If-else statement with comparison expression where condition is false
 s5.488			If-else statement with comparison expression where condition is true
+s6.488			Repeat Until statement
 
 -------------------------------------------------------------------------------
 

@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 
 /**
  * Represents a loop in which the exit condition is evaluated after each pass.
@@ -36,7 +37,19 @@ public class RepeatUntilStmt extends LoopingStmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// not implemented yet
+		// Get the start of the address for return
+		short returnAddr = writer.getNextAddr();
+		// Execute the body
+		this.getBody().doCodeGen(writer);
+		// Push the condition to the stack
+		this.getExpn().doCodeGen(writer);
+		// Negate the condition as we are looking for false in branch
+		writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+		writer.add(Machine.EQ);
+		// Push the return address to the stack
+		writer.add(Machine.PUSH, returnAddr);
+		// Branch
+		writer.add(Machine.BF);
 	}
 
 }
