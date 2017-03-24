@@ -109,12 +109,12 @@ public class RoutineBody extends Indentable {
     public void doCodeGen(MachineWriter writer) {
         // The caller has updated the display for the current lexic level $L.
 		// Only display[$L] has valid value.
-		// We follow static links (which is always ADDR $L 2) to
+		// We follow static links (which is always ADDR $L 3) to
 		// update the rest of the display.
         int L = getLexicLevel();
         while (L > 0) {
-            writer.add(Machine.ADDR, L, 2);
-            writer.add(Machine.SETD, L - 1);
+            writer.add(Machine.ADDR, L, 3);   // Pushes the address of static link
+            writer.add(Machine.SETD, L - 1);  // Updates the display
             L--;
         }
 

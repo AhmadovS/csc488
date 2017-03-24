@@ -2,6 +2,7 @@ package compiler488.ast.stmt;
 
 import java.io.PrintStream;
 
+import compiler488.DebugTool;
 import compiler488.ast.AST;
 import compiler488.ast.Indentable;
 import compiler488.ast.decl.RoutineDecl;
@@ -101,6 +102,9 @@ public class ReturnStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+
+		DebugTool.print("Called ReturnStmt doCodeGen");
+
 		// Only functions have a return value.
 		// Procedures don't store a return value
 		if (value != null) {
@@ -116,24 +120,21 @@ public class ReturnStmt extends Stmt {
 		}
 		
 		// Do cleanup after setting return value
-		// Calculate the number of words to pop (everything from top of stack till dynamic link)
+		// Calculate the number of words to pop (everything from top of stack till return address)
 		
 		// Move pointer to top of the stack
 		writer.add(Machine.PUSHMT);
 		
-		// Push the address of dynamic link
-		writer.add(Machine.ADDR, getLexicLevel(), 4);
+		// Push 1 above the address of return address (we don't want to pop the return address)
+		writer.add(Machine.ADDR, getLexicLevel(), 2);
 		
-		// Subtract address of dynamic link from top of the stack to get number of words and pop all
+		// Subtract address (1 above the return address) from top of the stack to get number of words and pop all
+        // This pops all the local variables and parameters, and only leaves the bottom 3 fields
+        // of the activation record.
 		writer.add(Machine.SUB);
 		writer.add(Machine.POPN);
-		
-		// Dynamic link is now on top of the stack, update display 
-		writer.add(Machine.SETD);
-		
-		// Static link is now on top of the stack, do not need it any more so pop it
-		writer.add(Machine.POP);
-		
+
+		// At this point Stack :: return value -> dynamic link -> return address
 		// Return address is now om top of the stack, branch back to it
 		writer.add(Machine.BR);
 		
