@@ -141,6 +141,23 @@ public class ProcedureCallStmt extends Stmt {
         short numInstructions = writer.stopCountingInstruction();
         writer.replace(retAddrLoc, numInstructions + retAddrLoc + 1);
 
+        // After procedure call returns:
+		// Stack :: return-value
+        // (Since we called a procedure, return-value is UNDEFINED)
+        // Emits code to pop the return-value
+        writer.add(Machine.POP);
+
+        // Emits code to update the rest of the display.
+        // display of current lexic-level display[$curL] has been already
+        // set the procedure returned.
+        // We now need to update the rest of the display display[0 to $curL -1]
+        // Same as RoutineBody we follow static links to update the display
+        int L = getLexicLevel();
+        while (L > 0) {
+            writer.add(Machine.ADDR, L, 2);
+            writer.add(Machine.SETD, L - 1);
+            L--;
+        }
 
 	}
 }

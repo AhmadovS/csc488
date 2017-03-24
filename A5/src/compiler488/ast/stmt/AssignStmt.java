@@ -112,12 +112,7 @@ public class AssignStmt extends Stmt {
 	    rval.doCodeGen(writer);
 
 	    // Stacks should look like following at this point.
-        //  ------------
-        //  |    msp   |
-        //  | rhs val  |
-        //  | lhs addr |
-        //  |   ...    |
-        //  ------------
+		// Stack :: rhs val -> lhs addr
         writer.add(Machine.STORE);
 
 
