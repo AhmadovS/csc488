@@ -1,14 +1,37 @@
 {
     var i : Integer
+    var j : Integer
 
-    function F(n : Integer) :Integer{
-
-        return with n
+    % procedure Q with return statement
+    procedure Q {
+        i := 666
+        return
     }
 
-    %var j : Integer
+    % procedure P without return statement
+    procedure P {
+        j := 7777
+    }
 
-    i := F(1007)
+    % Empty procedure
+    procedure Empty {
+        % Tests if exit code must still run cleanly
+    }
 
+    % This language is weird.
+    % This should pass without leaving
+    % any garbage on the run-time stack.
+    procedure MultipleReturn {
+        var j : Integer
+        return
+        j := 2
+        return
+        return
+    }
+
+    Q
+    P
+    Empty
+    MultipleReturn
 
 }

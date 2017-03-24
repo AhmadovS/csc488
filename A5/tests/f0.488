@@ -6,8 +6,6 @@
         return
     }
 
-    %var j : Integer
-
     Q
 
 }

@@ -6,13 +6,6 @@
         return with n
     }
 
-    var j : Integer
-
-    function J(n : Integer) : Integer {
-        return with n + 2
-    }
-
     i := F(1007)
-    j := J(1007)
 
 }

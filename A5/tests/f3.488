@@ -1,19 +1,18 @@
 {
     var i : Integer
 
-    function A(n : Integer) : Integer {
+    function F(n : Integer) : Integer {
 
-        function B(n : Integer) : Integer {
-
-            function C(n : Integer) :Integer {
-                return with n + 2
-            }
-            return with C(n) + 1
-        }
-
-        return with B(n)
+        return with n
     }
 
-    i := A(1007)
+    var j : Integer
+
+    function J(n : Integer) : Integer {
+        return with n + 2
+    }
+
+    i := F(1007)
+    j := J(1007)
 
 }

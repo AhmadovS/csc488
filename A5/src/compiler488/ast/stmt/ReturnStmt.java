@@ -76,9 +76,9 @@ public class ReturnStmt extends Stmt {
 			SemanticError.add(this, "(S51/S52) Return statement is not inside a routine");
 		} else {
 			if (value == null) {
-				// (value == null) we have a 'return' statement.
+				// (value == null) we have a 'return' statement (to be used only inside procedures)/
 
-				if (parentNode.getType() != null) {
+                if (parentNode.isFunction()) {
 					// parent node is a function, and we're not returning an expression
 					SemanticError.add(52, this, "Function expects 'return with' statement");
 				}

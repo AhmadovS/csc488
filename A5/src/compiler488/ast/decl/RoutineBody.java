@@ -5,7 +5,9 @@ import java.util.ListIterator;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Indentable;
+import compiler488.ast.stmt.ReturnStmt;
 import compiler488.ast.stmt.Scope;
+import compiler488.ast.stmt.Stmt;
 import compiler488.codegen.MachineWriter;
 import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
@@ -120,5 +122,44 @@ public class RoutineBody extends Indentable {
         }
 
         body.doCodeGen(writer);
+
+        // If the routine is a procedure, a return statement is not required
+		// by the language.
+		// Since the ReturnStmt node contains the procedure exit code, the same
+        // functionality needs to be implemented here again.
+        // This is only applied if the procedure doesn't contain a ReturnStmt as its last node
+        if (((RoutineDecl) getParent()).isProcedure()) {
+            Stmt lastStatement = null;
+            ListIterator<Stmt> bodyStatmentsIterator = getBody().getStatements().getIterator();
+            while(bodyStatmentsIterator.hasNext()) {
+                lastStatement = bodyStatmentsIterator.next();
+            }
+
+            // Procedure may not have any statements, need to check for nullity.
+            if (lastStatement != null && lastStatement instanceof ReturnStmt) {
+                // Do not do anything
+            } else {
+                // There's no last return statement. Run exit code.
+                // Calculate the number of words to pop (everything from top of stack till return address)
+
+                // check if it is procedure and doesn't have return statement.
+                // Move pointer to top of the stack
+                writer.add(Machine.PUSHMT);
+
+                // Push 1 above the address of return address (we don't want to pop the return address)
+                writer.add(Machine.ADDR, getLexicLevel(), 3);
+
+                // Subtract address (1 above the return address) from top of the stack to get number of words and pop all
+                // This pops all the local variables and parameters, and only leaves the bottom 3 fields
+                // of the activation record.
+                writer.add(Machine.SUB);
+                writer.add(Machine.POPN);
+
+                // At this point Stack :: return value -> dynamic link -> return address
+                // Return address is now on top of the stack, branch back to it
+                writer.add(Machine.BR);
+            }
+        }
+
     }
 }

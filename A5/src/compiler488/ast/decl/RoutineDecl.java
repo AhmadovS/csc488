@@ -78,6 +78,20 @@ public class RoutineDecl extends Declaration {
 	}
 
     /**
+     * @return Returns true if the routine is a procedure.
+     */
+	public boolean isProcedure() {
+	    return getType() == null;
+    }
+
+    /**
+     * @return Return true if the routine is a function
+     */
+    public boolean isFunction() {
+	    return getType() != null;
+    }
+
+    /**
      * Retruns the symbol-table RoutineSymbol associated with this declaration.
      */
 	protected RoutineSymbol getRoutineSym() {

@@ -20,8 +20,10 @@ e7.488
 Functions and procedures
 -- Tests for basic function/procedure functionality.
 f0.488         Simple single procedure declaration and procedure call.
-f1.488         Simple single function declaration and call (returns parameter)
-f2.488         Interleaved function and variable declaration
-f3.488         Nested functions with 1 parameters
+f1.488         Tests procedure exit code.
+f2.488         Simple function declaration and call (returns parameter)
+f3.488         Interleaved function and variable declaration
+f4.488         Nested functions with 1 parameters
+f5.488         Tests multiple procedure parameters
+f6.488         Tests multiple function parameters
 
--- Tests for multiple parameters
