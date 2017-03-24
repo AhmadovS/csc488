@@ -35,3 +35,5 @@
     MultipleReturn
 
 }
+
+% output: UNDEFINED, UNDEFINED, 666, 7777

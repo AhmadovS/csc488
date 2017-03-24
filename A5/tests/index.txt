@@ -1,6 +1,7 @@
 Test File      Test Description
 
-Variable declarations and assignments
+Variable declarations and assignments:
+
 a0.488         Empty program
 a1.488         Simple single integer scalar variable declaration and assignment
 a2.488         Many simple scalar variable declaration and assignment
@@ -8,7 +9,9 @@ a3.488         Simple single integer array variable declaration and assignment
 a4.488	       Simple integer declarations and assigning declared variables
 a5.488	       Simple boolean variable/array declaration and assigning variable to array element
 
-Expressions
+
+Expressions:
+
 e1.488
 e2.488
 e3.488
@@ -21,12 +24,23 @@ e9.488         Simple if else statement with false condition
 e10.488        If-else statement with comparison expression where condition is false
 e11.488        If-else statement with comparison expression where condition is true
 
-Functions and procedures
+
+Functions and procedures:
+
 f0.488         Simple single procedure declaration and procedure call.
 f1.488         Tests procedure exit code.
 f2.488         Simple function declaration and call (returns parameter)
 f3.488         Interleaved function and variable declaration
-f4.488         Nested functions with 1 parameters
-f5.488         Tests multiple procedure parameters
-f6.488         Tests multiple function parameters
-f7.488         
+f4a.488        Nested functions with 1 parameters (calling function with higher lexical level)
+f4b.488        Nested procedures (calling function with higher lexical level)
+f5a.488        Tests multiple procedure parameters
+f5b.488        Tests multiple function parameters
+f7.488         Tests recursion
+f8.488         Calling routine with lower lexical level
+
+TODO tests:
+- arrays as params
+- mixed boolean and integer params
+- Calling routine with lower lexical level
+
+

@@ -1,0 +1,22 @@
+{
+    var i : Integer
+
+    procedure A(n : Integer) {
+
+        procedure B(n : Integer) {
+
+            procedure C(n : Integer){
+                i := n
+            }
+
+            C(n)
+        }
+
+        B(n)
+    }
+
+    A(100)
+
+}
+
+% stack: UNDEFINED, UNDEFINED, 100

@@ -99,12 +99,19 @@ public final class MachineWriter {
      */
     public void finishedWriting() {
 
+        // instructionCounter should be empty at this point.
+        if (instructionCounter.size() > 0) {
+            throw new IllegalStateException("Number of calls to MachineWriter.startCountingInstruction " +
+                    "and MachineWriter.stopCountingInstruction do not match");
+        }
+
         // Sets all the registers
         Machine.setPC((short) 0);
         Machine.setMSP((short) (nextAddr));
         Machine.setMLP((short) (Machine.memorySize - 1));
 
         // Do other finalization tasks here
+
     }
 
 }

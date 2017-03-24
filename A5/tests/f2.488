@@ -9,3 +9,5 @@
     i := F(1007)
 
 }
+
+% output: UNDEFINED, UNDEFINED, 1007

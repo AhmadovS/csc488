@@ -8,6 +8,7 @@ import compiler488.parser.*;
 import compiler488.ast.AST ;
 import compiler488.ast.stmt.Program;
 import compiler488.semantics.SemanticError;
+import compiler488.semantics.SemanticException;
 import compiler488.semantics.Semantics;
 import compiler488.symbol.SymbolTable;
 import compiler488.codegen.CodeGen;
@@ -463,9 +464,13 @@ public class Main {
 
           List<String> errors = SemanticError.getErrors();
 
-          System.out.println("\nSemantic errors:\n");
-          for (String error : errors) {
-              System.out.println(error);
+          if (errors.size() > 0) {
+              System.out.println("\nSemantic errors:\n");
+              for (String error : errors) {
+                  System.out.println(error);
+              }
+
+              throw new SemanticException("Encountered semantic errors");
           }
 
       } catch( Exception e) {
@@ -519,6 +524,8 @@ public class Main {
       	// AST performs the code generations.
         MachineWriter writer = MachineWriter.getInstance();
 		programAST.doCodeGen(writer);
+
+		// Finalize the MachineWriter
 		writer.finishedWriting();
 
 
