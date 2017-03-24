@@ -6,11 +6,11 @@
             return with sum
         }
         else {
-            return with add(n - 1, sum + 2)
+            return with add2(n - 1, sum + 2)
         }
     }
 
-    a := add2(5, 0)
+    a := add2(5, 100)
 
 }
 
