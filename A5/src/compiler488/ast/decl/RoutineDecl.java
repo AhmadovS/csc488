@@ -109,10 +109,10 @@ public class RoutineDecl extends Declaration {
 	@Override
 	public void doCodeGen(MachineWriter writer) {
 
+	    // Jumping over the instructions of the routine.
+		// Ideally you would reorder the AST, to group all routines together.
 	    writer.add(Machine.PUSH, Machine.UNDEFINED);
-
 	    short undefinedAddr = writer.startCountingInstruction();
-	    
 	    writer.add(Machine.BR);
 
 	    // Sets the base address of the routine instructions

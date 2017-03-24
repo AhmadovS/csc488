@@ -16,28 +16,7 @@ public class ArithExpn extends BinaryExpn {
 	public ArithExpn(String opSymbol, Expn left, Expn right) {
     	super(opSymbol, left, right);
     }
-	
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-		this.getLeft().doCodeGen(writer);
-		this.getRight().doCodeGen(writer);
-		
-		switch(this.getOpSymbol()) {
-			case OPSYMBOL.PLUS:
-				writer.add(Machine.ADD);
-				break;
-			case OPSYMBOL.MINUS:
-				writer.add(Machine.SUB);
-				break;
-			case OPSYMBOL.TIMES:
-				writer.add(Machine.MUL);
-				break;
-			case OPSYMBOL.DIVIDE:
-				writer.add(Machine.DIV);
-				break;
-		}
-	}
-	
+
 	public void checkSemantics(SymbolTable symbols) {
 
 		// Semantics check on children must be performed before getting their type.
@@ -56,5 +35,27 @@ public class ArithExpn extends BinaryExpn {
 
 		// S21 - sets result type to integer
 		this.setType(new IntegerType());
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// TODO: add documentation
+		this.getLeft().doCodeGen(writer);
+		this.getRight().doCodeGen(writer);
+
+		switch(this.getOpSymbol()) {
+			case OPSYMBOL.PLUS:
+				writer.add(Machine.ADD);
+				break;
+			case OPSYMBOL.MINUS:
+				writer.add(Machine.SUB);
+				break;
+			case OPSYMBOL.TIMES:
+				writer.add(Machine.MUL);
+				break;
+			case OPSYMBOL.DIVIDE:
+				writer.add(Machine.DIV);
+				break;
+		}
 	}
 }

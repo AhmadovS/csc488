@@ -18,19 +18,6 @@ public class EqualsExpn extends BinaryExpn {
     }
 	
 	@Override
-	public void doCodeGen(MachineWriter writer) {
-		this.getLeft().doCodeGen(writer);
-		this.getRight().doCodeGen(writer);
-		writer.add(Machine.EQ);
-
-		switch(this.getOpSymbol()) {
-			case OPSYMBOL.NOT_EQUALS:
-				writer.add(Machine.MACHINE_FALSE);
-				writer.add(Machine.EQ);
-				break;
-		}
-	}
-	
 	public void checkSemantics(SymbolTable symbols) {
 
 		// Note: do semantic check on children before checking their type.
@@ -44,5 +31,20 @@ public class EqualsExpn extends BinaryExpn {
 
 		// S20 - sets the result type to boolean
 		this.setType(new BooleanType());
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// TODO: add documentation
+		this.getLeft().doCodeGen(writer);
+		this.getRight().doCodeGen(writer);
+		writer.add(Machine.EQ);
+
+		switch(this.getOpSymbol()) {
+			case OPSYMBOL.NOT_EQUALS:
+				writer.add(Machine.MACHINE_FALSE);
+				writer.add(Machine.EQ);
+				break;
+		}
 	}
 }

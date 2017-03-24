@@ -17,29 +17,7 @@ public class CompareExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-		// Get operation symbol
-		String op = this.getOpSymbol();
-		// Order the memory load based on operator
-		if(op.equals(OPSYMBOL.LESS_THAN) || op.equals(OPSYMBOL.LESS_THAN_EQUALS)) {
-			this.getLeft().doCodeGen(writer);
-			this.getRight().doCodeGen(writer);			
-		} else {
-			this.getRight().doCodeGen(writer);
-			this.getLeft().doCodeGen(writer);
-		}
-		// Perform less than
-		writer.add(Machine.LT);
-		// If also equal too, then also check for it
-		if(op.equals(OPSYMBOL.LESS_THAN_EQUALS) || op.equals(OPSYMBOL.GREATER_THAN_EQUALS)) {
-			this.getLeft().doCodeGen(writer);
-			this.getRight().doCodeGen(writer);
-			writer.add(Machine.EQ);
-			writer.add(Machine.OR);
-		}
-	}
-	
+
 	public void checkSemantics(SymbolTable symbols) {
 
 		// Semantics check on children must be performed before getting their type.
@@ -76,5 +54,29 @@ public class CompareExpn extends BinaryExpn {
 
 		// S20 - sets result type to boolean
 		this.setType(new BooleanType());
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		//TODO: add documentation
+		// Get operation symbol
+		String op = this.getOpSymbol();
+		// Order the memory load based on operator
+		if(op.equals(OPSYMBOL.LESS_THAN) || op.equals(OPSYMBOL.LESS_THAN_EQUALS)) {
+			this.getLeft().doCodeGen(writer);
+			this.getRight().doCodeGen(writer);
+		} else {
+			this.getRight().doCodeGen(writer);
+			this.getLeft().doCodeGen(writer);
+		}
+		// Perform less than
+		writer.add(Machine.LT);
+		// If also equal too, then also check for it
+		if(op.equals(OPSYMBOL.LESS_THAN_EQUALS) || op.equals(OPSYMBOL.GREATER_THAN_EQUALS)) {
+			this.getLeft().doCodeGen(writer);
+			this.getRight().doCodeGen(writer);
+			writer.add(Machine.EQ);
+			writer.add(Machine.OR);
+		}
 	}
 }

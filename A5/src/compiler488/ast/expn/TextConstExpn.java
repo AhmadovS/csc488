@@ -14,12 +14,6 @@ public class TextConstExpn extends ConstExpn implements Printable {
 		this.value = value;
 	}
 
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-       for(int i = this.value.length()-1; 0 <= i; i--) {
-    	   writer.add(Machine.PUSH, (short) this.value.charAt(i));
-       }
-	}
 
 	/** Returns a description of the literal text constant. */
 	@Override
@@ -37,5 +31,13 @@ public class TextConstExpn extends ConstExpn implements Printable {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// TODO: add documentation
+		for(int i = this.value.length()-1; 0 <= i; i--) {
+			writer.add(Machine.PUSH, (short) this.value.charAt(i));
+		}
 	}
 }

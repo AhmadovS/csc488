@@ -44,28 +44,6 @@ public class WriteStmt extends Stmt {
 	public void setOutputs(ASTList<Printable> outputs) {
 		this.outputs = outputs;
 	}
-	
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-		ASTList<Printable> rev = this.outputs.reverse();
-		rev.doCodeGen(writer);
-		ListIterator<Printable> it = this.outputs.getIterator();
-
-		while(it.hasNext()) {
-			Printable output = it.next();
-			
-			if(output instanceof TextConstExpn) {
-				TextConstExpn t = (TextConstExpn) output;
-				for(int i = 0; i < t.getLength(); i++) {
-					writer.add(Machine.PRINTC);
-				}
-			} else if(output instanceof SkipConstExpn) {
-				writer.add(Machine.PRINTC);
-			} else {
-				writer.add(Machine.PRINTI);
-			}
-		}
-	}
 
 	@Override
     public void checkSemantics(SymbolTable symbols) {
@@ -85,6 +63,29 @@ public class WriteStmt extends Stmt {
                 if (!(((Expn) output).getType() instanceof IntegerType)) {
                     SemanticError.add(31, this, "output expression must be type integer");
 				}
+			}
+		}
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// TODO: add documentation
+		ASTList<Printable> rev = this.outputs.reverse();
+		rev.doCodeGen(writer);
+		ListIterator<Printable> it = this.outputs.getIterator();
+
+		while(it.hasNext()) {
+			Printable output = it.next();
+
+			if(output instanceof TextConstExpn) {
+				TextConstExpn t = (TextConstExpn) output;
+				for(int i = 0; i < t.getLength(); i++) {
+					writer.add(Machine.PRINTC);
+				}
+			} else if(output instanceof SkipConstExpn) {
+				writer.add(Machine.PRINTC);
+			} else {
+				writer.add(Machine.PRINTI);
 			}
 		}
 	}

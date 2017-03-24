@@ -15,13 +15,6 @@ public class NotExpn extends UnaryExpn {
     public NotExpn(Expn operand) {
     	super(OPSYMBOL.NOT, operand);
     }
-    
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-		this.getOperand().doCodeGen(writer);
-		writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
-		writer.add(Machine.EQ);
-	}
 
     @Override
     public void checkSemantics(SymbolTable symbols) {
@@ -35,5 +28,13 @@ public class NotExpn extends UnaryExpn {
 
         // S21 - Set return type to boolean
         this.setType(new BooleanType());
+    }
+
+    @Override
+    public void doCodeGen(MachineWriter writer) {
+        // TODO: add documentation
+        this.getOperand().doCodeGen(writer);
+        writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+        writer.add(Machine.EQ);
     }
 }

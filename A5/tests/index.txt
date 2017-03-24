@@ -1,5 +1,6 @@
 Test File      Test Description
 
+Variable declarations and assignments
 a0.488         Empty program
 a1.488         Simple single integer scalar variable declaration and assignment
 a2.488         Many simple scalar variable declaration and assignment
@@ -7,4 +8,14 @@ a3.488         Simple single integer array variable declaration and assignment
 a4.488	       Simple integer declarations and assigning declared variables
 a5.488	       Simple boolean variable/array declaration and assigning variable to array element
 
+Expressions
+e1.488
+e2.488
+e3.488
+e4.488
+e5.488
+e6.488
+e7.488
+
+Functions and procedures
 f0.488         Simple single procedure declaration and procedure call.

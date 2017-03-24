@@ -17,13 +17,6 @@ public class UnaryMinusExpn extends UnaryExpn {
 	}
 	
 	@Override
-	public void doCodeGen(MachineWriter writer) {
-		this.getOperand().doCodeGen(writer);
-		writer.add(Machine.PUSH, -1);
-		writer.add(Machine.MUL);
-	}
-
-	@Override
 	public void checkSemantics(SymbolTable symbols) {
 		// S31 - Check that expression type is integer
 		// Note semantic check on operand must be performed first.
@@ -35,5 +28,13 @@ public class UnaryMinusExpn extends UnaryExpn {
 
 		// S21 - Set result type to integer.
 		this.setType(new IntegerType());
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// TODO: add documentation
+		this.getOperand().doCodeGen(writer);
+		writer.add(Machine.PUSH, -1);
+		writer.add(Machine.MUL);
 	}
 }

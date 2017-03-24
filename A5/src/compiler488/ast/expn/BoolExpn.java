@@ -17,30 +17,6 @@ public class BoolExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	@Override
-	public void doCodeGen(MachineWriter writer) {
-		switch(this.getOpSymbol()) {
-			case OPSYMBOL.AND:
-				this.getLeft().doCodeGen(writer);
-				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
-				writer.add(Machine.EQ);
-				
-				this.getRight().doCodeGen(writer);
-				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
-				writer.add(Machine.EQ);
-				
-				writer.add(Machine.OR);
-				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
-				writer.add(Machine.EQ);
-				break;
-			case OPSYMBOL.OR:
-				this.getLeft().doCodeGen(writer);
-				this.getRight().doCodeGen(writer);
-				writer.add(Machine.OR);
-				break;
-		}
-	}
-	
 	public void checkSemantics(SymbolTable symbols) {
 
 		// Semantics check on children must be performed before getting their type.
@@ -59,5 +35,30 @@ public class BoolExpn extends BinaryExpn {
 
 		// S20 - sets result type to boolean
 		this.setType(new BooleanType());
+	}
+
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		//TODO: add documentation
+		switch(this.getOpSymbol()) {
+			case OPSYMBOL.AND:
+				this.getLeft().doCodeGen(writer);
+				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+				writer.add(Machine.EQ);
+
+				this.getRight().doCodeGen(writer);
+				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+				writer.add(Machine.EQ);
+
+				writer.add(Machine.OR);
+				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+				writer.add(Machine.EQ);
+				break;
+			case OPSYMBOL.OR:
+				this.getLeft().doCodeGen(writer);
+				this.getRight().doCodeGen(writer);
+				writer.add(Machine.OR);
+				break;
+		}
 	}
 }
