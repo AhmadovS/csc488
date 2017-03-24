@@ -114,5 +114,29 @@ public class ReturnStmt extends Stmt {
 			// Emits code to store returned value.
 			writer.add(Machine.STORE);
 		}
+		
+		// Do cleanup after setting return value
+		// Calculate the number of words to pop (everything from top of stack till dynamic link)
+		
+		// Move pointer to top of the stack
+		writer.add(Machine.PUSHMT);
+		
+		// Push the address of dynamic link
+		writer.add(Machine.ADDR, getLexicLevel(), 4);
+		
+		// Subtract address of dynamic link from top of the stack to get number of words and pop all
+		writer.add(Machine.SUB);
+		writer.add(Machine.POPN);
+		
+		// Dynamic link is now on top of the stack, update display 
+		writer.add(Machine.SETD);
+		
+		// Static link is now on top of the stack, do not need it any more so pop it
+		writer.add(Machine.POP);
+		
+		// Return address is now om top of the stack, branch back to it
+		writer.add(Machine.BR);
+		
+		
 	}
 }
