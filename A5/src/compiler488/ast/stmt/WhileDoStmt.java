@@ -4,6 +4,8 @@ import java.io.PrintStream;
 
 import compiler488.ast.Indentable;
 import compiler488.ast.expn.Expn;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 
 /**
  * Represents a loop in which the exit condition is evaluated before each pass.
@@ -30,5 +32,33 @@ public class WhileDoStmt extends LoopingStmt {
 		Indentable.printIndentOnLn(out, depth, "while " + expn + " do");
 		body.printOn(out, depth + 1);
 		Indentable.printIndentOnLn(out, depth, "End while-do");
+	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// Get the start of the address for returning to the while loop
+		short startOfWhile = writer.getNextAddr();
+		
+		// Execute the condition
+		this.getExpn().doCodeGen(writer);
+		
+		// Push the address to the end of the loop
+		writer.add(Machine.PUSH, Machine.UNDEFINED);
+		short brAddr = writer.startCountingInstruction();
+		
+		// If the expression is false, go to the end of the loop
+		writer.add(Machine.BF);
+		
+		// If the expression is true, execute the body
+		this.getBody().doCodeGen(writer);
+		
+		// Push the startOfWhile to the stack and branch to it
+		writer.add(Machine.PUSH, startOfWhile);
+		writer.add(Machine.BR);
+		
+		// Replace the brAddr with the number of instructions
+		// The plus 1 is for the end instructions indicating returning to the loop
+		short numInstructions = writer.stopCountingInstruction();
+		writer.replace(brAddr, numInstructions + brAddr + 1);
 	}
 }

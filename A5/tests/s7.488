@@ -1,0 +1,16 @@
+{
+	var a : Integer
+	a := 1
+
+	while a <= 5 do {
+		write "Hello ", a, "!", newline
+		a := a + 1
+	}
+
+	write "I'm going to continue...", newline
+
+	while 0 < a do {
+		write "Bye ", a, "!", newline
+		a := a - 1
+	}
+}
