@@ -118,13 +118,15 @@ public class FunctionCallExpn extends Expn {
 
 	    // Emits codes for the four fields of callee's activation record.
         writer.add(Machine.PUSH, Machine.UNDEFINED); // return value
+        
+        writer.add(Machine.ADDR, routineSymbol.getLexicLevel() - 1, 0); // dynamic link
+        
         writer.add(Machine.PUSH, Machine.UNDEFINED); // return address
 
-        //
+        // Start counting number of instructions
         short retAddrLoc = writer.startCountingInstruction();
 
-        writer.add(Machine.ADDR, routineSymbol.getLexicLevel() - 1, 0);
-        writer.add(Machine.ADDR, getLexicLevel(), 0);
+        writer.add(Machine.ADDR, getLexicLevel(), 0); // static link
 
         // Emits codes for the arguments
         getArguments().doCodeGen(writer);
@@ -138,7 +140,7 @@ public class FunctionCallExpn extends Expn {
         writer.replace(retAddrLoc, numInstructions + retAddrLoc + 1);
 
 		// After function call returns:
-		// Stack :: return-value
+		// Stack :: return-value -> dynamic link
 
 		// Emits code to update the rest of the display.
 		// display of current lexic-level display[$curL] has been already
@@ -147,12 +149,17 @@ public class FunctionCallExpn extends Expn {
 		// Same as RoutineBody we follow static links to update the display
 		int L = getLexicLevel();
 		while (L > 0) {
-			writer.add(Machine.ADDR, L, 2);
+			writer.add(Machine.ADDR, L, 3);
 			writer.add(Machine.SETD, L - 1);
 			L--;
 		}
 
 		// At this point return-value of the function:
-		// Stack :: return-value
+		// Stack :: return-value-> dynamic link
+		
+		// Dynamic link is now on top of the stack, update display 
+		writer.add(Machine.SETD, getLexicLevel());				
+		
+		// At this point return-value is now on top of the stack
 	}
 }
