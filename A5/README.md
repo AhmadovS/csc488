@@ -31,7 +31,7 @@
 	* [ ] Stmt
 		* [x] AssignStmt
 		* [ ] ExitStmt
-		* [x] IfStmt
+		* [ ] IfStmt
 		* [x] LoopingStmt
 			* [x] RepeatUntilStmt
 			* [x] WhileDoStmt
