@@ -119,10 +119,9 @@ public class ProcedureCallStmt extends Stmt {
 	    writer.add(Machine.SETD, routineSym.getLexicLevel());
 
 	    // Emits codes for the four fields of callee's activation record.
-        writer.add(Machine.PUSH, Machine.UNDEFINED); // return value
-        writer.add(Machine.ADDR, getLexicLevel(), 0); // dynamic link
-        
-        writer.add(Machine.PUSH, Machine.UNDEFINED); // return address
+        writer.add(Machine.PUSH, Machine.UNDEFINED); // activation record return value
+        writer.add(Machine.ADDR, getLexicLevel(), 0); // activation record dynamic link
+        writer.add(Machine.PUSH, Machine.UNDEFINED); // activation record return address
 
         // start counting how many instructions are added,
         // in order to calculate where to branch to when the
@@ -158,7 +157,8 @@ public class ProcedureCallStmt extends Stmt {
         // Same as RoutineBody we follow static links to update the display
         int L = getLexicLevel();
         while (L > 0) {
-            writer.add(Machine.ADDR, L, 3);
+            writer.add(Machine.ADDR, L, 3);  // static link
+            writer.add(Machine.LOAD);       // Loads the value of the static link.
             writer.add(Machine.SETD, L - 1);
             L--;
         }

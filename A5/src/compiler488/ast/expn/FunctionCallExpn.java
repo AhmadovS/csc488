@@ -149,13 +149,14 @@ public class FunctionCallExpn extends Expn {
 		// Same as RoutineBody we follow static links to update the display
 		int L = getLexicLevel();
 		while (L > 0) {
-			writer.add(Machine.ADDR, L, 3);
+			writer.add(Machine.ADDR, L, 3); // static link
+            writer.add(Machine.LOAD);       // Loads the value of the static link.
 			writer.add(Machine.SETD, L - 1);
 			L--;
 		}
 
 		// At this point return-value of the function:
-		// Stack :: return-value-> dynamic link
+		// Stack :: return-value -> dynamic link
 		
 		// Dynamic link is now on top of the stack, update display 
 		writer.add(Machine.SETD, getLexicLevel());				

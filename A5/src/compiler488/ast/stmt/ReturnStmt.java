@@ -126,7 +126,7 @@ public class ReturnStmt extends Stmt {
 		writer.add(Machine.PUSHMT);
 		
 		// Push 1 above the address of return address (we don't want to pop the return address)
-		writer.add(Machine.ADDR, getLexicLevel(), 2);
+		writer.add(Machine.ADDR, getLexicLevel(), 3);
 		
 		// Subtract address (1 above the return address) from top of the stack to get number of words and pop all
         // This pops all the local variables and parameters, and only leaves the bottom 3 fields
@@ -135,7 +135,7 @@ public class ReturnStmt extends Stmt {
 		writer.add(Machine.POPN);
 
 		// At this point Stack :: return value -> dynamic link -> return address
-		// Return address is now om top of the stack, branch back to it
+		// Return address is now on top of the stack, branch back to it
 		writer.add(Machine.BR);
 		
 		

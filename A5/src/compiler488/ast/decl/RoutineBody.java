@@ -114,6 +114,7 @@ public class RoutineBody extends Indentable {
         int L = getLexicLevel();
         while (L > 0) {
             writer.add(Machine.ADDR, L, 3);   // Pushes the address of static link
+			writer.add(Machine.LOAD);         // Loads the value of the static link.
             writer.add(Machine.SETD, L - 1);  // Updates the display
             L--;
         }
