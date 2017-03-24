@@ -43,12 +43,12 @@ public class SubsExpn extends UnaryExpn implements Readable {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		DebugTool.print("SubsExpn: variable: " + variable);
 
 	    // S31 - check return type of operand is integer.
-		this.getOperand().checkSemantics(symbols);
+        this.getOperand().checkSemantics(symbols);
 		if (!(this.getOperand().getType() instanceof IntegerType)) {
             SemanticError.add(31, this, "Subscript expression must have type integer");
 		}

@@ -99,10 +99,10 @@ public class RoutineDecl extends Declaration {
     }
 
     @Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		// Iterates through the parameters of the body and gets their type
-		ASTList<Type> paramsTypes = new ASTList<>();
+        ASTList<Type> paramsTypes = new ASTList<>();
 		ListIterator li = this.getRoutineBody().getParameters().getIterator();
 		while (li.hasNext()) {
 		    Declaration param = (Declaration) li.next();

@@ -55,10 +55,11 @@ public class ReturnStmt extends Stmt {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 	    // If contained expression is not null, do semantic check on children.
-		if (value != null) {
+        if (value != null) {
+		    DebugTool.print("ReturnStmt value is not null");
 			value.checkSemantics(symbols);
 		}
 

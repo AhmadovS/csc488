@@ -62,10 +62,10 @@ public class ProcedureCallStmt extends Stmt {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 	    try {
-	        routineSym = (RoutineSymbol) symbols.getSymbol(this.getName());
+            routineSym = (RoutineSymbol) symbols.getSymbol(this.getName());
 	        if (routineSym == null) {
 	            throw new ClassCastException();
             }

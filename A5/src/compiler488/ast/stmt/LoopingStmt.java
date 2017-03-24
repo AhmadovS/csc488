@@ -38,7 +38,7 @@ public abstract class LoopingStmt extends Stmt {
 	}
 	
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
         // We need to check children expression, so we can know it's type for S30 check.
         this.getExpn().checkSemantics(symbols);
@@ -49,7 +49,7 @@ public abstract class LoopingStmt extends Stmt {
         }
 
         // Check semantics on the body (statements) of the loop.
-		if (this.getBody() != null){
+        if (this.getBody() != null){
 			this.getBody().checkSemantics(symbols);
 		}
 		

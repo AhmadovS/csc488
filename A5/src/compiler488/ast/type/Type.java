@@ -9,7 +9,7 @@ import compiler488.symbol.SymbolTable;
  */
 public abstract class Type extends AST {
     @Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
         // Nothing to do here.
     }
 

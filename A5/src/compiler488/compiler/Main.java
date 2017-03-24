@@ -460,27 +460,27 @@ public class Main {
        * Semantic checking
        */
       try {
+          // Starts semantic checking from root.
           programAST.checkSemantics(symbolTable);
-
-          List<String> errors = SemanticError.getErrors();
-
-          if (errors.size() > 0) {
-              System.out.println("\nSemantic errors:\n");
-              for (String error : errors) {
-                  System.out.println(error);
-              }
-
-              throw new SemanticException("Encountered semantic errors");
-          }
 
       } catch( Exception e) {
           System.err.println("Exception during Semantic Analysis");
           System.err.println(e.getClass().getName() + ": " + e.getMessage());
           e.printStackTrace ();
           errorOccurred = true ;
+      } finally {
+          List<String> errors = SemanticError.getErrors();
+          if (errors.size() > 0) {
+              errorOccurred = true;
+              System.out.println("\nSemantic errors:\n");
+              for (String error : errors) {
+                  System.out.println(error);
+              }
+          }
       }
-	
+
       if( errorOccurred ){
+
           System.out.println("Processing Terminated due to errors");
           return ;
       }

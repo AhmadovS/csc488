@@ -66,10 +66,10 @@ public class MultiDeclarations extends Declaration {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		ListIterator<DeclarationPart> li = this.getElements().getIterator();
-		while(li.hasNext()){
+        while(li.hasNext()){
 			DeclarationPart decl =  li.next();
 
 			// Performing semantic check on each decl.

@@ -1,6 +1,5 @@
 package compiler488.ast.stmt;
 
-import compiler488.DebugTool;
 import compiler488.ast.AST;
 import compiler488.ast.decl.RoutineDecl;
 import compiler488.ast.expn.*;
@@ -72,7 +71,7 @@ public class ExitStmt extends Stmt {
     }
 
     @Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
         if (this.getLevel() < 1) {
             SemanticError.add(53,this, "Exit integer must be > 0");

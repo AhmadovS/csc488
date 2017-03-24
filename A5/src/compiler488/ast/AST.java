@@ -52,7 +52,7 @@ public abstract class AST {
 
     protected abstract int calculateLexicLevel();
 
-	abstract public void checkSemantics(SymbolTable symbols);
+	abstract public void checkSemantics(SymbolTable symbols) throws Exception;
 
 	public void doCodeGen(MachineWriter writer) {
 	    // TODO: change this to abstract later.

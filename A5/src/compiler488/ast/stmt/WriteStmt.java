@@ -2,20 +2,15 @@ package compiler488.ast.stmt;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Printable;
-import compiler488.ast.expn.ConstExpn;
 import compiler488.ast.expn.Expn;
-import compiler488.ast.expn.IntConstExpn;
 import compiler488.ast.expn.SkipConstExpn;
 import compiler488.ast.expn.TextConstExpn;
-import compiler488.ast.type.BooleanType;
 import compiler488.ast.type.IntegerType;
-import compiler488.ast.type.Type;
 import compiler488.codegen.MachineWriter;
 import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
-import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
@@ -46,8 +41,8 @@ public class WriteStmt extends Stmt {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
-		ListIterator<Printable> li = outputs.getIterator();
+    public void checkSemantics(SymbolTable symbols) throws Exception {
+        ListIterator<Printable> li = outputs.getIterator();
 		while(li.hasNext()) {
 			Printable output = li.next();
 

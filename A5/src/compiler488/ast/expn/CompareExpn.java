@@ -18,11 +18,11 @@ public class CompareExpn extends BinaryExpn {
     }
 
 
-	public void checkSemantics(SymbolTable symbols) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		// Semantics check on children must be performed before getting their type.
         this.getLeft().checkSemantics(symbols);
-		this.getRight().checkSemantics(symbols);
+        this.getRight().checkSemantics(symbols);
 
 		if (this.getLeft().getType() == null || this.getRight().getType() == null) {
 			SemanticError.add(this, "RHS or LHS of CompareExpn has null type");

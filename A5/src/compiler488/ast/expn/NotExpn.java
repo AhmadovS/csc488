@@ -17,7 +17,7 @@ public class NotExpn extends UnaryExpn {
     }
 
     @Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
         // S30 - check that type of expression is boolean
         // Note: must check semantics on child first.
         this.getOperand().checkSemantics(symbols);

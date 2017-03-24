@@ -81,12 +81,12 @@ public class RoutineBody extends Indentable {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		// Note: Parameters don't need semantic check.
 
 		// S04, S08 - Starts function/procedure scope, and
-		// and S13 - associates scope with function/procedure.
+        // and S13 - associates scope with function/procedure.
         RoutineSymbol sym = ((RoutineDecl) getParent()).getRoutineSym();
 		symbols.startRoutineScope(sym);
 

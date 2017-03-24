@@ -1,10 +1,12 @@
 package compiler488.ast.expn;
 
+import compiler488.DebugTool;
 import compiler488.ast.ASTList;
 import compiler488.ast.type.Type;
 import compiler488.codegen.MachineWriter;
 import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
+import compiler488.semantics.SemanticException;
 import compiler488.symbol.RoutineSymbol;
 import compiler488.symbol.SymbolTable;
 
@@ -51,18 +53,21 @@ public class FunctionCallExpn extends Expn {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
+
+        DebugTool.print("FunctionCallExpn: " + ident);
 
 		RoutineSymbol routineSym = null;
 
 		try {
-			routineSym = (RoutineSymbol) symbols.getSymbol(this.getIdent());
+            routineSym = (RoutineSymbol) symbols.getSymbol(this.getIdent());
 			if (routineSym == null) {
 			    throw new ClassCastException();
 			}
 		} catch (ClassCastException e) {
 			// S40 - check that the identifier has been declared as a function.
 			SemanticError.add(this, "Identifier has not been declared as a function/procedure");
+			throw new SemanticException();
 		}
 
 		// NOTE: Ignoring variable that is not declared, might have a cascading

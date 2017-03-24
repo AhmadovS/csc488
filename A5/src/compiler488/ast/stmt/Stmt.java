@@ -8,7 +8,7 @@ import compiler488.symbol.SymbolTable;
  */
 public abstract class Stmt extends Indentable {
 	
-	public abstract void checkSemantics(SymbolTable symbols);
+	public abstract void checkSemantics(SymbolTable symbols) throws Exception;
 
 	/**
 	 * Most statements have the same lexic level as their parents.

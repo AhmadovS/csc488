@@ -32,9 +32,9 @@ public class IntConstExpn extends ConstExpn {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
         // Nothing to do here.
-	}
+    }
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {

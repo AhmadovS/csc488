@@ -39,7 +39,7 @@ public class IdentExpn extends Expn implements Readable {
 	}
 
 	@Override
-	public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 		// S25, S26 - set result type to type of variablename
 		DebugTool.print("IdentExpn: " + ident);
 		Symbol sym = symbols.getSymbol(this.getIdent());

@@ -22,8 +22,8 @@ public class ScalarDeclPart extends DeclarationPart {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
-	    // Nothing to do here.
+    public void checkSemantics(SymbolTable symbols) throws Exception {
+        // Nothing to do here.
 	}
 
 	@Override

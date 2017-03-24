@@ -17,11 +17,11 @@ public class BoolExpn extends BinaryExpn {
     	super(opSymbol, left, right);
     }
 	
-	public void checkSemantics(SymbolTable symbols) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
 		// Semantics check on children must be performed before getting their type.
         this.getLeft().checkSemantics(symbols);
-		this.getRight().checkSemantics(symbols);
+        this.getRight().checkSemantics(symbols);
 
 		// S30 - checks left expression is boolean
 		if(!(this.getLeft().getType() instanceof BooleanType)){

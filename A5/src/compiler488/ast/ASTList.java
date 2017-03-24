@@ -63,7 +63,7 @@ public class ASTList<E> extends AST {
 	}
 
 	@Override
-    public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 
 	}
 

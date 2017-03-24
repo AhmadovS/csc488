@@ -17,7 +17,7 @@ public class UnaryMinusExpn extends UnaryExpn {
 	}
 	
 	@Override
-	public void checkSemantics(SymbolTable symbols) {
+    public void checkSemantics(SymbolTable symbols) throws Exception {
 		// S31 - Check that expression type is integer
 		// Note semantic check on operand must be performed first.
 		this.getOperand().checkSemantics(symbols);

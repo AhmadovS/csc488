@@ -1,10 +1,8 @@
 package compiler488.ast.expn;
 
-import compiler488.DebugTool;
 import compiler488.ast.type.*;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.*;
-import jdk.nashorn.internal.runtime.Debug;
 
 /** Represents a conditional expression (i.e., x>0?3:4). */
 public class ConditionalExpn extends Expn {
@@ -53,11 +51,11 @@ public class ConditionalExpn extends Expn {
 		this.trueValue = trueValue;
 	}
 	
-	public void checkSemantics(SymbolTable symbols) {
+	public void checkSemantics(SymbolTable symbols) throws Exception {
 
 	    // Note: do semantic check on children before checking their type.
         this.getCondition().checkSemantics(symbols);
-		this.getTrueValue().checkSemantics(symbols);
+        this.getTrueValue().checkSemantics(symbols);
 		this.getFalseValue().checkSemantics(symbols);
 
 		if (this.getCondition().getType() == null) {

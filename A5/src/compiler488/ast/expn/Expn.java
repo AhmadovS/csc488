@@ -22,8 +22,8 @@ public abstract class Expn extends AST implements Printable {
 		return this.type;
 	}
 
-	public void checkSemantics(SymbolTable symbols) {
-	    // Checks if expn has a valid type.
+	public void checkSemantics(SymbolTable symbols) throws Exception {
+		// Checks if expn has a valid type.
         if (this.type == null) {
 			SemanticError.add(this, "Expression has 'null' type");
 		}
