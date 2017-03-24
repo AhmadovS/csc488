@@ -12,13 +12,13 @@ a5.488	       Simple boolean variable/array declaration and assigning variable t
 
 Expressions:
 
-e1.488
-e2.488
-e3.488
-e4.488
-e5.488
-e6.488
-e7.488
+e1.488         Simple not statement
+e2.488         Simple negative statement
+e3.488         Simple arithmetic statements
+e4.488         Simple boolean logic statement
+e5.488         Simple equality statements
+e6.488         Simple less/greater than statements
+e7.488         
 e8.488         Simple if statement with true condtion
 e9.488         Simple if else statement with false condition
 e10.488        If-else statement with comparison expression where condition is false
