@@ -15,11 +15,11 @@
  We now put dynamic link below return address.
 
  -----------------
- static link
+ 3 static link
  -----------------
- return address
+ 2 return address
  -----------------
- dynamic link
+ 1 dynamic link
  -----------------
- return value
+ 0 return value
  -----------------

@@ -1,0 +1,11 @@
+{
+    var i : Integer
+
+    {
+        procedure P {
+            i := 2
+        }
+        P
+    }
+
+}

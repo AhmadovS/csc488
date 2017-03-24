@@ -1,0 +1,19 @@
+{
+    var i : Integer
+
+    function A(n : Integer) : Integer {
+
+        function B(n : Integer) : Integer {
+
+            function C(n : Integer) :Integer {
+                return with n + 2
+            }
+            return with C(n) + 1
+        }
+
+        return with B(n)
+    }
+
+    i := A(1007)
+
+}
