@@ -1,7 +1,7 @@
 # Progress
 
 * [x] ASTList
-* [ ] Expn
+* [x] Expn
 	* [x] IdentExpn
 	* [x] BinaryExpn
 		* [x] ArithExpn
@@ -31,7 +31,7 @@
 	* [ ] Stmt
 		* [x] AssignStmt
 		* [ ] ExitStmt
-		* [ ] IfStmt
+		* [x] IfStmt
 		* [x] LoopingStmt
 			* [x] RepeatUntilStmt
 			* [x] WhileDoStmt

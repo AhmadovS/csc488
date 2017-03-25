@@ -108,43 +108,34 @@ public class IfStmt extends Stmt {
 	
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+		// Evaluate the condition
+		this.getCondition().doCodeGen(writer);
 		
-		// Evaluates the condition
-		this.condition.doCodeGen(writer);
-		
-		// At this point the condition values is on top of the stack
-		// Push the address where to branch if conditions is false
+		// Store the address to the false expression or exit
 		writer.add(Machine.PUSH, Machine.UNDEFINED);
-		
-		short brAddr = writer.startCountingInstruction();
+		short exitFalseAddr = writer.getPrevAddr();
 		writer.add(Machine.BF);
 		
-		// Do code gen on children
-		this.whenTrue.doCodeGen(writer);
-		
-		// Count the number of instructions
-		short numInstructions = writer.stopCountingInstruction();
-						
-		// Replace the brAddr + 2 (number of else clause instruction and BR instruction)
-		writer.replace(brAddr, numInstructions + brAddr +3);
-	
-		// If there is else statement do code gen on
-		if (this.whenFalse != null){
-			
-			// The address to jump over else instructions
+		// Execute the true expression
+		this.getWhenTrue().doCodeGen(writer);
+
+		if(this.whenFalse != null) {
+			// Exit the conditional statement
 			writer.add(Machine.PUSH, Machine.UNDEFINED);
-			
-			// Count the number of else instructions
-			short brTrueAddr = writer.startCountingInstruction();
-			
+			short exitAddr = writer.getPrevAddr();
 			writer.add(Machine.BR);
-			this.whenFalse.doCodeGen(writer);
 			
-			// Count the number of instructions
-			numInstructions = writer.stopCountingInstruction();
+			// Update false address
+			writer.replace(exitFalseAddr, (short) writer.getNextAddr());
 			
-			// Replace the brAddr + 1
-			writer.replace(brTrueAddr, numInstructions + brTrueAddr +1);
+			// Execute false expression
+			this.getWhenFalse().doCodeGen(writer);
+
+			// Update exit address
+			writer.replace(exitAddr, (short) writer.getNextAddr());
+		} else {
+			writer.replace(exitFalseAddr, (short) writer.getNextAddr());
 		}
+
 	}
 }

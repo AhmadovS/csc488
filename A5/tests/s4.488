@@ -1,8 +1,8 @@
 {
-    var i,j,n[3] : Integer
-    
-    i := 2
-    j:= 5
-    
-    if i >j then n[i]:=100 else n[i]:=-100
+	var i,j,n[3] : Integer
+
+	i := 2
+	j:= 5
+
+	if i > j then n[i]:=100 else n[i]:=-100
 }

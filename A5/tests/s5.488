@@ -1,8 +1,8 @@
 {
-    var i,j,n : Integer
-    
-    i := 5
-    j:= 4
-    
-    if i > j then n:=1 else n:=-1
+	var i,j,n : Integer
+
+	i := 5
+	j:= 4
+
+	if i > j then n:=1 else n:=-1
 }

@@ -1,6 +1,5 @@
 {
-  var i :Integer
-  
-  if true then i := 5
+	var i : Integer
 
+	if true then i := 5
 } 
