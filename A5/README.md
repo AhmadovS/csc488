@@ -8,7 +8,7 @@
 		* [x] BoolExpn
 		* [x] EqualsExpn
 		* [x] CompareExpn
-	* [ ] ConditionalExpn
+	* [x] ConditionalExpn
 	* [x] ConstExpn
 		* [x] BoolConstExpn
 		* [x] IntConstExpn
