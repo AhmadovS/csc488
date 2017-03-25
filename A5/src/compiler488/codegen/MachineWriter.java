@@ -58,7 +58,7 @@ public final class MachineWriter {
      * @return
      */
     public short getNextAddr() {
-        return nextAddr;
+        return (short) (nextAddr);
     }
     
     public short getPrevAddr() {

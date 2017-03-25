@@ -57,6 +57,6 @@ public class WhileDoStmt extends LoopingStmt {
 		writer.add(Machine.BR);
 		
 		// Update the end of while loop address
-		writer.replace(endWhileAddr, (short) writer.getNextAddr());
+		writer.replace(endWhileAddr, writer.getNextAddr());
 	}
 }

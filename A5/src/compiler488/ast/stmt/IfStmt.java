@@ -126,15 +126,15 @@ public class IfStmt extends Stmt {
 			writer.add(Machine.BR);
 			
 			// Update false address
-			writer.replace(exitFalseAddr, (short) writer.getNextAddr());
+			writer.replace(exitFalseAddr, writer.getNextAddr());
 			
 			// Execute false expression
 			this.getWhenFalse().doCodeGen(writer);
 
 			// Update exit address
-			writer.replace(exitAddr, (short) writer.getNextAddr());
+			writer.replace(exitAddr, writer.getNextAddr());
 		} else {
-			writer.replace(exitFalseAddr, (short) writer.getNextAddr());
+			writer.replace(exitFalseAddr, writer.getNextAddr());
 		}
 
 	}

@@ -101,12 +101,12 @@ public class ConditionalExpn extends Expn {
 		writer.add(Machine.BR);
 		
 		// Update false address
-		writer.replace(falseAddr, (short) writer.getNextAddr());
+		writer.replace(falseAddr, writer.getNextAddr());
 
 		// Execute false expression
 		this.getFalseValue().doCodeGen(writer);
 		
 		// Update exit address
-		writer.replace(exitAddr, (short) writer.getNextAddr());
+		writer.replace(exitAddr, writer.getNextAddr());
 	}
 }
