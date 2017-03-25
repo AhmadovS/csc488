@@ -36,7 +36,7 @@
 			* [x] RepeatUntilStmt
 			* [x] WhileDoStmt
 		* [x] ProcedureCallStmt
-		* [ ] ReadStmt
+		* [x] ReadStmt
 		* [x] ReturnStmt
 		* [x] Scope
 			* [x] Program

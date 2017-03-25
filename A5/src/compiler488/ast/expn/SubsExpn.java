@@ -41,6 +41,18 @@ public class SubsExpn extends UnaryExpn implements Readable {
 	public void setVariable(String variable) {
 		this.variable = variable;
 	}
+	
+	public short getLexicalLevel() {
+		return (short) (this.arraySym.getLexicLevel());
+	}
+	
+	public short getOrderNumber() {
+		return (short) (this.arraySym.getOrderNumber());
+	}
+	
+	public short getLowerBound() {
+		return (short) (this.arraySym.getLowerBound());
+	}
 
 	@Override
     public void checkSemantics(SymbolTable symbols) throws Exception {

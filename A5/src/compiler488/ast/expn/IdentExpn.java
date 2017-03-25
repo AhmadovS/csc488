@@ -37,6 +37,14 @@ public class IdentExpn extends Expn implements Readable {
 	public void setIdent(String ident) {
 		this.ident = ident;
 	}
+	
+	public short getLexicalLevel() {
+		return (short) (this.varSym.getLexicLevel());
+	}
+	
+	public short getOrderNumber() {
+		return (short) (this.varSym.getOrderNumber());
+	}
 
 	@Override
     public void checkSemantics(SymbolTable symbols) throws Exception {

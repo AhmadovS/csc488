@@ -41,6 +41,7 @@ s4.488			If-else statement with comparison expression where condition is false
 s5.488			If-else statement with comparison expression where condition is true
 s6.488			Simple repeat until statement
 s7.488			Simple while do statement
+s8.488			Simple read statement
 
 -------------------------------------------------------------------------------
 

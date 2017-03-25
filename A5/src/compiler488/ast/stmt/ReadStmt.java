@@ -2,10 +2,12 @@ package compiler488.ast.stmt;
 
 import compiler488.ast.ASTList;
 import compiler488.ast.Readable;
+import compiler488.ast.expn.Expn;
 import compiler488.ast.expn.IdentExpn;
 import compiler488.ast.expn.SubsExpn;
 import compiler488.ast.type.IntegerType;
 import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
@@ -64,6 +66,24 @@ public class ReadStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// not implemented yet
+		ListIterator<Readable> it = this.inputs.getIterator();
+		while(it.hasNext()) {
+			Readable read = (Readable) it.next();
+			
+			if(read instanceof IdentExpn) {
+				IdentExpn i = (IdentExpn) read;
+				writer.add(Machine.ADDR, i.getLexicalLevel(), i.getOrderNumber());				
+			} else if(read instanceof SubsExpn) {
+				SubsExpn s = (SubsExpn) read;
+				writer.add(Machine.ADDR, s.getLexicalLevel(), s.getOrderNumber());
+				s.getOperand().doCodeGen(writer);
+		        writer.add(Machine.PUSH, s.getLowerBound());
+		        writer.add(Machine.SUB);
+		        writer.add(Machine.ADD);
+			}
+
+			writer.add(Machine.READI);
+			writer.add(Machine.STORE);
+		}
 	}
 }
