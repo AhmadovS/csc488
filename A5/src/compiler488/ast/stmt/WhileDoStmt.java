@@ -46,17 +46,17 @@ public class WhileDoStmt extends LoopingStmt {
 		writer.add(Machine.PUSH, Machine.UNDEFINED);
 		short endWhileAddr = writer.getPrevAddr();
 		
-		// If the expression is false, go to the end of the loop
+		// If the expression is false, branch to the end of the loop
 		writer.add(Machine.BF);
 		
-		// If the expression is true, execute the body
+		// If the experssion is true, then execute the body
 		this.getBody().doCodeGen(writer);
 		
-		// Push the startOfWhile to the stack and branch to it
+		// Push the address of the start of the while loop and branch to it
 		writer.add(Machine.PUSH, startWhileAddr);
 		writer.add(Machine.BR);
 		
-		// Replace the brAddr with the number of instructions
+		// Update the end of while loop address
 		writer.replace(endWhileAddr, (short) writer.getNextAddr());
 	}
 }
