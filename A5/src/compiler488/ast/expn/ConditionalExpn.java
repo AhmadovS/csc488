@@ -1,6 +1,8 @@
 package compiler488.ast.expn;
 
 import compiler488.ast.type.*;
+import compiler488.codegen.MachineWriter;
+import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.*;
 
@@ -78,5 +80,33 @@ public class ConditionalExpn extends Expn {
 
 		// S24 - Set result type to type of conditional expression
 		this.setType(this.getTrueValue().getType());
+	}
+	
+	@Override
+	public void doCodeGen(MachineWriter writer) {
+		// Evaluate the condition
+		this.getCondition().doCodeGen(writer);
+		
+		// Store the address to the false expression
+		writer.add(Machine.PUSH, Machine.UNDEFINED);
+		short falseAddr = writer.getPrevAddr();
+		writer.add(Machine.BF);
+		
+		// Execute true expression
+		this.getTrueValue().doCodeGen(writer);
+		
+		// Exit the conditional statement
+		writer.add(Machine.PUSH, Machine.UNDEFINED);
+		short exitAddr = writer.getPrevAddr();
+		writer.add(Machine.BR);
+		
+		// Update false address
+		writer.replace(falseAddr, (short) writer.getNextAddr());
+
+		// Execute false expression
+		this.getFalseValue().doCodeGen(writer);
+		
+		// Update exit address
+		writer.replace(exitAddr, (short) writer.getNextAddr());
 	}
 }

@@ -28,7 +28,7 @@ e3.488			Simple arithmetic statements
 e4.488			Simple boolean logic statement
 e5.488			Simple equality statements
 e6.488			Simple less/greater than statements
-e7.488			
+e7.488			Simple conditional statement
 
 -------------------------------------------------------------------------------
 

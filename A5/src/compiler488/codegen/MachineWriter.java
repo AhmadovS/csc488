@@ -60,6 +60,10 @@ public final class MachineWriter {
     public short getNextAddr() {
         return nextAddr;
     }
+    
+    public short getPrevAddr() {
+    	return (short) (nextAddr-1);
+    }
 
     /**
      * Simple method for writing instructions to the next

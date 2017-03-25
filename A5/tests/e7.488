@@ -1,0 +1,8 @@
+{
+	var a,b,c : Integer
+	a := 10
+	% Should be 416
+	b := ((a < 1) ? 905:416)
+	% Should be 905
+	c := ((a < 100) ? 905:416)
+}

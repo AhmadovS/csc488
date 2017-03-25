@@ -37,14 +37,14 @@ public class WhileDoStmt extends LoopingStmt {
 	@Override
 	public void doCodeGen(MachineWriter writer) {
 		// Get the start of the address for returning to the while loop
-		short startOfWhile = writer.getNextAddr();
+		short startWhileAddr = writer.getNextAddr();
 		
 		// Execute the condition
 		this.getExpn().doCodeGen(writer);
 		
 		// Push the address to the end of the loop
 		writer.add(Machine.PUSH, Machine.UNDEFINED);
-		short brAddr = writer.startCountingInstruction();
+		short endWhileAddr = writer.getPrevAddr();
 		
 		// If the expression is false, go to the end of the loop
 		writer.add(Machine.BF);
@@ -53,12 +53,10 @@ public class WhileDoStmt extends LoopingStmt {
 		this.getBody().doCodeGen(writer);
 		
 		// Push the startOfWhile to the stack and branch to it
-		writer.add(Machine.PUSH, startOfWhile);
+		writer.add(Machine.PUSH, startWhileAddr);
 		writer.add(Machine.BR);
 		
 		// Replace the brAddr with the number of instructions
-		// The plus 1 is for the end instructions indicating returning to the loop
-		short numInstructions = writer.stopCountingInstruction();
-		writer.replace(brAddr, numInstructions + brAddr + 1);
+		writer.replace(endWhileAddr, (short) writer.getNextAddr());
 	}
 }
