@@ -117,6 +117,42 @@ public class ExitStmt extends Stmt {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
-        // not implemented yet
+		// Check to see how many loops we have to exit from
+		Integer nested_levels = this.getLevel();
+		short exit_addr;
+		LoopingStmt lastLoop = null;
+		
+		while (nested_levels > 0) {
+			AST AST_node = this.getParent();
+			if (AST_node instanceof LoopingStmt) {
+				lastLoop = (LoopingStmt) AST_node;
+				nested_levels--;
+			}
+		}
+		
+		// Check to see if a conditional expression was given
+		if (this.expn != null) {
+			// A conditional was given, so first evaluate the conditional
+			// Evaluate the condition
+			this.getExpn().doCodeGen(writer);
+			
+			// Negate the condition as we are looking for false in branch
+			writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
+			writer.add(Machine.EQ);
+			 
+			// Store the address to the expression
+			writer.add(Machine.PUSH, Machine.UNDEFINED);
+			// The address the end of the containing loop(s). Will be updated after the code for last containing loop has been fully generated.
+			lastLoop.addExitAddr(writer.getPrevAddr());
+			writer.add(Machine.BF);
+		}
+		else {
+			// Store the address to the expression
+			writer.add(Machine.PUSH, Machine.UNDEFINED);
+			// The address the end of the containing loop(s). Will be updated after the code for last containing loop has been fully generated.
+			lastLoop.addExitAddr(writer.getPrevAddr());
+			writer.add(Machine.BF);
+		}
+        
     }
 }

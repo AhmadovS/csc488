@@ -58,5 +58,11 @@ public class WhileDoStmt extends LoopingStmt {
 		
 		// Update the end of while loop address
 		writer.replace(endWhileAddr, writer.getNextAddr());
+		
+		// For each of the exit statements contained in the loop body, update 
+		// branch address
+		for (int i = 0; i < exitAddrToBePatched.length; i++) {
+			writer.replace(exitAddrToBePatched[i], writer.getNextAddr());
+		}
 	}
 }

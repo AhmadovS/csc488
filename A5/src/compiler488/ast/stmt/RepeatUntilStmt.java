@@ -50,6 +50,12 @@ public class RepeatUntilStmt extends LoopingStmt {
 		writer.add(Machine.PUSH, returnAddr);
 		// Branch
 		writer.add(Machine.BF);
+		
+		// For each of the exit statements contained in the loop body, update 
+		// branch address
+		for (int i = 0; i < exitAddrToBePatched.length; i++) {
+			writer.replace(exitAddrToBePatched[i], writer.getNextAddr());
+		}
 	}
 
 }

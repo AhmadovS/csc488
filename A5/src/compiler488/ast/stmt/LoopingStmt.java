@@ -12,6 +12,7 @@ import compiler488.symbol.SymbolTable;
 public abstract class LoopingStmt extends Stmt {
     protected Stmt body;	  // body of the loop
     protected Expn expn;          // Loop condition
+	protected short[] exitAddrToBePatched = {};	// List of addresses (used by exit statements) to be patched
     
     public LoopingStmt(Expn expn, Stmt body) {
     	this.body = body;
@@ -35,6 +36,11 @@ public abstract class LoopingStmt extends Stmt {
 
 	public void setBody(Stmt body) {
 		this.body = body;
+	}
+	
+	public void addExitAddr(short addr) {
+		exitAddrToBePatched = Arrays.copyOf(exitAddrToBePatched, exitAddrToBePatched.length + 1);
+		exitAddrToBePatched[exitAddrToBePatched.length - 1] = addr;
 	}
 	
 	@Override
