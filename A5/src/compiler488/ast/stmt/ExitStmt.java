@@ -4,6 +4,7 @@ import compiler488.ast.AST;
 import compiler488.ast.decl.RoutineDecl;
 import compiler488.ast.expn.*;
 import compiler488.ast.type.BooleanType;
+import compiler488.runtime.Machine;
 import compiler488.codegen.MachineWriter;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
@@ -121,9 +122,10 @@ public class ExitStmt extends Stmt {
 		Integer nested_levels = this.getLevel();
 		short exit_addr;
 		LoopingStmt lastLoop = null;
+		AST AST_node = this;
 		
 		while (nested_levels > 0) {
-			AST AST_node = this.getParent();
+			AST_node = AST_node.getParent();
 			if (AST_node instanceof LoopingStmt) {
 				lastLoop = (LoopingStmt) AST_node;
 				nested_levels--;
@@ -142,16 +144,16 @@ public class ExitStmt extends Stmt {
 			 
 			// Store the address to the expression
 			writer.add(Machine.PUSH, Machine.UNDEFINED);
-			// The address the end of the containing loop(s). Will be updated after the code for last containing loop has been fully generated.
+			// The address the end of the containing loop(s) will only be updated after the code for last containing loop has been fully generated.
 			lastLoop.addExitAddr(writer.getPrevAddr());
 			writer.add(Machine.BF);
 		}
 		else {
 			// Store the address to the expression
 			writer.add(Machine.PUSH, Machine.UNDEFINED);
-			// The address the end of the containing loop(s). Will be updated after the code for last containing loop has been fully generated.
+			// The address the end of the containing loop(s) will only be updated after the code for last containing loop has been fully generated.
 			lastLoop.addExitAddr(writer.getPrevAddr());
-			writer.add(Machine.BF);
+			writer.add(Machine.BR);
 		}
         
     }

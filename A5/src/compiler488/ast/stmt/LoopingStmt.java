@@ -5,6 +5,7 @@ import compiler488.ast.type.BooleanType;
 import compiler488.semantics.SemanticError;
 import compiler488.symbol.SymbolTable;
 
+import java.util.Arrays;
 
 /**
  * Represents the common parts of loops.
