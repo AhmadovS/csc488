@@ -19,7 +19,7 @@
 		* [x] NotExpn
 		* [x] SubsExpn
 		* [x] UnaryMinusExpn
-* [ ] Indentable
+* [x] Indentable
 	* [x] Declaration
 		* [x] RoutineDecl
 		* [x] MultiDeclarations
@@ -28,9 +28,9 @@
 			* [x] ScalarDeclPart
 			* [x] ArrayDeclPart
 	* [x] RoutineBody
-	* [ ] Stmt
+	* [x] Stmt
 		* [x] AssignStmt
-		* [ ] ExitStmt
+		* [x] ExitStmt
 		* [x] IfStmt
 		* [x] LoopingStmt
 			* [x] RepeatUntilStmt
