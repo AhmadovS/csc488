@@ -120,16 +120,20 @@ public class IfStmt extends Stmt {
 		this.getWhenTrue().doCodeGen(writer);
 
 		if(this.whenFalse != null) {
-			// The if statement has a non-empty else clause
+			// Exit the conditional statement
+			writer.add(Machine.PUSH, Machine.UNDEFINED);
+			short exitAddr = writer.getPrevAddr();
+			writer.add(Machine.BR);
+			
 			// Update false address
 			writer.replace(exitFalseAddr, writer.getNextAddr());
 			
 			// Execute false expression
 			this.getWhenFalse().doCodeGen(writer);
+
+			// Update exit address
+			writer.replace(exitAddr, writer.getNextAddr());
 		} else {
-			// The if statement doesn't have an else clause
-			// So just let the first condition cause a branch 
-			// to the end of the loop
 			writer.replace(exitFalseAddr, writer.getNextAddr());
 		}
 
