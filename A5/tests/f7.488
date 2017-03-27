@@ -1,6 +1,5 @@
 {
     var a : Integer
-    var b : Integer
 
     function add2(n : Integer, sum : Integer) : Integer {
         if n = 0 then {
@@ -12,9 +11,6 @@
     }
 
     a := add2(5, 666)
-    % b := 3
-
-    % if false then a := 666 else a:= 777
 
 }
 

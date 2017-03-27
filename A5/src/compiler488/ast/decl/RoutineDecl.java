@@ -94,7 +94,7 @@ public class RoutineDecl extends Declaration {
     /**
      * Retruns the symbol-table RoutineSymbol associated with this declaration.
      */
-	protected RoutineSymbol getRoutineSym() {
+	public RoutineSymbol getRoutineSym() {
 	    return this.routineSym;
     }
 

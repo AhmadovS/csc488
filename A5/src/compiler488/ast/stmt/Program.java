@@ -29,7 +29,7 @@ public class Program extends Scope {
 	@Override
     public void checkSemantics(SymbolTable symbols) throws Exception {
 		// S00 - start program scope.
-		symbols.startScope();
+		symbols.startProgramScope();
 			// Walk of AST for semantic checking
 		super.checkSemantics(symbols);
 		// S01 - end program scope.

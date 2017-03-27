@@ -49,7 +49,8 @@ public class SymbolTable {
 	/**
 	 * starts scope for main program and other ordinary scopes.
 	 */
-	public void startScope(){
+	public void startProgramScope(){
+		DebugTool.print(String.format("Started scope. #scopes=%d", symbolTable.size()));
 		symbolTable.push(new ScopeTable(null));
 	}
 
@@ -59,8 +60,20 @@ public class SymbolTable {
 	 * @param owner
 	 */
 	public void startRoutineScope(RoutineSymbol owner) {
+		DebugTool.print(String.format("Started routine scope. #scopes=%d", symbolTable.size()));
+		if (owner == null) {
+		    throw new IllegalArgumentException("Routine scope must have an owner");
+        }
 		symbolTable.push(new ScopeTable(owner));
 	}
+
+    /**
+     * Only use this function to start a scope for an anonymous inner scope.
+     * @param owner If owner is program, pass null, otherwise pass routine that owns scope.
+     */
+	public void startInnerScope(RoutineSymbol owner) {
+	    symbolTable.push(new ScopeTable(owner));
+    }
 	
 	public void exitScope(){
 		symbolTable.pop();

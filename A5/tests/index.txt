@@ -6,6 +6,7 @@ Failing tests:
     - f9
 
 TODO tests:
+    - More tests for anonymous scopes
     - what to do with a function that has no return statement
 	- mixed boolean and integer params
 
