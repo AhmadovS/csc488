@@ -1,0 +1,20 @@
+% Accessing arrays inside procedures
+{
+
+    var a[2], b[2], c[2] : Integer
+
+    procedure vec_add {
+        c[1] := a[1] + b[1] 
+        c[2] := a[2] + b[2]
+    }
+
+    a[1] := 1
+    a[2] := 3
+    b[1] := 5
+    b[2] := 6
+
+    vec_add
+
+}
+
+% Stack :: UNDEFINED, UNDEFINED, 1, 3, 5, 6, 6, 9

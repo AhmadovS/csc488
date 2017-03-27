@@ -1,0 +1,50 @@
+% Calling routine/procedure of lower lexical level from a1routine/procedure.
+
+{
+    var a1 : Integer
+    var a2 : Integer
+    var b1 : Integer
+    var b2 : Integer
+
+
+    procedure p1 {
+
+        function f2(n : Integer) : Integer {
+            % Calls procedure from functions
+            set_a2(666)
+
+            % Calls function from function
+            return with f1(n) + 200
+        }
+
+        procedure p2(n : Integer) : Integer {
+            % Calls procedure from procedure
+            set_b2(888)
+
+            % Calls function from procedure
+            b1 := f1(5000) + 500
+        }
+
+        a1 := f2(7)
+        return
+    }
+
+    function f1(n : Integer) : Integer {
+        return with n + 1000 
+    }
+
+    procedure set_a2(n : Integer) {
+        a2 := n
+        return
+    }
+
+    procedure set_b2(n : Integer) {
+        b2 := n
+        return
+    }
+
+    p1
+
+}
+
+% stack: UNDEFINED, UNDEFINED, 1207, 666, 6500, 888

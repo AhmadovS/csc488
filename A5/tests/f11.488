@@ -1,0 +1,38 @@
+% Comprehensive tests for scopes in functions/procedures
+{
+
+    var a, b, c : Integer
+
+    % Tests param access and global variable setting
+    procedure nested_1(p1 : Integer) {
+        {
+            a := p1 + 1000
+        }
+        return
+    }
+
+    procedure nested_2(p1 : Boolean) {
+        var c : Integer
+        {
+            if p1 then c := 1 else c := 0
+        }
+        b := c + 2000
+    }
+
+    procedure nested_3(p1 : Boolean) {
+        {
+            var t : Integer
+            if p1 then t := 10 else t := 20
+            c := t + 3000
+        }
+    }
+
+    nested_1(100)   % 1100
+    nested_2(true)  % 2001
+    nested_3(false) % 3020
+
+}
+
+
+
+% Stack :: UNDEFINED, UNDEFINED, 1100, 2001, 3020

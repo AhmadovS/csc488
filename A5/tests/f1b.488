@@ -1,0 +1,50 @@
+{
+
+    % There is no required semantic check for this,
+    % but it shouldn't be allowed.
+    % function empty : Integer {
+    % }
+
+    % Const expression return
+    function const_4 : Integer{
+        return with 4
+    }
+
+    % Arith expression return
+    function add(a : Integer, b : Integer) : Integer {
+        return with a + b
+    }
+
+    % Function return const declaration inside
+    function returns_guts : Integer {
+        var my_guts : Integer
+        my_guts := 8888
+        return with my_guts
+    }
+
+    % Conditional expression return
+    function conditional : Integer {
+        return with ((0 < 1) ? 905:416)   % 905
+    } 
+
+
+    % This language is weird. 
+    % This should pass without leaving
+    % any garbage on the run-time stack.
+    function MultipleReturn : Integer{
+        return with 111
+        return with 222
+        return with 333
+    }
+
+    var i, j, k, l, m : Integer
+
+    i := const_4         % expect 4
+    j := add(666, 34)    % expect 700
+    k := returns_guts    % expect 8888
+    l := conditional     % expect 905
+    m := MultipleReturn  % expect 111
+
+}
+
+% output: UNDEFINED, UNDEFINED, 4, 700, 8888, 905, 111

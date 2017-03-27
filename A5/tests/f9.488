@@ -1,0 +1,41 @@
+{
+
+    procedure b_condition (a : Integer, b : Boolean) {
+        var r : Integer
+        if b then r := 111 else r := 222
+
+        write "Value of r ", (r + a), newline
+    }
+
+    procedure reverse_b_condition (b : Boolean, a : Integer) {
+        b_condition(a, b)
+    }
+
+    function is_even(n : Integer) : Boolean {
+        if (n / 2) = 0 then
+            return with true
+        return with false
+    }
+
+    function bool_to_int(b : Boolean) : Integer {
+        if b then
+            return with 1
+        else
+            return with 0
+    }
+
+    var b1, b2: Boolean
+    var i1, i2 : Integer
+
+    b_condition(1000, false)           % Expect >> Value of r, 1222
+    reverse_b_condition(true, 2000)    % Expect >> Value of r, 2111
+
+    b1 := is_even(33)
+    b2 := is_even(44)
+
+    i1 := bool_to_int(false)
+    i2 := bool_to_int(true)
+
+}
+
+% Stack :: UNDEFINED, UNDEFINED, 0, 1, 0, 1

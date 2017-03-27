@@ -1,11 +1,13 @@
 Test File      Test Description
 
 -------------------------------------------------------------------------------
+Failing tests:
+    - f7
+    - f9
 
 TODO tests:
-	- arrays as params
+    - what to do with a function that has no return statement
 	- mixed boolean and integer params
-	- Calling routine with lower lexical level
 
 -------------------------------------------------------------------------------
 
@@ -48,13 +50,17 @@ s8.488			Simple read statement
 Functions and procedures:
 
 f0.488			Simple single procedure declaration and procedure call.
-f1.488			Tests procedure exit code.
-f2.488			Simple function declaration and call (returns parameter)
-f3.488			Interleaved function and variable declaration
-f4a.488			Nested functions with 1 parameters (calling function with higher lexical level)
-f4b.488			Nested procedures (calling function with higher lexical level)
-f5a.488			Tests multiple procedure parameters
-f5b.488			Tests multiple function parameters
-f7.488			Tests recursion
-f8.488			Calling routine with lower lexical level
-
+f1a.488			Tests procedure exit code.
+f1b.488         Tests function exit code.
+f2.488			Simple function declaration and call (returns parameter).
+f3a.488			Interleaved function and variable declaration.
+f3b.488         Interleaved procedure and variable declaration.
+f4a.488			Nested functions with 1 parameters (calling function with higher lexical level).
+f4b.488			Nested procedures (calling function with higher lexical level).
+f5a.488			Tests multiple procedure parameters.
+f5b.488			Tests multiple function parameters.
+f7.488			Tests simple recursion.
+f8.488			Calling routine with lower lexical level.
+f9.488          Mixed param and return types.
+f10.488         Array access in procedure.
+f11.488         Nested scope inside function/procedure.

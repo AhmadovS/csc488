@@ -1,0 +1,33 @@
+% Tests functions at different parts of declarations.
+% This is to test that code branching works correctly
+% to allocate space for declared variables, and jump
+% over all the function instructions until it is called.
+{
+
+    % Tests function at beginning of program
+    function beginning : Integer {
+        return with 1000
+    }
+
+    var i : Integer
+
+    % Tests function after a declaration
+    function middle(n : Integer) : Integer {
+
+        return with n
+    }
+
+    var j, k : Integer
+
+    % Function at end of declarations
+    function end(n : Integer) : Integer {
+        return with n + 2
+    }
+
+    i := beginning
+    j := middle(1007)
+    k := end(1007)
+
+}
+
+% stack: UNDEFINED, UNDEFINED, 1000, 1007, 1009

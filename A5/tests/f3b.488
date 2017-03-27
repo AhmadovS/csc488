@@ -1,0 +1,33 @@
+% Tests procedures at different parts of declarations.
+% This is to test that code branching works correctly
+% to allocate space for declared variables, and jump
+% over all the procedure instructions until it is called.
+{
+
+    % Tests procedure at beginning of program
+    procedure beginning {
+        write "HI"
+    }
+
+    var i : Integer
+
+    % Tests procedure after a declaration
+    procedure middle(n : Integer) {
+        i := n
+    }
+
+    var j, k : Integer
+
+    % procedure at end of declarations
+    procedure end(n : Integer) {
+        j := n
+        k := n + 1000
+    }
+
+    beginning
+    middle(1007)
+    end(777)
+
+}
+
+% stack: UNDEFINED, UNDEFINED, 1007, 777, 1777
