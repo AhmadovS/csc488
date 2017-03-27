@@ -2,6 +2,7 @@
 {
 
     var a, b, c : Integer
+    var f1, f2, f3 : Integer
 
     % Tests param access and global variable setting
     procedure nested_1(p1 : Integer) {
@@ -27,12 +28,41 @@
         }
     }
 
+    % Same as above but for functions
+    function fnested_1(p1 : Integer) : Integer{
+        {
+            return with p1 + 1000
+        }
+    }
+
+    function fnested_2(p1 : Boolean) : Integer{
+        var c : Integer
+        {
+            if p1 then c := 1 else c := 0
+        }
+        return with c + 2000
+    }
+
+    function fnested_3(p1 : Boolean) : Integer{
+        {
+            var t : Integer
+            if p1 then t := 10 else t := 20
+            return with t + 3000
+        }
+    }
+
+    % procedures
     nested_1(100)   % 1100
     nested_2(true)  % 2001
     nested_3(false) % 3020
+
+    % functions
+    f1 := fnested_1(200)    % 1200
+    f2 := fnested_2(false)  % 2000
+    f3 := fnested_3(true)   % 3010
 
 }
 
 
 
-% Stack :: UNDEFINED, UNDEFINED, 1100, 2001, 3020
+% Stack :: UNDEFINED, UNDEFINED, 1100, 2001, 3020, 1200, 2000, 3010

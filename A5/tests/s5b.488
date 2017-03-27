@@ -1,0 +1,25 @@
+{
+	var i, j, n : Integer
+    var T, F : Boolean
+
+    var result[8] : Integer
+
+	i := 100
+	j := 1
+    n := 100
+    T := true
+    F := false
+
+    if not F     then result[1] := 10 else result[1] := 0
+    if T not = F then result[2] := 20 else result[2] := 0
+    if i < j     then result[3] := 0 else result[3] := 30 
+    if i <= j    then result[4] := 0 else result[4] := 40 
+    if i <= n    then result[5] := 50 else result[5] := 0
+    if i > j     then result[6] := 60 else result[6] := 0
+    if i >= j    then result[7] := 70 else result[7] := 0
+    if i >= n    then result[8] := 80 else result[8] := 0
+
+}
+
+% Stack :: 
+% UNDEFINED, UNDEFINED, 100, 1, 100, 1, 0, 10, 20, 30, 40, 50, 60, 70, 80

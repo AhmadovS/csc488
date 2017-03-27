@@ -2,13 +2,14 @@ Test File      Test Description
 
 -------------------------------------------------------------------------------
 Failing tests:
+    - 5c
     - f7
     - f9
 
 TODO tests:
+    - implement tests s5d
     - More tests for anonymous scopes
     - what to do with a function that has no return statement
-	- mixed boolean and integer params
 
 -------------------------------------------------------------------------------
 
@@ -42,6 +43,9 @@ s2.488			Simple if statement with true condtion
 s3.488			Simple if else statement with false condition
 s4.488			If-else statement with comparison expression where condition is false
 s5.488			If-else statement with comparison expression where condition is true
+s5b.488         If-else statement with 'not', 'not =', '<', '<=', '>', '>=' conditionals.
+s5c.488         If-else statement with multi-line clauses.
+s5d.488         If-els statement with variable and routine declaration in its scope.
 s6.488			Simple repeat until statement
 s7.488			Simple while do statement
 s8.488			Simple read statement

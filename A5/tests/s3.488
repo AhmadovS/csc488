@@ -2,4 +2,7 @@
 	var i : Integer
 
 	if false then i:=1 else i:=2
+
 }
+
+% Stack :: UNDEFINED, UNDEFINED, 2

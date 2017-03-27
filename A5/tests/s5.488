@@ -6,3 +6,5 @@
 
 	if i > j then n:=1 else n:=-1
 }
+
+% Stack :: UNDEFINED, UNDEFINED, 5, 4, 1

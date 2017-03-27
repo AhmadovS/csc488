@@ -3,3 +3,5 @@
 
 	if true then i := 5
 } 
+
+% Stack :: UNDEFINED, UNDEFINED, 5

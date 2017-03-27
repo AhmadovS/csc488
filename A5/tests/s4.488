@@ -1,8 +1,10 @@
 {
-	var i,j,n[3] : Integer
+	var i,j,n[2] : Integer
 
 	i := 2
 	j:= 5
 
 	if i > j then n[i]:=100 else n[i]:=-100
 }
+
+% Stack :: UNDEFINED, UNDEFINED, 2, 5, UNDEFINED, -100
