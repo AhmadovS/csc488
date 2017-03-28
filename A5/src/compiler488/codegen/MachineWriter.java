@@ -100,6 +100,15 @@ public final class MachineWriter {
         }
     }
 
+    /**
+     * Emits code that calls routine specified by {@code routineSym}.
+     * Takes care of creating activation record, and branching into the function
+     * And Reverting {@code display} to its previous  state after routine call
+     * returns
+     * @param calleeLL Lexical level of the callee
+     * @param routineSym
+     * @param argList
+     */
     public void emitCodeRoutineCall(int calleeLL, RoutineSymbol routineSym, ASTList<Expn> argList){
 
         // Emits codes for the four fields of callee's activation record.
@@ -126,9 +135,10 @@ public final class MachineWriter {
         // After routine call returns:
         // Stack :: return-value -> dynamic link
 
+        // Dynamic link is now on top of the stack, update display
+        _instance.add(Machine.SETD, calleeLL);
+
         // Emits code to update the rest of the display.
-        // display of current lexic-level display[$curL] has been already
-        // set the procedure returned.
         // We now need to update the rest of the display display[0 to $curL -1]
         // Same as RoutineBody we follow static links to update the display
         int L = calleeLL;
@@ -138,11 +148,6 @@ public final class MachineWriter {
             _instance.add(Machine.SETD, L - 1);
             L--;
         }
-
-        // Stack :: return-value -> dynamic link
-
-        // Dynamic link is now on top of the stack, update display 
-        _instance.add(Machine.SETD, calleeLL);
 
         // At this point return-value is now on top of the stack
         // if routineSym is of a procedure (has no return type, pop it)

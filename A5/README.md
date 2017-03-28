@@ -48,9 +48,8 @@
 
 # Documentation of changes made
 
-- ADDR 0 0 is now called '(regA)' and is used by the caller to store
-  the address of the activation record of the callee, which the callee
-  uses it to update the display
+- Each routine now calculates base of its own activation record.
+  Display update algorithm is not split between caller and callee anymore
 
 - Each AST node's lexic-level is now calculated during semanticCheck phase.
 
