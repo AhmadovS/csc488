@@ -1,6 +1,6 @@
 {
 	var a, b: Integer
-	var r[5]: Boolean
+	var r[7]: Boolean
 
 	a := 416
 	b := 400
@@ -10,6 +10,8 @@
 	r[3] := a <= (b+16)		% true
 	r[4] := (b+16) >= a		% true
 	r[5] := (b+10) >= a		% false
+	r[6] := a > b			% true
+	r[7] := a not = b		% true
 }
 
 
