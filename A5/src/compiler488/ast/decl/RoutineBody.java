@@ -109,11 +109,19 @@ public class RoutineBody extends Indentable {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
-        // The caller has updated the display for the current lexic level $L.
-		// Only display[$L] has valid value.
-		// We follow static links (which is always ADDR $L 3) to
+	    // Routine's lexical level
+		int L = getLexicLevel();
+
+	    // Caller has stored activation record address to RegA
+		// following emits code to set display[L] = RegA
+		writer.emitCodeLoadRegA();
+		// Stack :: ret val -> dynamic link -> ret addr -> static link
+		//          -> params -> address of current routine activation record.
+		writer.add(Machine.SETD, L);
+
+		// Only display[L] has valid value.
+		// We follow static links (which is always ADDR L 3) to
 		// update the rest of the display.
-        int L = getLexicLevel();
         while (L > 0) {
             writer.add(Machine.ADDR, L, 3);   // Pushes the address of static link
 			writer.add(Machine.LOAD);         // Loads the value of the static link.

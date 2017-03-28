@@ -1,0 +1,16 @@
+{
+    var i : Integer
+
+    function A(n : Integer) : Integer {
+        return with n + 200
+    }
+
+    function B(n : Integer) : Integer {
+        return with A(n + 1000)
+    }
+
+    i := B(7)
+
+}
+
+% stack: Reg A, UNDEFINED, 1207

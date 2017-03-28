@@ -1,0 +1,16 @@
+{
+    var i : Integer
+
+    procedure A(n : Integer) {
+        i := n
+    }
+
+    procedure B(n : Integer) {
+        A(n + 1000)
+    }
+
+    B(7)
+
+}
+
+% stack: RegA, UNDEFINED, 1007

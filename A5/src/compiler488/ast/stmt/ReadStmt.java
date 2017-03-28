@@ -72,10 +72,10 @@ public class ReadStmt extends Stmt {
 			
 			if(read instanceof IdentExpn) {
 				IdentExpn i = (IdentExpn) read;
-				writer.add(Machine.ADDR, i.getLexicalLevel(), i.getOrderNumber());				
+				writer.add(Machine.ADDR, i.getLexicLevel(), i.getOrderNumber());
 			} else if(read instanceof SubsExpn) {
 				SubsExpn s = (SubsExpn) read;
-				writer.add(Machine.ADDR, s.getLexicalLevel(), s.getOrderNumber());
+				writer.add(Machine.ADDR, s.getLexicLevel(), s.getOrderNumber());
 				s.getOperand().doCodeGen(writer);
 		        writer.add(Machine.PUSH, s.getLowerBound());
 		        writer.add(Machine.SUB);

@@ -4,7 +4,6 @@ import compiler488.DebugTool;
 import compiler488.ast.ASTList;
 import compiler488.ast.type.Type;
 import compiler488.codegen.MachineWriter;
-import compiler488.runtime.Machine;
 import compiler488.semantics.SemanticError;
 import compiler488.semantics.SemanticException;
 import compiler488.symbol.RoutineSymbol;
@@ -116,55 +115,9 @@ public class FunctionCallExpn extends Expn {
 	
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// Emits codes to set display[$L] to starting word of it's (soob to be) activation record
-	    writer.add(Machine.PUSHMT);
-	    writer.add(Machine.SETD, routineSymbol.getLexicLevel());
 
-	    // Emits codes for the four fields of callee's activation record.
-        writer.add(Machine.PUSH, Machine.UNDEFINED); // return value
-        
-        writer.add(Machine.ADDR, routineSymbol.getLexicLevel() - 1, 0); // dynamic link
-        
-        writer.add(Machine.PUSH, Machine.UNDEFINED); // return address
+		// Creates activation record and branches to the function
+		writer.emitCodeRoutineCall(getLexicLevel(), routineSymbol, getArguments());
 
-        // Start counting number of instructions
-        short retAddrLoc = writer.startCountingInstruction();
-
-        writer.add(Machine.ADDR, getLexicLevel(), 0); // static link
-
-        // Emits codes for the arguments
-        getArguments().doCodeGen(writer);
-
-        // Emits code to branch to the callee.
-        writer.add(Machine.PUSH, routineSymbol.getBaseAddr());
-        writer.add(Machine.BR);
-
-        // Replaces the return address with the calculated value.
-        short numInstructions = writer.stopCountingInstruction();
-        writer.replace(retAddrLoc, numInstructions + retAddrLoc + 1);
-
-		// After function call returns:
-		// Stack :: return-value -> dynamic link
-
-		// Emits code to update the rest of the display.
-		// display of current lexic-level display[$curL] has been already
-		// set the procedure returned.
-		// We now need to update the rest of the display display[0 to $curL -1]
-		// Same as RoutineBody we follow static links to update the display
-		int L = getLexicLevel();
-		while (L > 0) {
-			writer.add(Machine.ADDR, L, 3); // static link
-            writer.add(Machine.LOAD);       // Loads the value of the static link.
-			writer.add(Machine.SETD, L - 1);
-			L--;
-		}
-
-		// At this point return-value of the function:
-		// Stack :: return-value -> dynamic link
-		
-		// Dynamic link is now on top of the stack, update display 
-		writer.add(Machine.SETD, getLexicLevel());				
-		
-		// At this point return-value is now on top of the stack
 	}
 }

@@ -1,7 +1,7 @@
 package compiler488.runtime ;
 
 import java.io.*;
-import compiler488.compiler.Main; 
+import compiler488.compiler.Main;
 
 /** Machine - a pseduo machine interpreter for CSC488S Course Project <BR>
  *  The class writes to System.out and System.err and reads from System.in
@@ -461,7 +461,7 @@ public final class Machine
 	int  	    intInput ;		// input for READI
 					// counting, iLimit set by ILIMIT instruction
 	boolean counting = false ;	// count instructions to limit execution
-        int	    iCount = 0 ;	// count of instructions executed 
+        int	    iCount = 0 ;	// count of instructions executed
         int         iLimit = Integer.MAX_VALUE     ;	// instruction execution limit
 
 	// Initialize registers.  Validate initial execution state.

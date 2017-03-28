@@ -11,3 +11,6 @@
 	r[4] := (b+16) >= a		% true
 	r[5] := (b+10) >= a		% false
 }
+
+
+% Stack :: UNDEFINED, UNDEFINED, 0, 1, 1, 1, 0

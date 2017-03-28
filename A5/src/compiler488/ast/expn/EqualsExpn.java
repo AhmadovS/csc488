@@ -37,13 +37,12 @@ public class EqualsExpn extends BinaryExpn {
 	public void doCodeGen(MachineWriter writer) {
 		this.getLeft().doCodeGen(writer);
 		this.getRight().doCodeGen(writer);
+
+		if (getOpSymbol().equals(OPSYMBOL.NOT_EQUALS)) {
+		    writer.add(Machine.MACHINE_FALSE);
+        }
+
 		writer.add(Machine.EQ);
 
-		switch(this.getOpSymbol()) {
-			case OPSYMBOL.NOT_EQUALS:
-				writer.add(Machine.MACHINE_FALSE);
-				writer.add(Machine.EQ);
-				break;
-		}
 	}
 }

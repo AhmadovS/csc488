@@ -42,9 +42,9 @@ public class SubsExpn extends UnaryExpn implements Readable {
 		this.variable = variable;
 	}
 	
-	public short getLexicalLevel() {
-		return (short) (this.arraySym.getLexicLevel());
-	}
+//	public short getLexicalLevel() {
+//		return (short) (this.arraySym.getLexicLevel());
+//	}
 	
 	public short getOrderNumber() {
 		return (short) (this.arraySym.getOrderNumber());

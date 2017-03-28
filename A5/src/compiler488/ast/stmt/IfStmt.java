@@ -108,19 +108,22 @@ public class IfStmt extends Stmt {
 	
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// Evaluate the condition
+		// Emits code that evaluates the condition expression
 		this.getCondition().doCodeGen(writer);
 		
-		// Store the address to the false expression or exit
+		// Emits code to allocate memory that stores the address
+		// to else statement or function exit.
 		writer.add(Machine.PUSH, Machine.UNDEFINED);
 		short exitFalseAddr = writer.getPrevAddr();
 		writer.add(Machine.BF);
 		
-		// Execute the true expression
+		// Emits code that executes the true statements
 		this.getWhenTrue().doCodeGen(writer);
 
 		if(this.whenFalse != null) {
-			// Exit the conditional statement
+
+		    // After the true statements are executed, we need to jump
+            // over the false statements.
 			writer.add(Machine.PUSH, Machine.UNDEFINED);
 			short exitAddr = writer.getPrevAddr();
 			writer.add(Machine.BR);
@@ -128,12 +131,14 @@ public class IfStmt extends Stmt {
 			// Update false address
 			writer.replace(exitFalseAddr, writer.getNextAddr());
 			
-			// Execute false expression
+			// Emits code that executes the false statements
 			this.getWhenFalse().doCodeGen(writer);
 
 			// Update exit address
 			writer.replace(exitAddr, writer.getNextAddr());
 		} else {
+		    // If there is no else statement, and condition evaluates to false,
+            // jump to next available instruction.
 			writer.replace(exitFalseAddr, writer.getNextAddr());
 		}
 

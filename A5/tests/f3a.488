@@ -30,4 +30,4 @@
 
 }
 
-% stack: UNDEFINED, UNDEFINED, 1000, 1007, 1009
+% stack: RegA, UNDEFINED, 1000, 1007, 1009

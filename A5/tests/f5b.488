@@ -28,4 +28,4 @@
 
 }
 
-% stack: UNDEFINED, UNDEFINED, 400, 500, 900, 777
+% stack: RegA, UNDEFINED, 400, 500, 900, 777

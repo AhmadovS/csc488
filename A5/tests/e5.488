@@ -11,3 +11,5 @@
 	r[3] := (a = c)			% false
 	r[4] := (a = -c)		% true
 }
+
+% Stack :: UNDEFINED, UNDEFINED, 416, 905, -416, 0, 1, 0, 1

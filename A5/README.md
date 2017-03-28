@@ -48,11 +48,16 @@
 
 # Documentation of changes made
 
+- ADDR 0 0 is now called '(regA)' and is used by the caller to store
+  the address of the activation record of the callee, which the callee
+  uses it to update the display
+
 - Each AST node's lexic-level is now calculated during semanticCheck phase.
 
 # Things we should have changed but didn't:
 - Currenly declarations are executed in the same order that the program was written.
   This causes us to keep adding BR instructions in-between routine declarations and variable declarations, so that we would not execute any of the declarated routines and simply jump over their code.
+  The better solution would be to reorder the AST.
 
 # We have changed the structure of the activation record.
  

@@ -2,9 +2,6 @@ Test File      Test Description
 
 -------------------------------------------------------------------------------
 Failing tests:
-    - 5c
-    - f7
-    - f9
 
 TODO tests:
     - implement tests s5d
@@ -62,6 +59,8 @@ f3a.488			Interleaved function and variable declaration.
 f3b.488         Interleaved procedure and variable declaration.
 f4a.488			Nested functions with 1 parameters (calling function with higher lexical level).
 f4b.488			Nested procedures (calling function with higher lexical level).
+f4c.488         Calling procedure with same lexical level.
+f4d.488         Calling function with same lexical level.
 f5a.488			Tests multiple procedure parameters.
 f5b.488			Tests multiple function parameters.
 f7.488			Tests simple recursion.
