@@ -17,7 +17,7 @@ procedure count (n : Integer) {
     % This procedure prints n and calls itself with n - 1
     % until n becomes zero.
     if n > 0 then {
-        write n, newline
+        write "Counting ", n, newline
         count(n - 1)
     }
     return
@@ -35,7 +35,7 @@ function sum (n : Integer) : Integer {
 % Simple recursive procedure with no arguments
 procedure proc_global_n {
     if global_n > 0 then {
-        write global_n
+        write "GLOBAL n ", global_n, newline
         global_n := global_n - 1
         proc_global_n
     }
@@ -53,7 +53,7 @@ function func_global : Integer {
 % This procedure does not have a return statement
 procedure print_sum (n : Integer) {
     % Prints output of calling sum function
-    write sum(n)
+    write "Calling sum(", n, ") = ", sum(n), newline
 }
 
 % Recursive function with two recursive calls
@@ -114,16 +114,17 @@ assert(sum(5) = 15)
 % Functioins and procedures with no arguments
 global_n := 5  % Initializing global_n before use by proc_global_n
 proc_global_n
-assert(func_global = 45)
+assert(func_global = 55)
+
 
 % Procedure calling a recursive function
 print_sum(10)
 
-% Recursive function with two recursive calls
+% % Recursive function with two recursive calls
 assert(fib(11) = 89)
 
-% No-argument nested procedure/function
-nested_procedure
+% % No-argument nested procedure/function
+% nested_procedure
 assert(nested_factorial = 120)
 
 }
