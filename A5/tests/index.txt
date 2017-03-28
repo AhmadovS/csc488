@@ -6,7 +6,6 @@ Failing tests:
 TODO tests:
     - implement tests s5d
     - More tests for anonymous scopes
-    - what to do with a function that has no return statement
 
 -------------------------------------------------------------------------------
 
@@ -66,5 +65,7 @@ f5b.488			Tests multiple function parameters.
 f7.488			Tests simple recursion.
 f8.488			Calling routine with lower lexical level.
 f9.488          Mixed param and return types.
+f9a.488         Functions/procedure with boolean expressions
 f10.488         Array access in procedure.
 f11.488         Nested scope inside function/procedure.
+f12.488         Nested function call.

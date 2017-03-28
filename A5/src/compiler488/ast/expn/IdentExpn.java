@@ -72,6 +72,7 @@ public class IdentExpn extends Expn implements Readable {
             // Loads the value of the variable.
             writer.add(Machine.LOAD);
         } else {
+//            DebugTool.print(String.format("IdentExpn lexel-levl=%d", getLexicLevel()));
             // Emits code that creates activation record and branches to function
             writer.emitCodeRoutineCall(getLexicLevel(), routineSymbol, null);
         }

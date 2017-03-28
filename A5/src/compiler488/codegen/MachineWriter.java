@@ -100,31 +100,7 @@ public final class MachineWriter {
         }
     }
 
-    /**
-     * Emits code that pushes value of MSP to Register A
-     * Register A is always ADDR 0 0
-     */
-    public void emitCodePushMTtoRegA() {
-        _instance.add(Machine.PUSHMT);
-        _instance.add(Machine.ADDR, 0, 0);
-        _instance.add(Machine.SWAP); // value must be on top
-
-        // Stack :: regA address -> MSP
-        _instance.add(Machine.STORE);
-    }
-
-    /**
-     * Loads value stored in Register A (ADDR 0 0)
-     */
-    public void emitCodeLoadRegA() {
-        _instance.add(Machine.ADDR, 0, 0);
-        _instance.add(Machine.LOAD);
-    }
-    
-    
     public void emitCodeRoutineCall(int calleeLL, RoutineSymbol routineSym, ASTList<Expn> argList){
-        // Saves address of activation record to RegA
-        _instance.emitCodePushMTtoRegA();
 
         // Emits codes for the four fields of callee's activation record.
         _instance.add(Machine.PUSH, Machine.UNDEFINED); // return value

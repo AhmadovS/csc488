@@ -1,0 +1,32 @@
+{
+
+    var a : Integer
+    var b : Integer
+
+    procedure assert (result : Boolean) {
+        % Prints pass or fail if result is true or false.
+        if result then
+            write "Passed!", newline
+        else
+            write "Failed!", newline
+        return
+    }
+
+    function bool2int(p : Boolean) : Integer {
+        if p then return with 1 else return with 0
+    }
+
+
+    assert(true)
+
+    assert(false)
+
+    assert( 2 = 2 )
+
+    a := bool2int(true or false)
+    b := bool2int(false and false)
+
+}
+
+% stdout :: Passed! Failed! Passed!
+% Stack :: UNDEFINED, UNDEFINED, 1, 0

@@ -1,0 +1,35 @@
+{
+
+    procedure assert (result : Boolean) {
+        % Prints pass or fail if result is true or false.
+        if result then
+            write "Passed!", newline
+        else
+            write "Failed!", newline
+        return
+    }
+
+    function const_4 : Integer {
+        return with 4
+    }
+
+    function add2(n : Integer) : Integer {
+        return with n + 2
+    }
+
+    function mul3(n : Integer) : Integer {
+        return with n * 3
+    }
+
+    write "Assertions must all pass:", newline
+    assert( 2 = 2 )
+
+    assert( 4 = const_4 )
+
+    assert( 6 = add2(const_4) )
+
+    assert( 18 = mul3(add2(const_4)) )
+
+}
+
+% stdout :: Passed! Passed! Passed!

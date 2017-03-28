@@ -112,12 +112,16 @@ public class RoutineBody extends Indentable {
 	    // Routine's lexical level
 		int L = getLexicLevel();
 
-	    // Caller has stored activation record address to RegA
-		// following emits code to set display[L] = RegA
-		writer.emitCodeLoadRegA();
-		// Stack :: ret val -> dynamic link -> ret addr -> static link
-		//          -> params -> address of current routine activation record.
-		writer.add(Machine.SETD, L);
+	    // Calculates base address of activation record
+        // and sets the display[L] value.
+        writer.add(Machine.PUSHMT);
+		writer.add(Machine.PUSH, parameters.size());
+		writer.add(Machine.PUSH, 4);
+		writer.add(Machine.ADD);
+		writer.add(Machine.SUB);
+        writer.add(Machine.SETD, L);
+
+		// Stack :: ret val -> dynamic link -> ret addr -> static link -> params
 
 		// Only display[L] has valid value.
 		// We follow static links (which is always ADDR L 3) to

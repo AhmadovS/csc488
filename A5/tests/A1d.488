@@ -59,46 +59,46 @@ function add2 (n : Integer) : Integer {
    return with n + 2 
 }
 
-% Function with multiple parameters
-function sum4 (a : Integer, b : Integer, c : Integer, d : Integer) : Integer {
-    return with a + b + c + d
-} 
+% % Function with multiple parameters
+% function sum4 (a : Integer, b : Integer, c : Integer, d : Integer) : Integer {
+%     return with a + b + c + d
+% } 
 
-% Complex non-recursvie function with:
-%   - Variable declaration
-%   - Multiple if statements
-%   - While loop with variable declaration in its loop
-function fib (n : Integer) : Integer {
-    var F_n : Integer
-    var F_n_1 : Integer
+% % Complex non-recursvie function with:
+% %   - Variable declaration
+% %   - Multiple if statements
+% %   - While loop with variable declaration in its loop
+% function fib (n : Integer) : Integer {
+%     var F_n : Integer
+%     var F_n_1 : Integer
     
-    if n < 0 then {
-        write "n should be greater than zero!", newline
-        return with -1 
-    }
+%     if n < 0 then {
+%         write "n should be greater than zero!", newline
+%         return with -1 
+%     }
 
-    if n = 0 then
-        return with 0
+%     if n = 0 then
+%         return with 0
 
-    if n = 1 then
-        return with 1
+%     if n = 1 then
+%         return with 1
 
-    F_n_1 := 0
-    F_n := 1
+%     F_n_1 := 0
+%     F_n := 1
 
-    while  n >= 2 do {
-        % temp stores current F_n, so it can assigned to F_n_1
-        % after updating F_n
-        var temp : Integer
-        temp := F_n
-        F_n := F_n + F_n_1
-        F_n_1 := temp
+%     while  n >= 2 do {
+%         % temp stores current F_n, so it can assigned to F_n_1
+%         % after updating F_n
+%         var temp : Integer
+%         temp := F_n
+%         F_n := F_n + F_n_1
+%         F_n_1 := temp
 
-        n := n - 1
-    } 
+%         n := n - 1
+%     } 
      
-    return with F_n 
-}
+%     return with F_n 
+% }
 
 
 %--------------------------------------
@@ -118,13 +118,13 @@ write_number(488)
 write_number(((488)))
 
 % Calls procedure with one Boolean argument
-write "assert(true)", newline
+% write "assert(true)", newline
 assert(true)
 
-write "assert(false)", newline
+% write "assert(false)", newline
 assert(false)
 
-write newline, "All assert statement from here should print 'Passed!", newline
+% write newline, "All assert statement from here should print 'Passed!", newline
 
 % Tests the functions declared above
 % This is also a test for creating a boolean expression
@@ -132,7 +132,7 @@ write newline, "All assert statement from here should print 'Passed!", newline
 
 % assert( sum3(1, 2, 4) = 7 )
 
-% assert( fib_23 = 28657 )
+assert( fib_23 = 28657 )
 
 % assert( add2(8) = 10 )
 
