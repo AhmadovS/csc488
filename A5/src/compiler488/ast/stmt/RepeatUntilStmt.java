@@ -43,9 +43,9 @@ public class RepeatUntilStmt extends LoopingStmt {
 		this.getBody().doCodeGen(writer);
 		// Push the condition to the stack
 		this.getExpn().doCodeGen(writer);
-		// Negate the condition as we are looking for false in branch
-		writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
-		writer.add(Machine.EQ);
+		// Don't need to negate the condition, as we only branch to the
+		// beginning of the body if the condition evaluates to false
+		
 		// Push the return address to the stack
 		writer.add(Machine.PUSH, returnAddr);
 		// Branch

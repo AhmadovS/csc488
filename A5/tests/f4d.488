@@ -2,7 +2,10 @@
     var i : Integer
 
     function A(n : Integer) : Integer {
-        return with n + 200
+		var x : Integer
+		x := n + 200
+		
+        return with x
     }
 
     function B(n : Integer) : Integer {

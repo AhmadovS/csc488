@@ -1,6 +1,8 @@
 {
     var t : Integer
     var result[8] : Integer
+	
+	t := 0
 
     % Single-line if-then
     if true then result[1] := 10  
@@ -8,36 +10,30 @@
     % Single-line if-else
     if false then t := t + 1 else result[2] := 20
 
-    % TEST BELOW FAILS
-    %------------------------------
     % Multiline if-then
-    % if true then {
-    %     t := t + 1
-    %     result[3] := 30
-    % }
+    if true then {
+        t := t + 1
+        result[3] := 30
+    }
 
-    % TEST BELOW FAILS
-    %------------------------------
     % Multiline else clause
-    % if false then
-    %     t := t + 1
-    % else {
-    %     t := t + 1
-    %     result[4] := 40
-    % }
+    if false then
+        t := t + 1
+    else {
+        t := t + 1
+        result[4] := 40
+    }
 
-    % TEST BELOW FAILS
-    %------------------------------
     % Multiline then and else clause
-    % if true then {
-    %     t := t + 1
-    %     result[5] := 50
-    % } else {
-    %     t := t + 1
-    %     t := t + 1
-    % }
+    if true then {
+        t := t + 1
+        result[5] := 50
+    } else {
+        t := t + 1
+        t := t + 1
+    }
 
 }
 
 % Stack :: 
-% UNDEFINED, UNDEFINED, 100, 1, 100, 1, 0, 10, 20, 30, 40, 50, 60, 70, 80
+% UNDEFINED, UNDEFINED, 3, 10, 20, 30, 40, 50, UNDEFINED, UNDEFINED, UNDEFINED

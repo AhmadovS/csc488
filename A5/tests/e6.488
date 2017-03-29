@@ -11,7 +11,6 @@
 	r[4] := (b+16) >= a		% true
 	r[5] := (b+10) >= a		% false
 	r[6] := a > b			% true
-	r[7] := a not = b		% true
 }
 
 

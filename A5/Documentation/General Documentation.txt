@@ -37,6 +37,7 @@ low address  -->
 	This made the code generation phase much less dependent on the way in which the MACHINE class handles boolean values.
 	
 
+	- Comparison operators are no longer evaluated using double expressions. Instead, expressions like <= are computed using NOT and < operations.
 ------------------------------------------------------------------------------
 # Code generation for functions and procedures
 
