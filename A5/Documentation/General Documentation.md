@@ -8,12 +8,14 @@
 ## What classes do what
 * Each node in the AST tree is an instance of a class which corresponds to the operator that they represent (e.g IdentExpn, ExitStmt, ...).Each node that is an instance of a child of the AST class (that also corresponds to an expression/statement/type/declaration) is also required to have a doCodeGen method. This doCodeGen method generates the required code for the subtree rooted at the node, which is done by (1) Generating code that performs whatever function the node serves and (2) Calling doCodeGen for any of the node's children in the AST tree.By repeating this process, the AST classes allow code to be generated through a depth first traversal of the AST tree.
 	
-## Changes made to our code generation strategy (since A4):
+## Changes made to our code generation strategy (since A4)
 * As work on this assignment began, we decided to calculate each AST node's lexical level during the compiler's semanticCheck phase. By doing so we ensured that each scope's lexical level would always be available during code generation. In addition, the activation record was modified so that the dynamic link would always be placed below the return address, making it easier to update the display counter during clean up. 
 Following A4, we have also decided to discontinue using 0 and 1 for boolean values, and to instead use MACHINE_FALSE and MACHINE_TRUE instead. 
 * This made the code generation phase much less dependent on the way in which the MACHINE class handles boolean values.
 * Comparison operators are no longer evaluated using double expressions. Instead, expressions like <= are computed using NOT and < operations.
 
+## Testing
+* A large number of unit tests were written to ensure that our code generator was free of any potential bugs. A list of tests can be found in tests\index.txt, and each of these tests were run at least once in order to ensure that code generation worked as intended.
 
 ------------------------------------------------------------------------------
 # Note about scopes and lexical levels
