@@ -21,7 +21,7 @@ Following A4, we have also decided to discontinue using 0 and 1 for boolean valu
 # Note about scopes and lexical levels
 In our implementation, symbol table scopes are created for the main program scope, anonymous scopes `{}`, and functions and procedures. Minor scopes of loops and if statements have no special meaning.
 
-During code generation, main program scope starts with lexic-level of 0, anonymous scopes `{}` have the same lexic-leve and their statically containing scope, and only functions/routines have incremented lexic-level than their statically containing scope. 
+During code generation, main program scope starts with lexic-level of 0. Anonymous scopes `{}` have the same lexic-level as their statically containing scope, and only functions/routines have incremented lexic-level than their statically containing scope. 
 
 So there's a slight mismatch when we talk about scopes and lexic-levels, and in our implementation are not always the same thing.
 
