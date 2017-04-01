@@ -69,3 +69,9 @@ f9a.488         Functions/procedure with boolean expressions
 f10.488         Array access in procedure.
 f11.488         Nested scope inside function/procedure.
 f12.488         Nested function call.
+
+-------------------------------------------------------------------------------
+
+More Complex Programs:
+
+c1.488			Binary search
