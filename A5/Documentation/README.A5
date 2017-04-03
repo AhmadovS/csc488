@@ -10,7 +10,8 @@ Samud Ahmadov:
 
 
 Jathu Satkunarajah:
-
+- Worked on code-gen for all expressions and statments
+- Worked on test cases for expressions, statements and complex tests
 
 Yang Song:
 - Worked on code generation for the ExitStmt class
