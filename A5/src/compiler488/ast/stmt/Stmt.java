@@ -9,7 +9,7 @@ import compiler488.symbol.SymbolTable;
 public abstract class Stmt extends Indentable {
 	
 	public abstract void checkSemantics(SymbolTable symbols) throws Exception;
-
+	
 	/**
 	 * Most statements have the same lexic level as their parents.
      * Program node is an exception. It has root lexic-level of 0.

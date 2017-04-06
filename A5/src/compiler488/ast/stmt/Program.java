@@ -41,7 +41,6 @@ public class Program extends Scope {
 
 		writer.add(Machine.ILIMIT, -1);
 
-
 		// Program initialization
         writer.add(Machine.PUSHMT);    // base address of main scope activation record.
         writer.add(Machine.SETD, 0);   // sets display[0] = MSP pointer.

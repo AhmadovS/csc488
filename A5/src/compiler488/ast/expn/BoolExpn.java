@@ -41,19 +41,27 @@ public class BoolExpn extends BinaryExpn {
 	public void doCodeGen(MachineWriter writer) {
 		switch(this.getOpSymbol()) {
 			case OPSYMBOL.AND:
+				// Since AND does not have a direct machine operation,
+				// we see that the equivalent of  (a & b) = ~(~a or ~b)
+
+				// Emit the left code and negate the evalution
 				this.getLeft().doCodeGen(writer);
 				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
 				writer.add(Machine.EQ);
 
+				// Emit the right code and negate the evalution
 				this.getRight().doCodeGen(writer);
 				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
 				writer.add(Machine.EQ);
 
+				// Do an OR operation between both negated values, then negate that
 				writer.add(Machine.OR);
 				writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
 				writer.add(Machine.EQ);
 				break;
 			case OPSYMBOL.OR:
+				// Emit both left and right code first
+				// OR expression is simple as it has a direct mahcine operation
 				this.getLeft().doCodeGen(writer);
 				this.getRight().doCodeGen(writer);
 				writer.add(Machine.OR);

@@ -39,10 +39,10 @@ public class ArithExpn extends BinaryExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-		// TODO: add documentation
+		// Emits code for both left and right expressions
 		this.getLeft().doCodeGen(writer);
 		this.getRight().doCodeGen(writer);
-
+		// Perform the appropriate operation, based on machine operations
 		switch(this.getOpSymbol()) {
 			case OPSYMBOL.PLUS:
 				writer.add(Machine.ADD);

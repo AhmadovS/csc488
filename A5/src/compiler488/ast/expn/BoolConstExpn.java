@@ -38,6 +38,7 @@ public class BoolConstExpn extends ConstExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+		// Push the respective machine boolean value
 		writer.add(Machine.PUSH, value ? Machine.MACHINE_TRUE : Machine.MACHINE_FALSE);
 	}
 }

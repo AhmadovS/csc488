@@ -121,7 +121,6 @@ public class IfStmt extends Stmt {
 		this.getWhenTrue().doCodeGen(writer);
 
 		if(this.whenFalse != null) {
-
 		    // After the true statements are executed, we need to jump
             // over the false statements.
 			writer.add(Machine.PUSH, Machine.UNDEFINED);

@@ -115,9 +115,7 @@ public class FunctionCallExpn extends Expn {
 	
 	@Override
 	public void doCodeGen(MachineWriter writer) {
-
 		// Creates activation record and branches to the function
 		writer.emitCodeRoutineCall(getLexicLevel(), routineSymbol, getArguments());
-
 	}
 }

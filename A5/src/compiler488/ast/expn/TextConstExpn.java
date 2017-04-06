@@ -35,6 +35,10 @@ public class TextConstExpn extends ConstExpn implements Printable {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+		// Because the machine is a stack machine, it is first in last out
+		// So, we need to push the text in a reverse order so it pops out 
+		// in the correct order. We also convert the char to a short 
+		// ASCII decimal representation
 		for(int i = this.value.length()-1; 0 <= i; i--) {
 			writer.add(Machine.PUSH, (short) this.value.charAt(i));
 		}

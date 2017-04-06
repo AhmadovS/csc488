@@ -88,12 +88,11 @@ public class SubsExpn extends UnaryExpn implements Readable {
 
 		// Emits the code for index expression
         getOperand().doCodeGen(writer);
-
+        
         writer.add(Machine.PUSH, arraySym.getLowerBound());
         writer.add(Machine.SUB);
         writer.add(Machine.ADD);
         writer.add(Machine.LOAD);
-
         // Value of SubsExpn should now be on top of stack.
 	}
 }

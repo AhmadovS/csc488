@@ -35,14 +35,14 @@ public class EqualsExpn extends BinaryExpn {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+		// Emit both left and right code
 		this.getLeft().doCodeGen(writer);
 		this.getRight().doCodeGen(writer);
-
+		// If this is a not equals, then negating and comparing for truth is sufficient
 		if (getOpSymbol().equals(OPSYMBOL.NOT_EQUALS)) {
 		    writer.add(Machine.MACHINE_FALSE);
         }
-
+        // Compare the value
 		writer.add(Machine.EQ);
-
 	}
 }

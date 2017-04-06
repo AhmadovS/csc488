@@ -81,8 +81,7 @@ public class CompareExpn extends BinaryExpn {
 			// Negate the value of (operand1 < operand2)
 			writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
 			writer.add(Machine.EQ);
-        } 
-		else if (op.equals(OPSYMBOL.LESS_THAN_EQUALS)) {
+        } else if (op.equals(OPSYMBOL.LESS_THAN_EQUALS)) {
 			// Performs a NOT (operand2 < operand1) operation
 			// where NOT is performed by performing an equality op with
 			// a MACHINE_FALSE value
@@ -90,12 +89,10 @@ public class CompareExpn extends BinaryExpn {
 			// Negate the value of (operand2 < operand1)
 			writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
 			writer.add(Machine.EQ);
-		}
-		else if (op.equals(OPSYMBOL.GREATER_THAN)){
+		} else if (op.equals(OPSYMBOL.GREATER_THAN)){
 			// Perform a (operand2 < operand1) operation
 			writer.add(Machine.LT);
-		} 
-		else if (op.equals(OPSYMBOL.LESS_THAN)) {
+		} else if (op.equals(OPSYMBOL.LESS_THAN)) {
 		    writer.add(Machine.LT);
 		} else if (op.equals(OPSYMBOL.EQUALS)) {
 			writer.add(Machine.EQ);

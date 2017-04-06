@@ -135,7 +135,5 @@ public class ReturnStmt extends Stmt {
 		// At this point Stack :: return value -> dynamic link -> return address
 		// Return address is now on top of the stack, branch back to it
 		writer.add(Machine.BR);
-		
-		
 	}
 }

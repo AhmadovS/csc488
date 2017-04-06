@@ -66,14 +66,18 @@ public class ReadStmt extends Stmt {
 
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+		// Create an iterator to iterate through all read commands
 		ListIterator<Readable> it = this.inputs.getIterator();
 		while(it.hasNext()) {
+			// Cast the iterator object as Readable to be able to cast to down further
 			Readable read = (Readable) it.next();
 			
 			if(read instanceof IdentExpn) {
+				// If the object is normal variable, we can simply add it to the stack
 				IdentExpn i = (IdentExpn) read;
 				writer.add(Machine.ADDR, i.getLexicLevel(), i.getOrderNumber());
 			} else if(read instanceof SubsExpn) {
+				// If the object is an array index, we need to evalute the addres then push it to the stack
 				SubsExpn s = (SubsExpn) read;
 				writer.add(Machine.ADDR, s.getLexicLevel(), s.getOrderNumber());
 				s.getOperand().doCodeGen(writer);
@@ -81,7 +85,7 @@ public class ReadStmt extends Stmt {
 		        writer.add(Machine.SUB);
 		        writer.add(Machine.ADD);
 			}
-
+			// Get the user input then store it into the address from above
 			writer.add(Machine.READI);
 			writer.add(Machine.STORE);
 		}

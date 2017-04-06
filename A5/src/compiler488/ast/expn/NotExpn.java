@@ -32,6 +32,9 @@ public class NotExpn extends UnaryExpn {
 
     @Override
     public void doCodeGen(MachineWriter writer) {
+        // We compute a not operation by comparing a value with false
+        // i.e. (0 == 0) -> 1
+        //      (1 == 0) -> 0
         this.getOperand().doCodeGen(writer);
         writer.add(Machine.PUSH, Machine.MACHINE_FALSE);
         writer.add(Machine.EQ);

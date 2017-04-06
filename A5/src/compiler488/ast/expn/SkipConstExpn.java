@@ -17,6 +17,8 @@ public class SkipConstExpn extends ConstExpn implements Printable {
 	
 	@Override
 	public void doCodeGen(MachineWriter writer) {
+		// 10 is the ASCII decimal equivalent of newline
+		// When we convert 10 to char, it becomes \n
         writer.add(Machine.PUSH, 10);
 	}
 }
