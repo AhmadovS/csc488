@@ -15,4 +15,5 @@ Jathu Satkunarajah:
 
 Yang Song:
 - Worked on code generation for the ExitStmt class
-- Wrote the documentation for the assignment
+- Wrote documentation for the assignment
+- Checked for bugs by running the test suite
