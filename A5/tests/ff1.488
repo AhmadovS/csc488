@@ -1,0 +1,96 @@
+% Test for warnings issued for possible code paths.
+
+% only routines with 'fail' in them should issue warnings.
+{
+
+    procedure PPass {
+        write "sup"
+        return
+    }
+
+    procedure PFail {
+        write "sup"
+    }
+
+    procedure PFail2 {
+        if true then {
+            return
+        }
+    }
+
+    function QIfFail : Integer {
+        if true then {
+            return with 0
+        }
+    }
+
+    function QLoopFail : Integer {
+        var a : Integer
+        a := 1
+
+        while a <= 5 do {
+            write "Hello ", a, "!", newline
+            a := a + 1
+            return with a
+        }
+    }
+
+    function QFailScope : Integer {
+        if true then
+        {
+            {
+                {
+                    return with 4
+                }
+            }
+        }
+    }
+
+    function QPassScope : Integer {
+        if true then
+        {
+            {
+                {
+                    return with 4
+                }
+            }
+        } else
+            return with 44
+    }
+
+    function QPassScope2 : Integer {
+        {
+            {
+                {
+                    return with 4
+                }
+            }
+        }
+    }
+
+    function QPass : Integer {
+        if false then {
+            return with 0
+        } else {
+            return with 1
+        }
+    }
+
+    function QPass2 : Integer {
+        if false then {
+            return with 0
+        }
+        return with 1
+    }
+
+    % write "Only functions with 'Fail' in their name should issue warnings.", newline
+    PPass
+    PFail
+    PFail2
+
+    write QIfFail, QLoopFail, QFailScope, QPassScope, QPassScope2, QPass, QPass2, newline
+
+
+}
+
+% stack: UNDEFINED, UNDEFINED, 666

@@ -1,0 +1,13 @@
+{
+    var i : Integer
+
+    function Q  : Integer{
+        i := 666
+        % No return statement
+    }
+
+    write Q, newline
+
+}
+
+% Compilation should stop due to semantic error
