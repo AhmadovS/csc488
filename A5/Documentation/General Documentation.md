@@ -69,7 +69,7 @@ high address -->
 				-----------------
 				  local vars
 				-----------------
-				  parameters     (ADDR $L 5..)
+				  parameters     (ADDR $L 4..)
 				-----------------
 				  static link    (ADDR $L 3)
 				-----------------
