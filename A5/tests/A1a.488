@@ -23,6 +23,7 @@ var R : Boolean
 
 % Reads multiple inputs from stdin
 % TODO: can we read into a boolean variable?
+write "Write 4 numbers (return after each)", newline
 read input1, input2, input3[1], input3[2]
 
 write input1, newline           % Writes Integer to stdout

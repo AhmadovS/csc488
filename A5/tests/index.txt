@@ -69,6 +69,8 @@ f9a.488         Functions/procedure with boolean expressions
 f10.488         Array access in procedure.
 f11.488         Nested scope inside function/procedure.
 f12.488         Nested function call.
+ff0.488         Semantic error for function with no return statement.
+ff1.488         Tests for issuing warnings if no return statement in all possible code paths.
 
 -------------------------------------------------------------------------------
 

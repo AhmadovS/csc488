@@ -5,6 +5,7 @@ Amir Hossein Heidari Zadi:
 - Fixed remining semantic check bugs, and added code to prepare the project for code generations.
 - Wrote test cases for variable declarations and assignments.
 - Worked on documentation for program initialization and exit, variable declarations and code-gen for functions and procedures.
+- Wokred on check of code paths for return statements and issuing warnings.
 
 Samud Ahmadov:
 

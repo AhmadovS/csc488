@@ -470,13 +470,20 @@ public class Main {
           errorOccurred = true ;
       } finally {
           List<String> errors = SemanticError.getErrors();
+          List<String> warnings = SemanticError.getWarnings();
           if (errors.size() > 0) {
               errorOccurred = true;
               System.out.println("\nSemantic errors:\n");
-              for (String error : errors) {
-                  System.out.println(error);
+              for (String msg : errors) {
+                  System.out.println(msg);
               }
           }
+          if (warnings.size() > 0) {
+			  System.out.println("\nWarnings:\n");
+			  for (String msg : warnings) {
+				  System.out.println(msg);
+			  }
+		  }
       }
 
       if( errorOccurred ){

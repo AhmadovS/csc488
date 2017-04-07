@@ -16,9 +16,17 @@ public class SemanticError {
     private static SemanticError instance = new SemanticError();
 
     private List<String> errors;
+    private List<String> warnings;
 
     private SemanticError() {
         errors = new ArrayList<>();
+        warnings = new ArrayList<>();
+    }
+
+    public static void addWarning(AST astNode, String msg) {
+        LOC errorLoc = astNode.getLOC();
+        instance.warnings.add(String.format("**Warning** at (line %d, col %d): %s.\n\t>>> %s\n",
+                errorLoc.getLineNumber(), errorLoc.getColumnNumber(), msg, errorLoc.getLine()));
     }
 
     public static void addIdentAlreadyDeclaredError(AST astNode) {
@@ -67,6 +75,10 @@ public class SemanticError {
 
     public static List<String> getErrors() {
         return instance.errors;
+    }
+
+    public static List<String> getWarnings() {
+        return instance.warnings;
     }
 
 }

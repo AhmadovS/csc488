@@ -50,7 +50,7 @@ public class SymbolTable {
 	 * starts scope for main program and other ordinary scopes.
 	 */
 	public void startProgramScope(){
-		DebugTool.print(String.format("Started scope. #scopes=%d", symbolTable.size()));
+//		DebugTool.print(String.format("Started scope. #scopes=%d", symbolTable.size()));
 		symbolTable.push(new ScopeTable(null));
 	}
 
@@ -60,7 +60,7 @@ public class SymbolTable {
 	 * @param owner
 	 */
 	public void startRoutineScope(RoutineSymbol owner) {
-		DebugTool.print(String.format("Started routine scope. #scopes=%d", symbolTable.size()));
+//		DebugTool.print(String.format("Started routine scope. #scopes=%d", symbolTable.size()));
 		if (owner == null) {
 		    throw new IllegalArgumentException("Routine scope must have an owner");
         }
@@ -119,7 +119,7 @@ public class SymbolTable {
 			((VariablesSymbol) sm).setOrderNumber(calculateOrderNumber());
 		}
 
-		DebugTool.print("Adding symbol: " + sm.toString());
+//		DebugTool.print("Adding symbol: " + sm.toString());
 
         currentScope.put(sm.getName(), sm);
         return true;
