@@ -92,7 +92,7 @@ They all start by creaing an activation record, branching to the routine body, a
 - **ReturnStmt -** This node generates exit code for routines. This involves popping everything off the activation stack, except last 3 fields, and then branching to the caller. If a `return with` statement is used, the return expression is also stored in the 'return value' field of the activation record.
 
 ## Checking code paths
-Inside the `RoutineBody` node, we check all possible code paths (very conservatevily), and issue warnings if there's a chance that a code path may not contain a return statement.
+Inside the `RoutineBody` node `semanticCheckCodePathsReturnStmt` method, we check all possible code paths (very conservatevily), and issue warnings if there's a chance that a code path may not contain a return statement.
 
 * In case of functions, if no `return with` statement is found, a semantic error is issued and compilation stops.
 * In case of procedures, we use our conservative hunch to add exit code if there are no `return` statements.
