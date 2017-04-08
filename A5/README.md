@@ -25,6 +25,10 @@ Amir Hossein Heidari Zadi:
 - Wokred on check of code paths for return statements and issuing warnings.
 
 Samud Ahmadov:
+ - Worked on Code-gen for functions, procedures and display update algorithm 
+ - worked on if statements
+ - Wrote test cases for functions and if statements
+ 
 
 
 Jathu Satkunarajah:
