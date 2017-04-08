@@ -1,0 +1,9 @@
+{
+    var i : Integer
+    procedure NoReturn {
+        i := 2
+    }
+    NoReturn
+}
+
+% Stack :: UNDEFINED, UNDEFINED, 2

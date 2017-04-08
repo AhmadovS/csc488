@@ -1,0 +1,22 @@
+{
+    var i : Integer
+    var j : Integer
+
+    procedure p_ret {
+        i := 2
+        return
+        i := 3
+        return
+    }
+
+    function f_ret : Integer {
+        return with 666
+        return with 777
+    }
+
+    p_ret
+
+    j := f_ret
+}
+
+% Stack :: UNDEFINED, UNDEFINED, 2, 666

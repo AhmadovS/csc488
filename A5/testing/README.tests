@@ -1,5 +1,7 @@
 # Notes:
     * All the tests are new unless otherwise indicated
+    * testing/warning/ contains tests that should compile and run sucessfully, but would generate warnings
+    * At bottom of some testing files it is commented what the stack should look like after program finishes running.
 
 ===============================================================================
 # Passing Tests
@@ -90,3 +92,12 @@ Test File      Test Description
 
 ff0.488         Semantic error for function with no return statement.
 
+===============================================================================
+
+# Warning tests (should compile and run successfully)
+
+Test File      Test Description
+
+fw0.488        Warning for procedure with no return statement.
+fw1.488        Warning for unreachable statements.
+fw2.488        False warning for if statement for return in functions/procedures
