@@ -91,7 +91,7 @@ A1e.488         (old test) Test cases for recursive functions/procedures and nes
 Test File      Test Description
 
 ff0.488        New semantic error for function with no return statement.
-
+ff1.488        Stack overflow for not having return statement in all function code paths.s
 
 ===============================================================================
 
