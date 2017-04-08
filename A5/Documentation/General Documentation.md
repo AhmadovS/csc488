@@ -1,5 +1,10 @@
 # Documentation
 
+# Where is the code?
+- Our code generation strategy is very simple: Each AST node is responsible for generatings its own code when its `doCodeGen` method is called.
+- We use `codegen/MachineWriter.java` class as helper for emitting the byte codes.
+- We make no use of provided `codegen/CodeGen.java` class.
+
 ------------------------------------------------------------------------------
 # Code Generation
 
