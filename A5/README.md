@@ -1,52 +1,8 @@
-# Progress
-
-* [x] ASTList
-* [x] Expn
-	* [x] IdentExpn
-	* [x] BinaryExpn
-		* [x] ArithExpn
-		* [x] BoolExpn
-		* [x] EqualsExpn
-		* [x] CompareExpn
-	* [x] ConditionalExpn
-	* [x] ConstExpn
-		* [x] BoolConstExpn
-		* [x] IntConstExpn
-		* [x] SkipConstExpn
-		* [x] TextConstExpn
-	* [x] FunctionalCallExpn
-	* [x] UnaryExpn
-		* [x] NotExpn
-		* [x] SubsExpn
-		* [x] UnaryMinusExpn
-* [x] Indentable
-	* [x] Declaration
-		* [x] RoutineDecl
-		* [x] MultiDeclarations
-		* [x] ScalarDecl
-		* [x] DeclarationPart
-			* [x] ScalarDeclPart
-			* [x] ArrayDeclPart
-	* [x] RoutineBody
-	* [x] Stmt
-		* [x] AssignStmt
-		* [x] ExitStmt
-		* [x] IfStmt
-		* [x] LoopingStmt
-			* [x] RepeatUntilStmt
-			* [x] WhileDoStmt
-		* [x] ProcedureCallStmt
-		* [x] ReadStmt
-		* [x] ReturnStmt
-		* [x] Scope
-			* [x] Program
-		* [x] WriteStmt
-
 # Notations
 - Stack :: a -> b -> c
   This shows state of the top of the stack, with c being on top, followed by b and then a.
 
-# Documentation of changes made
+# Documentation of changes made since last assignment
 
 - Each routine now calculates base of its own activation record.
   Display update algorithm is not split between caller and callee anymore
@@ -58,16 +14,26 @@
   This causes us to keep adding BR instructions in-between routine declarations and variable declarations, so that we would not execute any of the declarated routines and simply jump over their code.
   The better solution would be to reorder the AST.
 
-# We have changed the structure of the activation record.
- 
- We now put dynamic link below return address.
 
- -----------------
- 3 static link
- -----------------
- 2 return address
- -----------------
- 1 dynamic link
- -----------------
- 0 return value
- -----------------
+# Contributors
+
+Amir Hossein Heidari Zadi:
+- Worked on Code-gen for functions, procedures and display update algorithm, and variable declarations and assignments.
+- Fixed remining semantic check bugs, and added code to prepare the project for code generations.
+- Wrote test cases for variable declarations and assignments.
+- Worked on documentation for program initialization and exit, variable declarations and code-gen for functions and procedures.
+- Wokred on check of code paths for return statements and issuing warnings.
+
+Samud Ahmadov:
+
+
+Jathu Satkunarajah:
+- Worked on code-gen for all expressions and statments
+- Worked on test cases for expressions, statements and complex tests
+- Inline documentation for code generation
+
+Yang Song:
+- Worked on code generation for the ExitStmt class
+- Wrote documentation for the assignment
+- Checked for bugs by running the test suite
+

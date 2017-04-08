@@ -1,9 +1,0 @@
-% A3-11e.488   
-% test statement checks
-{
-    var p, q : Boolean
-    while p and q do 
-        { { {
-           return
-        } } }
-}
