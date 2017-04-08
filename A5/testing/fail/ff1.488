@@ -1,0 +1,14 @@
+{
+    var i : Integer
+
+    function Q  : Integer{
+        if false then {
+            return with 777
+        }
+    }
+
+    write Q, newline
+
+}
+
+% Compilation should stop due to semantic error
